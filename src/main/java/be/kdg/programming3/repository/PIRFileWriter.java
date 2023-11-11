@@ -1,24 +1,26 @@
 package be.kdg.programming3.repository;
 
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 public class PIRFileWriter {
+
     private static final String CSV_HEADER =
             "motionDetected, motionEnded";
     private static final String CSV_FILE_NAME = "pillData.csv";
     private final Logger logger = LoggerFactory.getLogger(PIRFileWriter.class);
 
     /*This method will:
-     *  - Write a static header for the date and 8 data points of the brain data
-     *  - Append the current date with timestamp to every new line to the brainData.csv
-     *   @param receivedData a complete string of brain data (all 8 data points)      */
+    *  - Write a static header for the date and 8 data points of the brain data
+    *  - Append the current date with timestamp to every new line to the brainData.csv
+    *   @param receivedData a complete string of brain data (all 8 data points)      */
 
     public void write(String receivedData) {
 
@@ -42,8 +44,10 @@ public class PIRFileWriter {
             logger.info("Data appended to CSV file: " + CSV_FILE_NAME);
         }
         catch(IOException e) {
-            e.printStackTrace();
-        }
+                e.printStackTrace();
+            }
     }
 
+
 }
+
