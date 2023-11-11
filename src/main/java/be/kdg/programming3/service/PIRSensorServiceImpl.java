@@ -1,12 +1,22 @@
 package be.kdg.programming3.service;
 
+import be.kdg.programming3.presentation.PIRController;
 import be.kdg.programming3.repository.PIRDataHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
 public class PIRSensorServiceImpl implements PIRSensorService {
+    Logger logger = LoggerFactory.getLogger(PIRSensorServiceImpl.class);
     private boolean lockLow = true;
     private long lowIn;
     private final long pause = 5000; // ms
@@ -35,6 +45,7 @@ public class PIRSensorServiceImpl implements PIRSensorService {
             }
         }
     }
+    @Override
     public String detectMotion() {
         // Simulates checking the PIR sensor for motion
         // In a real scenario, replace this with actual sensor interaction logic.
@@ -51,6 +62,7 @@ public class PIRSensorServiceImpl implements PIRSensorService {
         return "No Motion";
     }
 
+    @Override
     public String endMotion() {
         // Simulates checking if motion has ended
         if (!lockLow && (System.currentTimeMillis() - lowIn) > pause) {
@@ -59,6 +71,25 @@ public class PIRSensorServiceImpl implements PIRSensorService {
             return "Motion Ended";
         }
         return "Motion Ongoing";
+    }
+
+    @Override
+    public List<String> readCSVFile(String fileName) {
+        // Implement logic to read the CSV file and return data as a list
+        // You can use a CSV parsing library or manually parse the file
+        // For simplicity, assuming it's a text file
+        List<String> csvData = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                csvData.add(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+            logger.error("Error reading CSV file: {}", e.getMessage());
+        }
+        return csvData;
     }
 
 }
