@@ -35,6 +35,7 @@ public class PIRSensorServiceImpl implements PIRSensorService {
             }
         }
     }
+    @Override
     public String detectMotion() {
         // Simulates checking the PIR sensor for motion
         // In a real scenario, replace this with actual sensor interaction logic.
@@ -51,6 +52,7 @@ public class PIRSensorServiceImpl implements PIRSensorService {
         return "No Motion";
     }
 
+    @Override
     public String endMotion() {
         // Simulates checking if motion has ended
         if (!lockLow && (System.currentTimeMillis() - lowIn) > pause) {
