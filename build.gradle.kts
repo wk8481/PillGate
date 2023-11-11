@@ -16,12 +16,12 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+//    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("com.fazecast:jSerialComm:2.6.2")
+    implementation("com.fazecast:jSerialComm:2.10.4")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.webjars:bootstrap:5.3.2")
     implementation("org.webjars:webjars-locator-core:0.48")
