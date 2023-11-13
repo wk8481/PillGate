@@ -23,14 +23,14 @@ public class PIRController {
     public PIRController(PIRSensorService sensorService) {
         this.sensorService = sensorService;
     }
-    @GetMapping("/viewCSV")
-    public String viewCSV(Model model) {
-        // Read "pillData.csv" and provide data to the template
-        List<String> csvData = readCSVFile("pillData.csv");
-        model.addAttribute("csvData", csvData);
-
-        return "viewCSV";
-    }
+//    @GetMapping("/viewCSV")
+//    public String viewCSV(Model model) {
+//        // Read "pillData.csv" and provide data to the template
+//        List<String> csvData = readCSVFile("pillData.csv");
+//        model.addAttribute("csvData", csvData);
+//
+//        return "viewCSV";
+//    }
 
 
 //    @GetMapping("/viewCSV")

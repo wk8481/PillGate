@@ -18,30 +18,26 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${}">Section 1</h5>
+                    <h5 class="card-title" th:text="${dashboardContent}">Section 1</h5>
                     <p class="card-text">Some content for section 1.</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${}">Section 2</h5>
-                    <p class="card-text">Some content for section 2.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Section 3</h5>
-                    <p class="card-text">Some content for section 3.</p>
-                </div>
-            </div>
-        </div>
+        <!-- Add other sections as needed -->
+    </div>
+
+    <!-- Display CSV data -->
+    <div th:each="line : ${csvData}">
+        <p th:text="${line}"></p>
     </div>
 </div>
 </body>
+<footer> PillGate &#169; 2023 All rights reserved</footer>
+</html>
+
+
+
+
 
 <!--=======-->
 <!--<!DOCTYPE html>-->
@@ -89,4 +85,3 @@
 <!--</body>-->
 
 <!--&gt;>>>>>> master-->
-<footer> PillGate &#169; 2023 All rights reserved</footer>
