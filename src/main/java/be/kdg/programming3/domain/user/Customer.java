@@ -4,11 +4,11 @@ public class Customer {
     private int customer_id;
     private String customer_name;
     private int age;
-
     private String email;
     private boolean hasCareGiver;
+    private CareGiver careGiver;
 
-    CareGiver careGiver;
+
 
     public Customer(int customer_id, String customer_name, int age, String email, boolean hasCareGiver) {
         this.customer_id = customer_id;
@@ -20,6 +20,10 @@ public class Customer {
 
     public Customer() {
         //implemented later
+    }
+
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
     }
 
     public int getCustomer_id() {
@@ -46,9 +50,7 @@ public class Customer {
         return careGiver;
     }
 
-    public void setCareGiver(CareGiver careGiver) {
-        this.careGiver = careGiver;
-    }
+
 
     @Override
     public String toString() {
@@ -60,4 +62,19 @@ public class Customer {
                 ", hasCareGiver=" + hasCareGiver +
                 '}';
     }
+
+
+    public boolean addCaregiver(CareGiver careGiver) {
+        // Check if the customer already has a caregiver
+        if (!hasCareGiver) {
+            this.careGiver = careGiver;
+            hasCareGiver = true; // Set hasCareGiver to true since now the customer has a caregiver
+            return true; // Return true indicating that the caregiver was added
+        } else {
+            return false; // Return false indicating that the customer already has a caregiver
+        }
+    }
+
+
+
 }

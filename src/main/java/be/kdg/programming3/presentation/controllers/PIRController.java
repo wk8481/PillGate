@@ -1,4 +1,4 @@
-package be.kdg.programming3.presentation;
+package be.kdg.programming3.presentation.controllers;
 
 import be.kdg.programming3.service.PIRSensorService;
 import org.slf4j.Logger;
@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 import java.util.List;
 

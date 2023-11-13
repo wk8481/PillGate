@@ -6,6 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.time.LocalDate;
 
 public class MedicationSchedule {
+    private int medSchedule_id;
     private int customer_id;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -26,6 +27,14 @@ public class MedicationSchedule {
     }
 
     public MedicationSchedule(){}
+    public int getMedSchedule_id() {
+        return medSchedule_id;
+    }
+
+    public void setMedSchedule_id(int medSchedule_id) {
+        this.medSchedule_id = medSchedule_id;
+    }
+
 
     public int getCustomer_id() {return customer_id;}
 

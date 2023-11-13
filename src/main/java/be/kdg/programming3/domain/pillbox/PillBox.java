@@ -1,10 +1,14 @@
 package be.kdg.programming3.domain.pillbox;
 
+import java.util.List;
+
 public class PillBox {
     private int pillbox_id;
     private int price;
     private boolean pillTaken;
-    private Compartment compartment;
+//    private Compartment compartment;
+
+    private List<Medicine> medicines;
 
     public PillBox(int pillbox_id, int price, boolean pillTaken) {
         this.pillbox_id = pillbox_id;
@@ -36,13 +40,17 @@ public class PillBox {
         this.pillTaken = pillTaken;
     }
 
-    public Compartment getCompartment() {
-        return compartment;
+    public List<Medicine> getMedicines() {
+        return medicines;
     }
 
-    public void setCompartment(Compartment compartment) {
-        this.compartment = compartment;
-    }
+//    public Compartment getCompartment() {
+//        return compartment;
+//    }
+//
+//    public void setCompartment(Compartment compartment) {
+//        this.compartment = compartment;
+//    }
 
     @Override
     public String toString() {

@@ -21,6 +21,10 @@ public class CareGiver {
         return caregiver_id;
     }
 
+    public void setCaregiver_id(int caregiver_id) {
+        this.caregiver_id = caregiver_id;
+    }
+
     public String getCaregiver_name() {
         return caregiver_name;
     }
