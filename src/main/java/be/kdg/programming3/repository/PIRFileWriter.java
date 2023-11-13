@@ -18,9 +18,9 @@ public class PIRFileWriter {
     private final Logger logger = LoggerFactory.getLogger(PIRFileWriter.class);
 
     /*This method will:
-    *  - Write a static header for the date and 8 data points of the brain data
-    *  - Append the current date with timestamp to every new line to the brainData.csv
-    *   @param receivedData a complete string of brain data (all 8 data points)      */
+    *  - Write a static header for the date and 8 data points of the sensor data
+    *  - Append the current date with timestamp to every new line to the pillData.csv
+    *   @param receivedData a complete string of sensors data (all 8 data points)      */
 
     public void write(String receivedData) {
 
