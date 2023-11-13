@@ -39,6 +39,39 @@ public class MedicationSchedule {
 
     public LocalDate getTimeTakePill(){return timeTakePill;}
 
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
+    }
 
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
 
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setPillName(String pillName) {
+        this.pillName = pillName;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setTimeTakePill(LocalDate timeTakePill) {
+        this.timeTakePill = timeTakePill;
+    }
+
+    @Override
+    public String toString() {
+        return "MedicationSchedule{" +
+                "customer_id=" + customer_id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", pillName='" + pillName + '\'' +
+                ", quantity=" + quantity +
+                ", timeTakePill=" + timeTakePill +
+                '}';
+    }
 }
