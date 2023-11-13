@@ -1,7 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Include your head content here -->
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" media="all" href="../static/style.css" th:href="@{/static/style.css}">
+<!--    <link rel="icon" type="image/png" href="/static/images/icon.png" th:href="@{/static/images/icon.png}"/>-->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <title>Dashboard</title>
 </head>
 
 <body>
@@ -25,9 +32,14 @@
     </div>
 </div>
 </body>
+<footer> PillGate &#169; 2023 All rights reserved</footer>
 </html>
 
 
+
+
+
+<!--=======-->
 <!--<!DOCTYPE html>-->
 <!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
 <!--<head>-->
@@ -47,66 +59,7 @@
 <!--        <div class="col-md-6">-->
 <!--            <div class="card">-->
 <!--                <div class="card-body">-->
-<!--                    <h5 class="card-title" th:text="${dashboard}">Section 1</h5>-->
-<!--                    <p class="card-text">Some content for section 1.</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <div class="card">-->
-<!--                <div class="card-body">-->
-<!--                    <h5 class="card-title" >Section 2</h5>-->
-<!--                    <p class="card-text">-->
-<!--                        <a th:text="${dashboard}"></a> -->
-<!--                    </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <div class="card">-->
-<!--                <div class="card-body">-->
-<!--                    <h5 class="card-title">Section 3</h5>-->
-<!--                    <p class="card-text">Some content for section 3.</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <div class="card">-->
-<!--                <div class="card-body">-->
-<!--                    <h5 class="card-title">CSV Data</h5>-->
-<!--                    <p class="card-text">-->
-<!--                        <a th:href="@{/PillGate/viewCSV}">View CSV Data</a>-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">-->
-
-<!--    <link rel="stylesheet" type="text/css" media="all" href="../static/style.css" th:href="@{/static/style.css}">-->
-<!--    <link rel="icon" type="image/png" href="/static/images/icon.png" th:href="@{/static/images/icon.png}"/>-->
-<!--    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">-->
-<!--    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>-->
-<!--    <title>Dashboard</title>-->
-<!--</head>-->
-
-<!--<body>-->
-<!--<div class="container">-->
-<!--    <h1>Dashboard of the sensors</h1>-->
-<!--    <div class="row">-->
-<!--        <div class="col-md-6">-->
-<!--            <div class="card">-->
-<!--                <div class="card-body">-->
-<!--                    <h5 class="card-title" th:text="${dashboard}">Section 1</h5>-->
+<!--                    <h5 class="card-title" th:text="${}">Section 1</h5>-->
 <!--                    <p class="card-text">Some content for section 1.</p>-->
 <!--                </div>-->
 <!--            </div>-->
@@ -131,4 +84,4 @@
 <!--</div>-->
 <!--</body>-->
 
-
+<!--&gt;>>>>>> master-->
