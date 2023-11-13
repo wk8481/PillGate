@@ -5,9 +5,12 @@ import be.kdg.programming3.service.PIRSensorServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 
 @Controller
@@ -20,6 +23,15 @@ public class PIRController {
     public PIRController(PIRSensorService sensorService) {
         this.sensorService = sensorService;
     }
+    @GetMapping("/viewCSV")
+    public String viewCSV(Model model) {
+        // Read "pillData.csv" and provide data to the template
+        List<String> csvData = readCSVFile("pillData.csv");
+        model.addAttribute("csvData", csvData);
+
+        return "viewCSV";
+    }
+
 
     @GetMapping("/dashboard")
     public String dashboard() {

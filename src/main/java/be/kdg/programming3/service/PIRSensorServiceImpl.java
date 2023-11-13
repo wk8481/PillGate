@@ -63,4 +63,6 @@ public class PIRSensorServiceImpl implements PIRSensorService {
         return "Motion Ongoing";
     }
 
+
+
 }
