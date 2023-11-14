@@ -70,6 +70,8 @@ public class DataFactory implements CommandLineRunner {
         customer1.addCaregiver(careGiver1);
         careGiver1.addCustomer(customer1);
 
+
+
     }
 
 

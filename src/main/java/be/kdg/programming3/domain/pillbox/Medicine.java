@@ -8,6 +8,8 @@ public class Medicine {
     private double weight;
     private int medicine_id;
 
+    private PillBox pillBox;
+
     public Medicine(String name, String color, String shape, String type, double weight, int medicine_id) {
         this.name = name;
         this.color = color;
@@ -51,4 +53,42 @@ public class Medicine {
     public void setMedicine_id(int medicine_id) {
         this.medicine_id = medicine_id;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setShape(String shape) {
+        this.shape = shape;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setPillBox(PillBox pillBox) {
+        this.pillBox = pillBox;
+    }
+
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", shape='" + shape + '\'' +
+                ", type='" + type + '\'' +
+                ", weight=" + weight +
+                ", medicine_id=" + medicine_id +
+                '}';
+    }
+
+
 }

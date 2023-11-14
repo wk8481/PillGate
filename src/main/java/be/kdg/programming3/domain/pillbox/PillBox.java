@@ -16,6 +16,8 @@ public class PillBox {
         this.pillTaken = pillTaken;
     }
 
+    public PillBox(){}
+
     public int getPillbox_id() {
         return pillbox_id;
     }
@@ -40,9 +42,7 @@ public class PillBox {
         this.pillTaken = pillTaken;
     }
 
-    public List<Medicine> getMedicines() {
-        return medicines;
-    }
+
 
 //    public Compartment getCompartment() {
 //        return compartment;
