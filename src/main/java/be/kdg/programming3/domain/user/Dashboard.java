@@ -1,16 +1,22 @@
 package be.kdg.programming3.domain.user;
 
+import be.kdg.programming3.domain.pillbox.Medicine;
+import jdk.dynalink.linker.LinkerServices;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Dashboard {
     private int dashboard_id;
     private int nrPillTaken;
     private int duration;
-    private MedicationSchedule medicationSchedule;
+    private List<MedicationSchedule> medicationSchedules;
 
-    public Dashboard(int dashboard_id, int nrPillTaken, int duration, MedicationSchedule medicationSchedule){
+    public Dashboard(int dashboard_id, int nrPillTaken, int duration) {
         this.dashboard_id = dashboard_id;
-        nrPillTaken = this.nrPillTaken;
-        duration = this.duration;
-        medicationSchedule = this.medicationSchedule;
+        this.nrPillTaken = nrPillTaken;
+        this.duration = duration;
+
     }
 
     public  Dashboard(){}
@@ -39,22 +45,33 @@ public class Dashboard {
         this.duration = duration;
     }
 
-    public MedicationSchedule getMedicationSchedule() {
-        return medicationSchedule;
+    public List<MedicationSchedule> getMedicationSchedules() {
+        return medicationSchedules;
     }
 
-    public void setMedicationSchedule(MedicationSchedule medicationSchedule) {
-        this.medicationSchedule = medicationSchedule;
+    public void setMedicationSchedules(List<MedicationSchedule> medicationSchedules) {
+        this.medicationSchedules = medicationSchedules;
     }
-
 
     @Override
     public String toString() {
         return "Dashboard{" +
-                "nrPillTaken=" + nrPillTaken +
+                "dashboard_id=" + dashboard_id +
+                ", nrPillTaken=" + nrPillTaken +
                 ", duration=" + duration +
-                ", medicationSchedule=" + medicationSchedule +
                 '}';
     }
 
-}
+
+
+    public void addMedicationSchedule(MedicationSchedule medicationSchedule) {
+      if(medicationSchedules == null) medicationSchedules = new ArrayList<>();
+      medicationSchedules.add(medicationSchedule);
+      }
+    }
+
+
+
+
+
+

@@ -1,5 +1,9 @@
 package be.kdg.programming3.domain.pillbox;
 
+import be.kdg.programming3.domain.sensor.WeightSensor;
+import be.kdg.programming3.domain.user.Customer;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class PillBox {
@@ -9,6 +13,8 @@ public class PillBox {
 //    private Compartment compartment;
 
     private List<Medicine> medicines;
+    private WeightSensor weightSensor;
+
 
     public PillBox(int pillbox_id, int price, boolean pillTaken) {
         this.pillbox_id = pillbox_id;
@@ -42,9 +48,22 @@ public class PillBox {
         this.pillTaken = pillTaken;
     }
 
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
 
+    public void setMedicines(List<Medicine> medicines) {
+        this.medicines = medicines;
+    }
 
-//    public Compartment getCompartment() {
+    public WeightSensor getWeightSensor() {
+        return weightSensor;
+    }
+
+    public void setWeightSensor(WeightSensor weightSensor) {
+        this.weightSensor = weightSensor;
+    }
+    //    public Compartment getCompartment() {
 //        return compartment;
 //    }
 //
@@ -60,4 +79,15 @@ public class PillBox {
                 ", pillTaken=" + pillTaken +
                 '}';
     }
+
+    public void addMedicine(Medicine medicine) {
+        if (medicines == null) medicines = new ArrayList<>();
+        medicines.add(medicine);
+    }
+
+    public void addWeightSensor(WeightSensor weightSensor){
+        this.weightSensor = weightSensor;
+    }
+
+
 }

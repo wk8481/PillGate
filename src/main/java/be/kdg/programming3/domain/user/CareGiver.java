@@ -41,6 +41,26 @@ public class CareGiver {
         return address;
     }
 
+public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCaregiver_name(String caregiver_name) {
+        this.caregiver_name = caregiver_name;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
+
     @Override
     public String toString() {
         return "CareGiver{" +

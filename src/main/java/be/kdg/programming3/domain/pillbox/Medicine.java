@@ -1,5 +1,7 @@
 package be.kdg.programming3.domain.pillbox;
 
+import be.kdg.programming3.domain.user.Customer;
+
 public class Medicine {
     private String name;
     private String color;
@@ -9,6 +11,7 @@ public class Medicine {
     private int medicine_id;
 
     private PillBox pillBox;
+    private Customer customer;
 
     public Medicine(String name, String color, String shape, String type, double weight, int medicine_id) {
         this.name = name;
@@ -78,6 +81,18 @@ public class Medicine {
         this.pillBox = pillBox;
     }
 
+    public PillBox getPillBox() {
+        return pillBox;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @Override
     public String toString() {
         return "Medicine{" +
@@ -89,6 +104,16 @@ public class Medicine {
                 ", medicine_id=" + medicine_id +
                 '}';
     }
+
+
+    public void addPillbox(PillBox pillBox) {
+        this.pillBox = pillBox;
+    }
+
+    public void addCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
 
 
 }

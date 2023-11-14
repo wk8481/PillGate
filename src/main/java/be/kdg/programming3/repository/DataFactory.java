@@ -10,6 +10,7 @@ import be.kdg.programming3.domain.user.MedicationSchedule;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.CommandLineRunner;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,19 +57,65 @@ public class DataFactory implements CommandLineRunner {
         PillBox pillBox1 = new PillBox(1, 30, true);
         PillBox pillBox2 = new PillBox(2, 30, false);
 
+        // Create Medicines
+        Medicine medicine1 = new Medicine("Aspirin", "White", "Circular", "Painkiller", 20, 1);
+
         // Create WeightSensors
+        WeightSensor weightSensor1 = new WeightSensor(1,"Load Sensor", "Fundoino", LocalDate.of(2023, 11, 14 ));
 
         // WeightSensor weightSensor1 = new WeightSensor()  to implement later
 
         // Create Customers
         Customer customer1 = new Customer(1, "Bob", 67, "bob@john.com", true);
+        Customer customer2 = new Customer(2, "John", 50, "john@bob.com", false);
         // Create Caregivers
         CareGiver careGiver1 = new CareGiver(1, "Stacy", "MyCare","10 Strawberry Lane");
 
 
+        // Create Medication Schedule
+        MedicationSchedule medicationSchedule1 = new MedicationSchedule(1, LocalDate.of(2021, 2,13), LocalDate.of(2023, 2,20), "Aspirin", 5, LocalDate.of(2023, 2, 21));
+
+
+        // Create Dashboard
+        Dashboard dashboard1 = new Dashboard(1, 3, 4 );
+
         //associate the objects with their relationships
         customer1.addCaregiver(careGiver1);
         careGiver1.addCustomer(customer1);
+
+customer1.addMedicationSchedule(medicationSchedule1);
+medicationSchedule1.addCustomer(customer1);
+
+            // Add entities to lists
+            medicines.add(medicine1);
+
+            pillBoxes.add(pillBox1);
+            pillBoxes.add(pillBox2);
+
+            weightSensors.add(weightSensor1);
+
+            customers.add(customer1);
+            customers.add(customer2);
+
+            dashboards.add(dashboard1);
+
+            medicationSchedules.add(medicationSchedule1);
+
+            careGivers.add(careGiver1);
+
+            // Add lists to repositories
+            pillBoxRepository.readMedicines().addAll(medicines);
+            pillBoxRepository.readPillBoxes().addAll(pillBoxes);
+
+            sensorRepository.readWeightSensor().addAll(weightSensors);
+
+            userRepository.readCareGivers().addAll(careGivers);
+            userRepository.readCustomers().addAll(customers);
+            userRepository.readDashBoards().addAll(dashboards);
+            userRepository.readMedSchedule().addAll(medicationSchedules);
+
+
+
 
 
 
@@ -81,6 +128,7 @@ public class DataFactory implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        seed();
 
     }
 }
