@@ -1,10 +1,14 @@
 package be.kdg.programming3.domain.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CareGiver {
     private int caregiver_id;
     private String caregiver_name;
     private String company;
     private String address;
+    private List<Customer> customers;
 
     public CareGiver(int caregiver_id, String caregiver_name, String company, String address) {
         this.caregiver_id = caregiver_id;
@@ -45,5 +49,10 @@ public class CareGiver {
                 ", company='" + company + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    public void addCustomer(Customer customer) {
+        if (customers == null) customers = new ArrayList<>();
+        customers.add(customer);
     }
 }

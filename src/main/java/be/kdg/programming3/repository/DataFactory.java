@@ -34,22 +34,48 @@ public class DataFactory implements CommandLineRunner {
         List<MedicationSchedule> medicationSchedules = new ArrayList<>();
         List<CareGiver> careGivers = new ArrayList<>();
 
+        //clear repositories
+        pillBoxRepository.readPillBoxes().clear();
+        pillBoxRepository.readMedicines().clear();
+
+        sensorRepository.readWeightSensor().clear();
+
+        userRepository.readCareGivers().clear();
+        userRepository.readCustomers().clear();
+        userRepository.readDashBoards().clear();
+        userRepository.readMedSchedule().clear();
+
+
+         // to implement later
+
+        // Create Medicines
+
+
+
+        // Create PillBoxes
+        PillBox pillBox1 = new PillBox(1, 30, true);
+        PillBox pillBox2 = new PillBox(2, 30, false);
+
+        // Create WeightSensors
+
+        // WeightSensor weightSensor1 = new WeightSensor()  to implement later
+
+        // Create Customers
+        Customer customer1 = new Customer(1, "Bob", 67, "bob@john.com", true);
+        // Create Caregivers
+        CareGiver careGiver1 = new CareGiver(1, "Stacy", "MyCare","10 Strawberry Lane");
+
+
+        //associate the objects with their relationships
+        customer1.addCaregiver(careGiver1);
+        careGiver1.addCustomer(customer1);
+
     }
 
-    // Clear repositories
-/*    PillBoxRepository.readPillBoxes().clear();
-    PillBoxRepository.readMedicines().clear();*/ // to implement later
-
-    // Create Medicines
 
 
-    // Create PillBoxes
 
-    // Create WeightSensors
 
-    // WeightSensor weightSensor1 = new WeightSensor()  to implement later
-
-    // Create Customers
 
     @Override
     public void run(String... args) throws Exception {

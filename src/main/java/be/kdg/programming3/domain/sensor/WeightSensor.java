@@ -21,6 +21,10 @@ public class WeightSensor {
         return sensor_ID;
     }
 
+    public void setSensor_ID(int sensor_ID) {
+        this.sensor_ID = sensor_ID;
+    }
+
     public String getSensor_type() {
         return sensor_type;
     }

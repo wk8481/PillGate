@@ -47,6 +47,7 @@ public class Dashboard {
         this.medicationSchedule = medicationSchedule;
     }
 
+
     @Override
     public String toString() {
         return "Dashboard{" +
@@ -55,4 +56,5 @@ public class Dashboard {
                 ", medicationSchedule=" + medicationSchedule +
                 '}';
     }
+
 }

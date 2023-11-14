@@ -9,5 +9,7 @@ public interface SensorRepository {
      *  - WeightSensor Repository methods */
     WeightSensor createSensor(WeightSensor w_sensor);
     List<WeightSensor> readWeightSensor();
+    WeightSensor getWeightSensorById(int sensor_ID);
+    WeightSensor updateSensor(WeightSensor existingWSensor);
 
 }
