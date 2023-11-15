@@ -61,7 +61,7 @@ public class DataFactory implements CommandLineRunner {
         Medicine medicine1 = new Medicine("Aspirin", "White", "Circular", "Painkiller", 20, 1);
 
         // Create WeightSensors
-        WeightSensor weightSensor1 = new WeightSensor(1,"Load Sensor", "Fundoino", LocalDate.of(2023, 11, 14 ));
+        WeightSensor weightSensor1 = new WeightSensor(1,"Load Sensor", "Fundoino", LocalDate.of(2023, 11, 14 ),0.0,0.0);
 
         // WeightSensor weightSensor1 = new WeightSensor()  to implement later
 
@@ -83,8 +83,8 @@ public class DataFactory implements CommandLineRunner {
         customer1.addCaregiver(careGiver1);
         careGiver1.addCustomer(customer1);
 
-customer1.addMedicationSchedule(medicationSchedule1);
-medicationSchedule1.addCustomer(customer1);
+        customer1.addMedicationSchedule(medicationSchedule1);
+        medicationSchedule1.addCustomer(customer1);
 
             // Add entities to lists
             medicines.add(medicine1);

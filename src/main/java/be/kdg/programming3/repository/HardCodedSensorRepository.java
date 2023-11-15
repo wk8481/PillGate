@@ -44,10 +44,18 @@ public class HardCodedSensorRepository implements SensorRepository {
 
     @Override
     public WeightSensor updateSensor(WeightSensor existingWSensor) {
+        logger.info("Weight sensor updated: {}", existingWSensor);
         int index = -1;
-        for (WeightSensor weightSensor : weightSensors) {
+/*        for (WeightSensor weightSensor : weightSensors) {
             if (weightSensor.getSensor_ID() == existingWSensor.getSensor_ID()) {
                 index = 1;
+                break;
+            }
+        }*/
+        for (int i = 0; i < weightSensors.size(); i++) {
+            WeightSensor weightSensor = weightSensors.get(i);
+            if (weightSensor.getSensor_ID() == existingWSensor.getSensor_ID()) {
+                index = i;
                 break;
             }
         }

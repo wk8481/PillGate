@@ -42,7 +42,7 @@ public class PIRController {
 
 
 
-    @GetMapping("/dashboard")
+/*    @GetMapping("/dashboard")
     public String dashboard(Model model) {
         // Read "pillData.csv" and provide data to the template
         List<String> csvData = sensorService.readCSVFile("pillData.csv");
@@ -52,7 +52,7 @@ public class PIRController {
         model.addAttribute("dashboardContent", "Your Dashboard Content Goes Here");
 
         return "dashboard";
-    }
+    }*/
     @GetMapping("/detectMotion")
     public String detectMotion() {
         return sensorService.detectMotion();

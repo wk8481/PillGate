@@ -14,9 +14,9 @@ import java.lang.module.Configuration;
 @ComponentScan("be.kdg.programming3")
 public class PillGateApplication {
     public static void main(String[] args) throws IOException {
-         ConfigurableApplicationContext context = SpringApplication.run(PillGateApplication.class, args);
-        PIRDataHandler dataHandler = context.getBean(PIRDataHandler.class);
-        dataHandler.start();
+          ConfigurableApplicationContext context = SpringApplication.run(PillGateApplication.class, args);
+ /*       PIRDataHandler dataHandler = context.getBean(PIRDataHandler.class);
+        dataHandler.start();*/
 
     }
 }
