@@ -23,7 +23,7 @@ public class PillBoxController {
 
     public String createPillBox(PillBox pillBox) {
         logger.debug("Adding a pillbox: " + pillBox);
-        pillBoxService.getPillBox();
+        pillBoxService.getPillBoxes();
         return "redirect:pillbox";
     }
 }
