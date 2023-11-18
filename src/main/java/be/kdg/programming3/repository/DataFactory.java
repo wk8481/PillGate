@@ -85,6 +85,16 @@ public class DataFactory implements CommandLineRunner {
 
 customer1.addMedicationSchedule(medicationSchedule1);
 medicationSchedule1.addCustomer(customer1);
+medicine1.addPillbox(pillBox1);
+pillBox1.addMedicine(medicine1);
+pillBox1.addWeightSensor(weightSensor1);
+weightSensor1.addPillbox(pillBox1);
+medicine1.addCustomer(customer1);
+customer1.addMedicine(medicine1);
+customer1.addCaregiver(careGiver1);
+careGiver1.addCustomer(customer1);
+medicationSchedule1.addDashboard(dashboard1);
+dashboard1.addMedicationSchedule(medicationSchedule1);
 
             // Add entities to lists
             medicines.add(medicine1);

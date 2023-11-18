@@ -2,6 +2,9 @@ package be.kdg.programming3.domain.user;
 
 import be.kdg.programming3.domain.pillbox.Medicine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
     private int customer_id;
     private String customer_name;
@@ -10,6 +13,7 @@ public class Customer {
     private boolean hasCareGiver;
     private CareGiver careGiver;
     private MedicationSchedule medicationSchedule;
+    private List<Medicine> medicines;
 
 
     public Customer(int customer_id, String customer_name, int age, String email, boolean hasCareGiver) {
@@ -80,6 +84,14 @@ public class Customer {
         this.medicationSchedule = medicationSchedule;
     }
 
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<Medicine> medicines) {
+        this.medicines = medicines;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -114,5 +126,10 @@ public class Customer {
 
     public void addMedicationSchedule(MedicationSchedule medicationSchedule) {
         this.medicationSchedule = medicationSchedule;
+    }
+
+    public void addMedicine(Medicine medicine) {
+        if (medicines == null) medicines = new ArrayList<>();
+        medicines.add(medicine);
     }
 }
