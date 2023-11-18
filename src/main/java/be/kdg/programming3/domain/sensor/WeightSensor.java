@@ -12,15 +12,41 @@ public class WeightSensor {
     private final int WEIGHT_CAPACITY_GRAMS = 1000;
     private LocalDate calibrationDate;
 
+    private double weight;
+    private double calibrationFactor;
+
+    public void updateValues(double weight, double calibrationFactor) {
+        this.weight = weight;
+        this.calibrationFactor = calibrationFactor;
+    }
+
     private PillBox pillBox;
 
-    public WeightSensor(int sensor_ID, String sensor_type, String manufacturer, LocalDate calibrationDate) {
+    public WeightSensor(int sensor_ID, String sensor_type, String manufacturer, LocalDate calibrationDate, double weight, double calibrationFactor) {
         this.calibrationDate = calibrationDate;
         this.sensor_ID = sensor_ID;
         this.sensor_type = sensor_type;
         this.manufacturer = manufacturer;
+        this.weight = weight;
+        this.calibrationFactor = calibrationFactor;
     }
     public WeightSensor(){}
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public double getCalibrationFactor() {
+        return calibrationFactor;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setCalibrationFactor(double calibrationFactor) {
+        this.calibrationFactor = calibrationFactor;
+    }
 
     public int getSensor_ID() {
         return sensor_ID;
@@ -84,6 +110,8 @@ public class WeightSensor {
                 ", manufacturer='" + manufacturer + '\'' +
                 ", WEIGHT_CAPACITY_GRAMS=" + WEIGHT_CAPACITY_GRAMS +
                 ", calibrationDate=" + formattedDate +
+                ", weight=" + weight +
+                ", calibrationFactor=" + calibrationFactor +
                 '}');
     }
 
