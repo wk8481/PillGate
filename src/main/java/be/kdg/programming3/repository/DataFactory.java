@@ -61,7 +61,7 @@ public class DataFactory implements CommandLineRunner {
         Medicine medicine1 = new Medicine("Aspirin", "White", "Circular", "Painkiller", 20, 1);
 
         // Create WeightSensors
-        WeightSensor weightSensor1 = new WeightSensor(1,"Load Sensor", "Fundoino", LocalDate.of(2023, 11, 14 ));
+        WeightSensor weightSensor1 = new WeightSensor(1,"Load Sensor", "Fundoino", LocalDate.of(2023, 11, 14 ),20.00,10);
 
         // WeightSensor weightSensor1 = new WeightSensor()  to implement later
 

@@ -11,9 +11,9 @@ public class Customer {
     private int age;
     private String email;
     private boolean hasCareGiver;
-    private CareGiver careGiver;
-    private MedicationSchedule medicationSchedule;
-    private List<Medicine> medicines;
+    private transient CareGiver careGiver;
+    private transient MedicationSchedule medicationSchedule;
+    private transient List<Medicine> medicines;
 
 
     public Customer(int customer_id, String customer_name, int age, String email, boolean hasCareGiver) {

@@ -20,7 +20,7 @@ public class WeightSensor {
         this.calibrationFactor = calibrationFactor;
     }
 
-    private PillBox pillBox;
+    private transient PillBox pillBox;
 
     public WeightSensor(int sensor_ID, String sensor_type, String manufacturer, LocalDate calibrationDate, double weight, double calibrationFactor) {
         this.calibrationDate = calibrationDate;

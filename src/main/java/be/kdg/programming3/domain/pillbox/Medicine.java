@@ -10,8 +10,8 @@ public class Medicine {
     private double weight;
     private int medicine_id;
 
-    private PillBox pillBox;
-    private Customer customer;
+    private  transient PillBox pillBox;
+    private  transient Customer customer;
 
     public Medicine(String name, String color, String shape, String type, double weight, int medicine_id) {
         this.name = name;

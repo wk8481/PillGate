@@ -15,8 +15,8 @@ public class MedicationSchedule {
     private int quantity;
     private LocalDate timeTakePill;
 
-    private Customer customer;
-    private Dashboard dashboard;
+    private transient Customer customer;
+    private transient Dashboard dashboard;
 
 
     public MedicationSchedule(int customer_id, LocalDate startDate,
