@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PIRFileWriter {
+public class LSFileWriter {
 
     private static final String CSV_HEADER =
             "motionDetected, motionEnded";
     private static final String CSV_FILE_NAME = "pillData.csv";
-    private final Logger logger = LoggerFactory.getLogger(PIRFileWriter.class);
+    private final Logger logger = LoggerFactory.getLogger(LSFileWriter.class);
 
     /*This method will:
     *  - Write a static header for the date and 8 data points of the sensor data

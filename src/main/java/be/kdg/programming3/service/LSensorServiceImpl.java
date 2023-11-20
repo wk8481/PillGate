@@ -1,6 +1,6 @@
 package be.kdg.programming3.service;
 
-import be.kdg.programming3.repository.PIRDataHandler;
+import be.kdg.programming3.repository.LSDataHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,15 @@ import java.util.List;
 
 
 @Service
-public class PIRSensorServiceImpl implements PIRSensorService {
-    Logger logger = LoggerFactory.getLogger(PIRSensorServiceImpl.class);
+public class LSensorServiceImpl implements PIRSensorService {
+    Logger logger = LoggerFactory.getLogger(LSensorServiceImpl.class);
     private boolean lockLow = true;
     private long lowIn;
     private final long pause = 5000; // ms
-    private final PIRDataHandler pirDataHandler;
+    private final LSDataHandler pirDataHandler;
 
     @Autowired
-    public PIRSensorServiceImpl(PIRDataHandler pirDataHandler) {
+    public LSensorServiceImpl(LSDataHandler pirDataHandler) {
         this.pirDataHandler = pirDataHandler;
     }
 

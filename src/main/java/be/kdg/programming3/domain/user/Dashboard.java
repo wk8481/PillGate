@@ -10,7 +10,7 @@ public class Dashboard {
     private int dashboard_id;
     private int nrPillTaken;
     private int duration;
-    private List<MedicationSchedule> medicationSchedules;
+    private transient List<MedicationSchedule> medicationSchedules;
 
     public Dashboard(int dashboard_id, int nrPillTaken, int duration) {
         this.dashboard_id = dashboard_id;

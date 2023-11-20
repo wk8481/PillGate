@@ -1,24 +1,22 @@
+/*
 package be.kdg.programming3.presentation.controllers;
 
 import be.kdg.programming3.service.PIRSensorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 
 @Controller
 @RequestMapping("/PillGate")
-public class PIRController {
-    private Logger logger = LoggerFactory.getLogger(PIRController.class);
+public class LSController {
+    private Logger logger = LoggerFactory.getLogger(LSController.class);
 
     private final PIRSensorService sensorService;
 
-    public PIRController(PIRSensorService sensorService) {
+    public LSController(PIRSensorService sensorService) {
         this.sensorService = sensorService;
     }
 //    @GetMapping("/viewCSV")
@@ -42,6 +40,7 @@ public class PIRController {
 
 
 
+*/
 /*    @GetMapping("/dashboard")
     public String dashboard(Model model) {
         // Read "pillData.csv" and provide data to the template
@@ -52,7 +51,8 @@ public class PIRController {
         model.addAttribute("dashboardContent", "Your Dashboard Content Goes Here");
 
         return "dashboard";
-    }*/
+    }*//*
+
     @GetMapping("/detectMotion")
     public String detectMotion() {
         return sensorService.detectMotion();
@@ -64,3 +64,4 @@ public class PIRController {
     }
 }
 
+*/

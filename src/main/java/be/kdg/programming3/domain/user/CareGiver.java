@@ -8,7 +8,7 @@ public class CareGiver {
     private String caregiver_name;
     private String company;
     private String address;
-    private List<Customer> customers;
+    private transient List<Customer> customers;
 
     public CareGiver(int caregiver_id, String caregiver_name, String company, String address) {
         this.caregiver_id = caregiver_id;

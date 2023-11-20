@@ -3,7 +3,6 @@ package be.kdg.programming3.repository;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
-import com.google.gson.annotations.Expose;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,10 +13,10 @@ import java.util.Date;
 import java.util.Scanner;
 
 @Component
-public class PIRDataHandler {
-    private final PIRFileWriter fileWriterCSV = new PIRFileWriter();
+public class LSDataHandler {
+    private final LSFileWriter fileWriterCSV = new LSFileWriter();
     private StringBuilder pirDataSb = new StringBuilder();
-    private final Logger logger = LoggerFactory.getLogger(PIRDataHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(LSDataHandler.class);
     private Scanner reader = new Scanner(System.in);
     private SerialPort activePort;
     private SerialPort[] ports = SerialPort.getCommPorts();

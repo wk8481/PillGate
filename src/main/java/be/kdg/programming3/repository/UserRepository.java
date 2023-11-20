@@ -6,7 +6,16 @@ import be.kdg.programming3.domain.user.Customer;
 import be.kdg.programming3.domain.user.Dashboard;
 import be.kdg.programming3.domain.user.MedicationSchedule;
 
+/**
+ * @author William, Narjiss, Alperen, and Manami
+ */
+
 import java.util.List;
+
+/**
+ * This interface shows the methods that are used in the repository.
+ * These methods are implemented in the repository implementation for the user package.
+ */
 
 public interface UserRepository {
     /* These methods show:

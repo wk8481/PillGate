@@ -12,8 +12,8 @@ public class PillBox {
     private boolean pillTaken;
 //    private Compartment compartment;
 
-    private List<Medicine> medicines;
-    private WeightSensor weightSensor;
+    private transient List<Medicine> medicines;
+    private transient WeightSensor weightSensor;
 
 
     public PillBox(int pillbox_id, int price, boolean pillTaken) {
