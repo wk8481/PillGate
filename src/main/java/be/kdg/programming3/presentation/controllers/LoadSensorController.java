@@ -2,7 +2,6 @@ package be.kdg.programming3.presentation.controllers;
 
 import be.kdg.programming3.repository.SensorRepository;
 import be.kdg.programming3.service.SerialReader;
-import be.kdg.programming3.service.SerialReaderServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,17 +23,18 @@ public class LoadSensorController {
 
     @GetMapping("dashboard")
     public String showSensor(Model model) {
-        logger.debug("Showing load sensor data ..");
+        logger.info("Showing load sensor data ..");
         model.addAttribute("sensors", sensorRepository.readWeightSensor());
         return "dashboard";
     }
 
     @GetMapping("/readArduino")
-    public String readArduino() {
+    public String readArduino(Model model) {
         try {
             serialReader.readArduinoData("COM5");
+            model.addAttribute("sensors", sensorRepository.readWeightSensor());
         } catch (Exception e) {
-            logger.error("Error reading Arduino data", e);
+            logger.info("Error reading Arduino data", e);
         }
         return "dashboard";
     }
