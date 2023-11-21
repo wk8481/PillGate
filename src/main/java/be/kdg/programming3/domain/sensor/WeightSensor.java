@@ -116,4 +116,7 @@ public class WeightSensor {
     }
 
 
+    public int getWeightCapacityGrams() {
+        return getWEIGHT_CAPACITY_GRAMS();
+    }
 }

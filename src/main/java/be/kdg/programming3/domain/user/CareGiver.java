@@ -75,4 +75,8 @@ public List<Customer> getCustomers() {
         if (customers == null) customers = new ArrayList<>();
         customers.add(customer);
     }
+
+    public String getCaregiverName() {
+        return caregiver_name;
+    }
 }

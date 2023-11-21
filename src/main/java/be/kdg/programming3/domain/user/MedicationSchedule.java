@@ -127,5 +127,9 @@ public class MedicationSchedule {
 
 
     }
+
+    public int getCustomerId() {
+        return customer_id;
+    }
 }
 
