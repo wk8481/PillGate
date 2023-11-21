@@ -19,7 +19,7 @@ public class HardCodedSensorRepository implements SensorRepository {
     @Override
     public WeightSensor createSensor(WeightSensor w_sensor) {
         if (w_sensor == null){
-            logger.error("Weight Sensor should never be null");
+            logger.info("Weight Sensor should never be null");
             return null;
         }
         logger.info("Creating weight sensor {}", w_sensor);
@@ -46,12 +46,6 @@ public class HardCodedSensorRepository implements SensorRepository {
     public WeightSensor updateSensor(WeightSensor existingWSensor) {
         logger.info("Weight sensor updated: {}", existingWSensor);
         int index = -1;
-/*        for (WeightSensor weightSensor : weightSensors) {
-            if (weightSensor.getSensor_ID() == existingWSensor.getSensor_ID()) {
-                index = 1;
-                break;
-            }
-        }*/
         for (int i = 0; i < weightSensors.size(); i++) {
             WeightSensor weightSensor = weightSensors.get(i);
             if (weightSensor.getSensor_ID() == existingWSensor.getSensor_ID()) {

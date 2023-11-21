@@ -15,18 +15,17 @@ public class WeightSensor {
     private double weight;
     private double calibrationFactor;
 
-    public void updateValues(double weight, double calibrationFactor) {
-        this.weight = weight;
-        this.calibrationFactor = calibrationFactor;
-    }
-
-    private transient PillBox pillBox;
-
+    private PillBox pillBox;
     public WeightSensor(int sensor_ID, String sensor_type, String manufacturer, LocalDate calibrationDate, double weight, double calibrationFactor) {
         this.calibrationDate = calibrationDate;
         this.sensor_ID = sensor_ID;
         this.sensor_type = sensor_type;
         this.manufacturer = manufacturer;
+        this.weight = weight;
+        this.calibrationFactor = calibrationFactor;
+    }
+
+    public void updateValues(double weight, double calibrationFactor) {
         this.weight = weight;
         this.calibrationFactor = calibrationFactor;
     }
@@ -98,7 +97,17 @@ public class WeightSensor {
         this.pillBox = pillBox;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        WeightSensor that = (WeightSensor) obj;
+        return sensor_ID == that.sensor_ID;
+    }
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");

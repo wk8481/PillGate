@@ -8,17 +8,22 @@ import be.kdg.programming3.domain.user.Customer;
 import be.kdg.programming3.domain.user.Dashboard;
 import be.kdg.programming3.domain.user.MedicationSchedule;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DataFactory implements CommandLineRunner {
 
     private final PillBoxRepository pillBoxRepository;
     private final SensorRepository sensorRepository;
     private final UserRepository userRepository;
+    private final Logger logger = LoggerFactory.getLogger(DataFactory.class);
 
     public DataFactory(PillBoxRepository pillBoxRepository, SensorRepository sensorRepository, UserRepository userRepository) {
         this.pillBoxRepository = pillBoxRepository;
@@ -125,16 +130,7 @@ dashboard1.addMedicationSchedule(medicationSchedule1);
             userRepository.readMedSchedule().addAll(medicationSchedules);
 
 
-
-
-
-
     }
-
-
-
-
-
 
     @Override
     public void run(String... args) throws Exception {
