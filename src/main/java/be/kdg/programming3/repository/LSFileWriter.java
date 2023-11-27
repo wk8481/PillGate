@@ -1,3 +1,4 @@
+/*
 package be.kdg.programming3.repository;
 
 import org.slf4j.Logger;
@@ -17,10 +18,12 @@ public class LSFileWriter {
     private static final String CSV_FILE_NAME = "pillData.csv";
     private final Logger logger = LoggerFactory.getLogger(LSFileWriter.class);
 
-    /*This method will:
+    */
+/*This method will:
     *  - Write a static header for the date and 8 data points of the sensor data
     *  - Append the current date with timestamp to every new line to the pillData.csv
-    *   @param receivedData a complete string of sensors data (all 8 data points)      */
+    *   @param receivedData a complete string of sensors data (all 8 data points)      *//*
+
 
     public void write(String receivedData) {
 
@@ -51,3 +54,4 @@ public class LSFileWriter {
 
 }
 
+*/

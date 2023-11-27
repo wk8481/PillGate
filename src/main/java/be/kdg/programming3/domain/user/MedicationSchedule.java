@@ -1,12 +1,19 @@
 package be.kdg.programming3.domain.user;
 
-import org.springframework.cglib.core.Local;
+import be.kdg.programming3.domain.pillbox.Medicine;
+import be.kdg.programming3.presentation.controllers.viewmodels.MedicineViewModel;
+import jakarta.persistence.*;
 
-import java.rmi.registry.LocateRegistry;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name ="MedicationSchedule")
 public class MedicationSchedule {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int medSchedule_id;
     private int customer_id;
     private LocalDate startDate;
@@ -17,17 +24,19 @@ public class MedicationSchedule {
 
     private transient Customer customer;
     private transient Dashboard dashboard;
+    private transient List<Medicine> medicines = new ArrayList<>();
 
 
     public MedicationSchedule(int customer_id, LocalDate startDate,
                               LocalDate endDate, String pillName,
-                              int quantity, LocalDate timeTakePill) {
-        customer_id = this.customer_id;
-        startDate = this.startDate;
-        endDate = this.endDate;
-        pillName = this.pillName;
-        quantity = this.quantity;
-        timeTakePill = this.timeTakePill;
+                              int quantity, LocalDate timeTakePill ) {
+        this.customer_id = customer_id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.pillName = pillName;
+        this.quantity = quantity;
+        this.timeTakePill = timeTakePill;
+
     }
 
     public MedicationSchedule() {
@@ -98,6 +107,21 @@ public class MedicationSchedule {
         this.customer = customer;
     }
 
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<Medicine> medicines) {
+        this.medicines = medicines;
+    }
+
+    public void addMedicine(Medicine medicine) {
+        if (this.medicines == null){
+            this.medicines = new ArrayList<>();
+        }
+        this.medicines.add(medicine);
+
+    }
 
     public void addCustomer(Customer customer) {
         this.customer = customer;

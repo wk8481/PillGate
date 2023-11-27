@@ -1,20 +1,32 @@
 package be.kdg.programming3.domain.user;
 
 import be.kdg.programming3.domain.pillbox.Medicine;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Entity
+@Table(name = "Customer")
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customer_id;
     private String customer_name;
     private int age;
     private String email;
     private boolean hasCareGiver;
-    private transient CareGiver careGiver;
-    private transient MedicationSchedule medicationSchedule;
-    private transient List<Medicine> medicines;
 
+    @ManyToMany
+    @JoinTable(
+            name = "CustomerCareGiver",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "caregiver_id")
+    )
+    private List<CareGiver> careGivers = new ArrayList<>();
+    private transient List<MedicationSchedule> medicationSchedules;
+    private transient List<Medicine> medicines;
 
     public Customer(int customer_id, String customer_name, int age, String email, boolean hasCareGiver) {
         this.customer_id = customer_id;
@@ -52,8 +64,8 @@ public class Customer {
         return hasCareGiver;
     }
 
-    public CareGiver getCareGiver() {
-        return careGiver;
+    public List<CareGiver> getCareGivers() {
+        return careGivers;
     }
 
     public void setCustomer_name(String customer_name) {
@@ -73,15 +85,15 @@ public class Customer {
     }
 
     public void setCareGiver(CareGiver careGiver) {
-        this.careGiver = careGiver;
+        this.careGivers = careGivers;
     }
 
-    public MedicationSchedule getMedicationSchedule() {
-        return medicationSchedule;
+    public List<MedicationSchedule> getMedicationSchedules() {
+        return medicationSchedules;
     }
 
-    public void setMedicationSchedule(MedicationSchedule medicationSchedule) {
-        this.medicationSchedule = medicationSchedule;
+    public void setMedicationSchedules(List<MedicationSchedule> medicationSchedules) {
+        this.medicationSchedules=medicationSchedules;
     }
 
     public List<Medicine> getMedicines() {
@@ -118,14 +130,16 @@ public class Customer {
     public void addCaregiver(CareGiver careGiver) {
         // Check if the customer already has a caregiver
         if (!hasCareGiver) {
-            this.careGiver = careGiver;
+            this.careGivers.add(careGiver);
+            careGiver.addCustomer(this);
             hasCareGiver = true; // Set hasCareGiver to true since now the customer has a caregiver
         }
         // No return statement here
     }
 
     public void addMedicationSchedule(MedicationSchedule medicationSchedule) {
-        this.medicationSchedule = medicationSchedule;
+        if (medicationSchedule == null) medicationSchedules = new ArrayList<>();
+        medicationSchedules.add(medicationSchedule);
     }
 
     public void addMedicine(Medicine medicine) {

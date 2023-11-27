@@ -1,3 +1,4 @@
+/*
 package be.kdg.programming3.repository;
 
 import com.fazecast.jSerialComm.SerialPort;
@@ -92,3 +93,4 @@ public class LSDataHandler {
         return second1.equals(second2);
     }
 }
+*/

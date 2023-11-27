@@ -24,7 +24,7 @@ public class LoadSensorController {
     @GetMapping("dashboard")
     public String showSensor(Model model) {
         logger.info("Showing load sensor data ..");
-        model.addAttribute("sensors", sensorRepository.readWeightSensor());
+        model.addAttribute("sensors", sensorRepository.findAllWSensors());
         return "dashboard";
     }
 
@@ -32,7 +32,7 @@ public class LoadSensorController {
     public String readArduino(Model model) {
         try {
             serialReader.readArduinoData("COM5");
-            model.addAttribute("sensors", sensorRepository.readWeightSensor());
+            model.addAttribute("sensors", sensorRepository.findAllWSensors());
         } catch (Exception e) {
             logger.info("Error reading Arduino data", e);
         }

@@ -1,3 +1,4 @@
+/*
 package be.kdg.programming3.service;
 
 import org.springframework.stereotype.Service;
@@ -34,3 +35,4 @@ public class SensorService {
         return "Motion ongoing";
     }
 }
+*/

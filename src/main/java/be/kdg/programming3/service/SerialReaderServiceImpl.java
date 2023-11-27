@@ -89,7 +89,7 @@ public class SerialReaderServiceImpl implements SerialReader{
                 double calibrationFactor = Double.parseDouble(parts[6]);
 
                 // Retrieve the latest WeightSensor from the repository
-                WeightSensor latestSensor = sensorRepository.readWeightSensor().stream().findFirst().orElse(null);
+                WeightSensor latestSensor = sensorRepository.findAllWSensors().stream().findFirst().orElse(null);
 
                 // Update the values in the latest WeightSensor
                 if (latestSensor != null) {

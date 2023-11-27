@@ -16,12 +16,12 @@ public class JdbcApplication implements CommandLineRunner {
         try (Connection connection = DriverManager.getConnection("jdbc:h2:file:./db/PillGatedb;DB_CLOSE_ON_EXIT=FALSE")) {
             Statement statement = connection.createStatement();
 
-            statement.executeUpdate("INSERT INTO Medicine (name, weight) VALUES ('Paracetamol', 500)");
-            //statement.executeUpdate("INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1000, '2022-01-01', 750)");
-            //statement.executeUpdate("INSERT INTO CareGiver (caregiver_name) VALUES ('John Doe')");
-           // statement.executeUpdate("INSERT INTO Customer (customer_name, age, email, hasCareGiver) VALUES ('Alice Smith', 30, 'alice@example.com', true)");
-           // statement.executeUpdate("INSERT INTO Dashboard (nrPillTaken, duration) VALUES (5, 30)");
-           // statement.executeUpdate("INSERT INTO MedicationSchedule (customer_id, startDate, endDate, pillName, quantity, timeTakePill) VALUES (1, '2022-01-01', '2022-12-31', 'Ibuprofen', 2, '2022-01-01 08:00:00')");
+/*            statement.executeUpdate("INSERT INTO Medicine (name, weight) VALUES ('Paracetamol', 500)");
+            statement.executeUpdate("INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1000, '2022-01-01', 750)");
+            statement.executeUpdate("INSERT INTO CareGiver (caregiver_name) VALUES ('chao')");
+            statement.executeUpdate("INSERT INTO Customer (customer_name, age, email, hasCareGiver) VALUES ('Alice Smith', 30, 'alice@example.com', true)");
+            statement.executeUpdate("INSERT INTO Dashboard (nrPillTaken, duration) VALUES (5, 30)");
+            statement.executeUpdate("INSERT INTO MedicationSchedule (customer_id, startDate, endDate, pillName, quantity, timeTakePill) VALUES (1, '2022-01-01', '2022-12-31', 'Ibuprofen', 2, '2022-01-01 08:00:00')");*/
 
             // Sample query for each table
             queryAndPrint(connection, "SELECT * FROM Medicine", "Medicine");

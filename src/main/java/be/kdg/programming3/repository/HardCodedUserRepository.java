@@ -37,13 +37,13 @@ public class HardCodedUserRepository implements UserRepository {
     }
 
     @Override
-    public List<Customer> readCustomers() {
+    public List<Customer> findAllCustomers() {
         logger.info("Reading pillboxes from database...");
         return customers;
     }
 
     @Override
-    public Customer getCustomerByID(int customer_id) {
+    public Customer findCustomerById(int customer_id) {
         return customers.stream()
                 .filter(customer -> customer.getCustomer_id() == customer_id)
                 .findFirst()
@@ -86,7 +86,7 @@ public class HardCodedUserRepository implements UserRepository {
     }
 
     @Override
-    public CareGiver getCaregiverByID(int caregiver_id) {
+    public CareGiver findCaregiverByID(int caregiver_id) {
         return careGivers.stream()
                 .filter(careGiver -> careGiver.getCaregiver_id() == caregiver_id)
                 .findFirst()
@@ -172,7 +172,7 @@ public class HardCodedUserRepository implements UserRepository {
     }
 
     @Override
-    public MedicationSchedule getMedScheduleByID(int medicationSchedule_id) {
+    public MedicationSchedule findByMedScheduleId(int medicationSchedule_id) {
         return medSchedules.stream()
                 .filter(medicationSchedule -> medicationSchedule.getMedSchedule_id() == medicationSchedule_id)
                 .findFirst()

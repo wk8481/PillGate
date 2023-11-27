@@ -27,6 +27,13 @@ dependencies {
     implementation("org.webjars:webjars-locator-core:0.48")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation ("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework:spring-websocket:6.1.0")
+    implementation("org.springframework:spring-messaging:6.1.0")
+
+    //for web socket communication
+    implementation("org.springframework.boot:spring-boot-starter-websocket:3.1.5")
+    // jpa library
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.5")
     runtimeOnly ("com.h2database:h2")
 }
 

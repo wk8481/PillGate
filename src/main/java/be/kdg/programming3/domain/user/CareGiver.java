@@ -1,20 +1,34 @@
 package be.kdg.programming3.domain.user;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "CareGiver")
 public class CareGiver {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int caregiver_id;
     private String caregiver_name;
-    private String company;
-    private String address;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @ManyToMany(mappedBy = "careGivers")
     private transient List<Customer> customers;
 
-    public CareGiver(int caregiver_id, String caregiver_name, String company, String address) {
+    public CareGiver(int caregiver_id, String caregiver_name, String email ) {
         this.caregiver_id = caregiver_id;
         this.caregiver_name = caregiver_name;
-        this.company = company;
-        this.address = address;
+        this.email = email;
     }
 
     public CareGiver() {
@@ -33,15 +47,7 @@ public class CareGiver {
         return caregiver_name;
     }
 
-    public String getCompany() {
-        return company;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-public List<Customer> getCustomers() {
+    public List<Customer> getCustomers() {
         return customers;
     }
 
@@ -49,13 +55,6 @@ public List<Customer> getCustomers() {
         this.caregiver_name = caregiver_name;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public void setCustomers(List<Customer> customers) {
         this.customers = customers;
@@ -66,17 +65,15 @@ public List<Customer> getCustomers() {
         return "CareGiver{" +
                 "caregiver_id=" + caregiver_id +
                 ", caregiver_name='" + caregiver_name + '\'' +
-                ", company='" + company + '\'' +
-                ", address='" + address + '\'' +
+                ", email=" + email +
                 '}';
     }
 
     public void addCustomer(Customer customer) {
-        if (customers == null) customers = new ArrayList<>();
-        customers.add(customer);
+
+       this.customers.add(customer);
+       customer.addCaregiver(this);
     }
 
-    public String getCaregiverName() {
-        return caregiver_name;
-    }
+
 }

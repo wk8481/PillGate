@@ -1,3 +1,4 @@
+/*
 package be.kdg.programming3.service;
 
 import java.util.List;
@@ -11,3 +12,4 @@ public interface PIRSensorService {
 
     List<String> readCSVFile(String fileName);
 }
+*/

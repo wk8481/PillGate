@@ -2,7 +2,7 @@ package be.kdg.programming3.service;
 
 import be.kdg.programming3.domain.pillbox.Medicine;
 import be.kdg.programming3.domain.pillbox.PillBox;
-import be.kdg.programming3.repository.PillBoxRepository;
+import be.kdg.programming3.repository.MedicineRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,9 +14,9 @@ public class PillBoxServiceImpl implements PillBoxService {
 
     private Logger logger = LoggerFactory.getLogger(PillBoxService.class);
 
-    private PillBoxRepository pillBoxRepository;
+    private MedicineRepository pillBoxRepository;
 
-    public PillBoxServiceImpl(PillBoxRepository pillBoxRepository) {
+    public PillBoxServiceImpl(MedicineRepository pillBoxRepository) {
         this.pillBoxRepository = pillBoxRepository;
     }
 
