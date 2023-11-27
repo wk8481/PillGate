@@ -26,6 +26,8 @@ dependencies {
     implementation("org.webjars:bootstrap:5.3.2")
     implementation("org.webjars:webjars-locator-core:0.48")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
 }
 
 tasks.withType<Test> {

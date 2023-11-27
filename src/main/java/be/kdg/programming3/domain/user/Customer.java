@@ -10,6 +10,7 @@ public class Customer {
     private boolean hasCareGiver;
     private CareGiver careGiver;
     private MedicationSchedule medicationSchedule;
+    private String password;
 
 
     public Customer(int customer_id, String customer_name, int age, String email, boolean hasCareGiver) {
@@ -24,8 +25,22 @@ public class Customer {
         //implemented later
     }
 
+    public Customer(String customer_name, String password, String email) {
+        this.customer_name = customer_name;
+        this.password = password;
+        this.email = email;
+    }
+
     public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getCustomer_id() {

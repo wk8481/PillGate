@@ -17,6 +17,7 @@ public class LoadSensorController {
     private final SerialReader serialReader;
     private final SensorRepository sensorRepository;
     private Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
+
     public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository) {
         this.serialReader = serialReader;
         this.sensorRepository = sensorRepository;

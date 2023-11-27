@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
@@ -48,6 +49,13 @@ public class HardCodedUserRepository implements UserRepository {
                 .filter(customer -> customer.getCustomer_id() == customer_id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public Optional<Customer> findByUsername(String username) {
+        return customers.stream()
+                .filter(c -> c.getCustomer_name().equals(username))
+                .findFirst();
     }
 
     @Override
