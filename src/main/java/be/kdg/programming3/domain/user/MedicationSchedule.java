@@ -1,7 +1,6 @@
 package be.kdg.programming3.domain.user;
 
 import be.kdg.programming3.domain.pillbox.Medicine;
-import be.kdg.programming3.presentation.controllers.viewmodels.MedicineViewModel;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -39,7 +38,7 @@ public class MedicationSchedule {
 
     }
 
-    public MedicationSchedule() {
+    public MedicationSchedule(int customerId, String pillName, LocalDateTime timeTakePill, int interval) {
     }
 
     public int getMedSchedule_id() {
