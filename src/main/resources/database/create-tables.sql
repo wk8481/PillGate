@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS WeightSensor (
                                             sensor_ID INT AUTO_INCREMENT PRIMARY KEY,
                                             WEIGHT_CAPACITY_GRAMS INT DEFAULT 1000,
                                             calibrationDate DATE,
-                                            weight DOUBLE
+                                            weight DOUBLE,
+                                            FOREIGN KEY (weight) REFERENCES Medicine( weight)
 );
 
 -- CareGiver Table
@@ -28,7 +29,8 @@ CREATE TABLE IF NOT EXISTS Customer (
                                         customer_name VARCHAR(255),
                                         age INT,
                                         email VARCHAR(255),
-                                        hasCareGiver BOOLEAN
+                                        hasCareGiver BOOLEAN,
+                                        password VARCHAR(255)
 );
 
 

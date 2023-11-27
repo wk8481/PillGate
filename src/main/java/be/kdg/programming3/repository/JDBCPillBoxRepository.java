@@ -64,8 +64,9 @@ public class JDBCPillBoxRepository implements MedicineRepository {
     }
 
     @Override
-    public void deleteMedicine(int medicine_id) {
+    public Medicine deleteMedicine(int medicine_id) {
         final String sql = "DELETE FROM Medicine WHERE medicine_id = ?";
         jdbcTemplate.update(sql, medicine_id);
+        return deleteMedicine(deleteMedicine(medicine_id).getMedicine_id());
     }
 }

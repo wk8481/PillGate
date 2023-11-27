@@ -7,11 +7,15 @@ import be.kdg.programming3.domain.user.MedicationSchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -156,23 +160,7 @@ public class JDBCUserRepository implements UserRepository {
         }
     }
 
-    @Override
-    public CareGiver createCareGiver(CareGiver careGiver) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(
-                connection -> {
-                    PreparedStatement ps = connection.prepareStatement("INSERT INTO CareGiver (caregiver_name, email) VALUES (?, ?)",
-                            new String[]{"caregiver_id"});
-                    ps.setString(1, careGiver.getName());
-                    ps.setString(2, careGiver.getEmail());
-                    return ps;
-                },
-                keyHolder);
-
-        careGiver.setCaregiver_id(keyHolder.getKey().intValue());
-        return careGiver;
-    }
 
     @Override
     public void updateCareGiver(CareGiver careGiver) {
@@ -228,9 +216,5 @@ public class JDBCUserRepository implements UserRepository {
         int interval = resultSet.getInt("REPEAT_IN");
         return new MedicationSchedule(customerId, pillName, timeTakePill, interval);
     }
-
-
-
-
 
 }
