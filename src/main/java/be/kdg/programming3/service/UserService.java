@@ -2,9 +2,8 @@ package be.kdg.programming3.service;
 
 import be.kdg.programming3.domain.user.CareGiver;
 import be.kdg.programming3.domain.user.Customer;
-import be.kdg.programming3.domain.user.Dashboard;
 import be.kdg.programming3.domain.user.MedicationSchedule;
-import be.kdg.programming3.model.CustomerRegistrationDto;
+import be.kdg.programming3.presentation.controllers.viewmodels.CustomerRegistrationDto;
 
 import java.util.List;
 
@@ -12,7 +11,11 @@ public interface UserService {
 
     Customer addCustomer(Customer customer);
 
+    List<Customer> getCustomers();
+
     CareGiver createCareGiver(CareGiver careGiver);
+
+    List<CareGiver> getCaregivers();
 
     MedicationSchedule createMedSchedule(MedicationSchedule medSchedule);
 

@@ -74,9 +74,16 @@
         <div id="main">
             <h1>Registration</h1>
             <form id="registration-form" th:object="${customerDTO}" th:action="@{/register}" method="post">
+                <input type="text" th:field="*{firstName}" placeholder="First Name" class="register-form-field" required>
+                <input type="text" th:field="*{lastName}" placeholder="Last Name" class="register-form-field" required>
                 <input type="text" th:field="*{username}" placeholder="Username"  class="register-form-field" required>
+                <input type="date" th:field="*{birthDate}" class="register-form-field" required>
                 <input type="password" th:field="*{password}" placeholder="Password" class="register-form-field" required>
                 <input type="email" th:field="*{email}" placeholder="example@email.com" class="register-form-field" required>
+                <div class="form-group">
+                    <input type="checkbox" id="caregiverCheckbox" th:field="*{hasCareGiver}" name="caregiver" class="form-check-input">
+                    <label for="caregiverCheckbox" class="form-check-label">I am a caregiver</label>
+                </div>
                 <input type="submit" value="Register" id="register-btn">
             </form>
         </div>

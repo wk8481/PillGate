@@ -2,8 +2,8 @@
 CREATE TABLE IF NOT EXISTS Medicine (
                                         medicine_id INT AUTO_INCREMENT PRIMARY KEY,
                                         name VARCHAR(255),
-                                        weight DOUBLE
-);
+    weight DOUBLE
+    );
 
 -- WeightSensor Table
 CREATE TABLE IF NOT EXISTS WeightSensor (
@@ -13,52 +13,47 @@ CREATE TABLE IF NOT EXISTS WeightSensor (
                                             weight DOUBLE
 );
 
--- CareGiver Table
-drop table CareGiver;
+-- CareGiver Tables
 CREATE TABLE IF NOT EXISTS CareGiver (
                                          caregiver_id INT AUTO_INCREMENT PRIMARY KEY,
                                          caregiver_name VARCHAR(255),
-                                         email VARCHAR(255)
-);
+    email VARCHAR(255)
+    );
 
 -- Customer Table
-
+Drop table if exists Customer;
 CREATE TABLE IF NOT EXISTS Customer (
                                         customer_id INT AUTO_INCREMENT PRIMARY KEY,
                                         customer_name VARCHAR(255),
-                                        age INT,
+                                        birthDate DATE,
                                         email VARCHAR(255),
-                                        hasCareGiver BOOLEAN
-);
+                                        hasCareGiver BOOLEAN,
+                                        password VARCHAR(20)
+    );
+
 
 
 -- Dashboard Table
-DROP table DASHBOARD;
-CREATE TABLE IF NOT EXISTS Dashboard (
-                                         dashboard_id INT AUTO_INCREMENT PRIMARY KEY,
-                                         nrPillTaken INT,
-                                         duration INT
-);
-
+DROP table IF EXISTS DASHBOARD ;
 CREATE TABLE IF NOT EXISTS Dashboard (
                                          dashboard_id INT AUTO_INCREMENT PRIMARY KEY,
                                          nrPillTaken INT,
                                          duration INT,
                                          customer_id INT UNIQUE,
                                          FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
-);
+    );
 
 -- MedicationSchedule Table
 CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   medSchedule_id INT AUTO_INCREMENT PRIMARY KEY,
                                                   customer_id INT,
                                                   FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-                                                  startDate DATE,
-                                                  endDate DATE,
-                                                  pillName VARCHAR(255),
-                                                  quantity INT,
-                                                  timeTakePill DATE
-);
+    startDate DATE,
+    endDate DATE,
+    pillName VARCHAR(255),
+    quantity INT,
+    timeTakePill DATE
+    );
 
 
 
@@ -72,6 +67,6 @@ CREATE TABLE IF NOT EXISTS CustomerCareGiver (
                                                  customer_id INT,
                                                  caregiver_id INT,
                                                  PRIMARY KEY (customer_id, caregiver_id),
-                                                 FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-                                                 FOREIGN KEY (caregiver_id) REFERENCES CareGiver(caregiver_id)
-);
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (caregiver_id) REFERENCES CareGiver(caregiver_id)
+    );

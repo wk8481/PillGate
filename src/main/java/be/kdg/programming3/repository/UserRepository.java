@@ -22,6 +22,7 @@ public interface UserRepository {
     Customer createCustomer(Customer customer);
     List<Customer> findAllCustomers();
     Customer findCustomerById(int customer_id);
+    Customer findCustomerByEmail(String email);
     Customer updateCustomer(Customer existingCustomer);
     Customer deleteCustomer(int customer_id);
 
@@ -30,7 +31,7 @@ public interface UserRepository {
      *  - Customer Repository methods */
     CareGiver createCareGiver(CareGiver careGiver);
     List<CareGiver> findAllCareGivers();
-    CareGiver findCaregiverByID(int customer_id);
+    CareGiver findCaregiverByID(int caregiver_id);
     CareGiver updateCareGiver(CareGiver existingCareGiver);
     CareGiver deleteCaregiver(int caregiver_id);
 
@@ -38,16 +39,16 @@ public interface UserRepository {
      *  - Customer Repository methods */
     Dashboard createDashboard(Dashboard dashboard);
     List<Dashboard> findAllDashboards();
-    Dashboard getDashboardByID(int dashboard_id);
-    Dashboard updateDashboard(Dashboard existingDashboard);
-    Dashboard deleteDashboard(int dashboard_id);
+    Dashboard findDashboardByID(int dashboard_ID);
+    Dashboard updateDashboard(Dashboard dashboard);
+    Dashboard deleteDashboard(int dashboard_ID);
 
 
     /* These methods show:
      *  - Customer Repository methods */
     MedicationSchedule createMedSchedule(MedicationSchedule medicationSchedule);
     List<MedicationSchedule> findAllMedSchedules(); //findall
-    MedicationSchedule findByMedScheduleId(int medicationSchedule_id); //findbyid
+    MedicationSchedule findMedScheduleById(int medSchedule_id); //findbyid
     MedicationSchedule updateMedSchedule(MedicationSchedule existingMedSchedule);
     MedicationSchedule deleteMedSchedule(int medicationSchedule_id);
 
