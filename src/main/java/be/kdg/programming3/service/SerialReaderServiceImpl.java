@@ -3,6 +3,7 @@ package be.kdg.programming3.service;
 import be.kdg.programming3.domain.sensor.WeightSensor;
 import be.kdg.programming3.repository.SensorRepository;
 import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class SerialReaderServiceImpl implements SerialReader{
 
     public void readArduinoData(String portName) {
         SerialPort[] serialPorts = SerialPort.getCommPorts();
+
         SerialPort serialPort = null;
 
         for (SerialPort port : serialPorts) {
@@ -33,59 +35,70 @@ public class SerialReaderServiceImpl implements SerialReader{
         }
 
         if (serialPort == null) {
-            logger.error("Port not found: {}", portName);
+            logger.info("Port not found: {}", portName);
             throw new RuntimeException("Port not found: " + portName);
         }
 
+        logger.info("Attempting to open port: {}", portName);
         if (serialPort.openPort()) {
             // Set up the input stream
+            logger.info("Port opened successfully: {}", portName);
             input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+
+            serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
             // Start a thread to continuously read data
             new Thread(() -> {
                 try {
+                    StringBuilder dataBuffer = new StringBuilder();
                     while (true) {
-                        logger.info("Arduino data reading thread started.");
                         String inputLine = input.readLine();
-                        if (inputLine != null) {
+                        if (inputLine != null && !inputLine.isEmpty()) {
                             processArduinoData(inputLine);
                         }
                     }
+                } catch (SerialPortTimeoutException e) {
+                    logger.info("Timeout reading Arduino data", e);
+                    throw new RuntimeException("Timeout reading Arduino data", e);
                 } catch (IOException e) {
-                    logger.error("Error reading Arduino data", e);
-                    e.printStackTrace();
+                    logger.info("Error reading Arduino data", e);
+                    throw new RuntimeException("Error reading Arduino data", e);
+
                 } finally {
                     logger.info("Arduino data reading thread terminated.");
                 }
             }).start();
         } else {
-            logger.error("Failed to open port: {}", portName);
+            logger.info("Failed to open port: {}", portName);
             throw new RuntimeException("Failed to open port: " + portName);
         }
     }
 
     private void processArduinoData(String inputLine) {
+        inputLine = inputLine.replaceAll("[^\\x20-\\x7E]", "").trim();
         logger.info("Received Arduino data: {}", inputLine);
         // Assuming inputLine is in the format: "Reading: X.XX grams calibration factor: YYY.ZZZ"
         // Extract the relevant information
-        String[] parts = inputLine.split(" ");
-        if (parts.length >= 8 && parts[0].equals("Reading:")) {
+
+        String[] parts = inputLine.split("\\s+|:");
+        if (parts.length >= 7 && parts[0].trim().equals("Reading") && parts[1].trim().equals("")) {
             try {
-                double weight = Double.parseDouble(parts[1]);
-                double calibrationFactor = Double.parseDouble(parts[7]);
+                logger.info("Parsing weight value: {}", parts[2]);
+                logger.info("Parsing calibration factor: {}", parts[6]);
+                double weight = Double.parseDouble(parts[2]);
+                double calibrationFactor = Double.parseDouble(parts[6]);
 
                 // Retrieve the latest WeightSensor from the repository
-                WeightSensor latestSensor = sensorRepository.readWeightSensor().stream().findFirst().orElse(null);
+                WeightSensor latestSensor = sensorRepository.findAllWSensors().stream().findFirst().orElse(null);
 
                 // Update the values in the latest WeightSensor
                 if (latestSensor != null) {
                     latestSensor.updateValues(weight, calibrationFactor);
                     // Save the updated sensor back to the repository
                     sensorRepository.updateSensor(latestSensor);
-                    // Log the updated sensor
-                    System.out.println("Weight sensor updated: " + latestSensor);
                 }
             } catch (NumberFormatException e) {
+                logger.error("Error parsing number in data: {}", inputLine);
                 System.out.println("Invalid number format in data: " + inputLine);
             }
         } else {

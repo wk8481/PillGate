@@ -1,36 +1,52 @@
 package be.kdg.programming3.domain.sensor;
 
-import be.kdg.programming3.domain.pillbox.PillBox;
+import be.kdg.programming3.domain.pillbox.Medicine;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "WeightSensor")
 public class WeightSensor {
-    private int sensor_ID;
-    private String sensor_type;
-    private String manufacturer;
-    private final int WEIGHT_CAPACITY_GRAMS = 1000;
-    private LocalDate calibrationDate;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(name = "SENSOR_ID")
+    private int sensor_ID;
+
+    @Column(name = "WEIGHT_CAPACITY_GRAMS")
+    private final int WEIGHT_CAPACITY_GRAMS = 1000;
+    @Column(name = "calibrationDate")
+    private LocalDate calibrationDate;
+    @Column(name = "weight")
     private double weight;
+    @Column(name = "calibration")
     private double calibrationFactor;
+//  private Long id;
+
+    /*
+        private PillBox pillBox;
+    */
+    private transient List<Medicine> medicines;
+
+    public WeightSensor(int sensor_ID, LocalDate calibrationDate, double weight, double calibrationFactor) {
+        this.calibrationDate = calibrationDate;
+        this.sensor_ID = sensor_ID;
+        this.weight = weight;
+        this.calibrationFactor = calibrationFactor;
+    }
 
     public void updateValues(double weight, double calibrationFactor) {
         this.weight = weight;
         this.calibrationFactor = calibrationFactor;
     }
-
-    private PillBox pillBox;
-
-    public WeightSensor(int sensor_ID, String sensor_type, String manufacturer, LocalDate calibrationDate, double weight, double calibrationFactor) {
-        this.calibrationDate = calibrationDate;
-        this.sensor_ID = sensor_ID;
-        this.sensor_type = sensor_type;
-        this.manufacturer = manufacturer;
-        this.weight = weight;
-        this.calibrationFactor = calibrationFactor;
-    }
     public WeightSensor(){}
+
+
 
     public double getWeight() {
         return weight;
@@ -55,14 +71,7 @@ public class WeightSensor {
     public void setSensor_ID(int sensor_ID) {
         this.sensor_ID = sensor_ID;
     }
-
-    public String getSensor_type() {
-        return sensor_type;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
+//
 
     public int getWEIGHT_CAPACITY_GRAMS() {
         return WEIGHT_CAPACITY_GRAMS;
@@ -74,30 +83,36 @@ public class WeightSensor {
 
 
 
-    public void addPillbox(PillBox pillBox) {
-        this.pillBox = pillBox;
-    }
 
-    public void setSensor_type(String sensor_type) {
-        this.sensor_type = sensor_type;
-    }
+//    public void addPillbox(PillBox pillBox) {
+//        this.pillBox = pillBox;
+//    }
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
+
 
     public void setCalibrationDate(LocalDate calibrationDate) {
         this.calibrationDate = calibrationDate;
     }
 
-    public PillBox getPillBox() {
-        return pillBox;
-    }
+//    public PillBox getPillBox() {
+//        return pillBox;
+//    }
+//
+//    public void setPillBox(PillBox pillBox) {
+//        this.pillBox = pillBox;
+//    }
 
-    public void setPillBox(PillBox pillBox) {
-        this.pillBox = pillBox;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        WeightSensor that = (WeightSensor) obj;
+        return sensor_ID == that.sensor_ID;
     }
-
 
     @Override
     public String toString() {
@@ -106,8 +121,6 @@ public class WeightSensor {
         String formattedDate = dtf.format(calibrationDate);
         return String.format("WeightSensor{" +
                 "sensor_ID=" + sensor_ID +
-                ", sensor_type='" + sensor_type + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
                 ", WEIGHT_CAPACITY_GRAMS=" + WEIGHT_CAPACITY_GRAMS +
                 ", calibrationDate=" + formattedDate +
                 ", weight=" + weight +
@@ -116,4 +129,32 @@ public class WeightSensor {
     }
 
 
+    public int getWeightCapacityGrams() {
+        return getWEIGHT_CAPACITY_GRAMS();
+    }
+
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<Medicine> medicines) {
+        this.medicines = medicines;
+    }
+
+    public void addMedicines(Medicine medicine){
+        if (medicines == null) medicines = new ArrayList<>();
+        medicines.add(medicine);
+
+
+    }
+
+
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    @Id
+//    public Long getId() {
+//        return id;
+//    }
 }

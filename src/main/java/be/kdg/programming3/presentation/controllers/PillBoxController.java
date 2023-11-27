@@ -21,9 +21,9 @@ public class PillBoxController {
         this.pillBoxService = pillBoxService;
     }
 
-    public String createPillBox(PillBox pillBox) {
+/*    public String createPillBox(PillBox pillBox) {
         logger.debug("Adding a pillbox: " + pillBox);
-        pillBoxService.getPillBox();
+        pillBoxService.getPillBoxes();
         return "redirect:pillbox";
-    }
+    }*/
 }
