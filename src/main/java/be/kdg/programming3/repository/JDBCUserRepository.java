@@ -35,7 +35,9 @@ public class JDBCUserRepository implements UserRepository {
     private SimpleJdbcInsert medScheduleInserter;
 
 
+
     public JDBCUserRepository(JdbcTemplate jdbcTemplate) {
+        logger.info("Setting up the user repository...");
         this.jdbcTemplate = jdbcTemplate;
         this.customerInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("Customer")
@@ -53,6 +55,7 @@ public class JDBCUserRepository implements UserRepository {
 
 
     private RowMapper<Customer> customerRowMapper() {
+        logger.info("Setting up the customer row mapper...");
         return (rs, rowNum) -> new Customer(
                 rs.getInt("customer_id"),
                 rs.getString("customer_name"),
@@ -66,6 +69,7 @@ public class JDBCUserRepository implements UserRepository {
 
     @Override
     public Customer createCustomer(Customer customer) {
+        logger.info("Creating customer {}", customer);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("customer_id", customer.getCustomer_id());
         parameters.put("customer_name", customer.getCustomer_name());
@@ -80,17 +84,20 @@ public class JDBCUserRepository implements UserRepository {
 
     @Override
     public List<Customer> findAllCustomers() {
+        logger.info("Finding all customers...");
         return jdbcTemplate.query("SELECT * FROM Customer", customerRowMapper());
     }
 
     @Override
     public Customer findCustomerById(int customer_id) {
+        logger.info("Finding customer by id {} ", customer_id);
         return (Customer) jdbcTemplate.query("SELECT * FROM Customer where customer_id = ? ",
                 customerRowMapper(), customer_id);
     }
 
     @Override
     public Customer findCustomerByEmail(String email) {
+        logger.info("Finding customers by email: {}", email);
         try {
             return jdbcTemplate.queryForObject(
                     "SELECT * FROM Customer WHERE email = ?",
@@ -104,6 +111,7 @@ public class JDBCUserRepository implements UserRepository {
 
     @Override
     public Customer updateCustomer(Customer existingCustomer) {
+        logger.info("Updating customer: {}", existingCustomer);
         String updateQuery = "UPDATE Customer SET customer_name = ?, birthDate = ?, email = ?, hasCareGiver = ?, password = ? WHERE customer_id = ?";
 
         int updatedRows = jdbcTemplate.update(updateQuery,

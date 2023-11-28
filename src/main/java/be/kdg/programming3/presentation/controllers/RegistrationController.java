@@ -3,6 +3,7 @@ package be.kdg.programming3.presentation.controllers;
 import be.kdg.programming3.domain.user.Customer;
 import be.kdg.programming3.presentation.controllers.viewmodels.CustomerRegistrationDto;
 import be.kdg.programming3.service.UserService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/home")
 @Controller
 public class RegistrationController {
+    Logger logger = org.slf4j.LoggerFactory.getLogger(RegistrationController.class);
 
     private final UserService userService;
 
@@ -22,12 +24,14 @@ public class RegistrationController {
 
     @GetMapping("registration")
     public String showRegistration(Model model) {
+        logger.info("Showing registration form");
         model.addAttribute("customerDTO", new CustomerRegistrationDto());
         return "registration";
     }
 
     @PostMapping("/register")
     public String registerCustomer(@ModelAttribute CustomerRegistrationDto registrationDto) {
+        logger.info("Registering customer: " + registrationDto.toString());
         userService.registerNewCustomer(registrationDto);
 
         return "redirect:/login";

@@ -25,18 +25,17 @@ public class JDBCSensorRepository implements SensorRepository{
     private static List<WeightSensor> weightSensors = new ArrayList<>();
     private static AtomicInteger nextId = new AtomicInteger(1);
 
-    @Autowired
-    private SensorRepository sensorRepository;
+
 
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert sensorInserter;
 
-    public JDBCSensorRepository(JdbcTemplate jdbcTemplate, SensorRepository sensorRepository) {
+    public JDBCSensorRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.sensorRepository = sensorRepository;
         this.sensorInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("WeightSensor")
                 .usingGeneratedKeyColumns("sensor_ID");
+        logger.info("Setting up the sensor repository...");
     }
 
     public static WeightSensor mapRow(ResultSet rs, int rowId) throws SQLException {
