@@ -2,7 +2,10 @@ package be.kdg.programming3.domain.user;
 
 import be.kdg.programming3.domain.pillbox.Medicine;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +17,10 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customer_id;
     private String customer_name;
-    private int age;
+    private LocalDate birthDate;
     private String email;
     private boolean hasCareGiver;
+    private String password;
 
     @ManyToMany
     @JoinTable(
@@ -28,16 +32,32 @@ public class Customer {
     private transient List<MedicationSchedule> medicationSchedules;
     private transient List<Medicine> medicines;
 
-    public Customer(int customer_id, String customer_name, int age, String email, boolean hasCareGiver) {
+    public Customer(int customer_id, String customer_name, LocalDate birthDate, String email, boolean hasCareGiver, String password) {
         this.customer_id = customer_id;
         this.customer_name = customer_name;
-        this.age = age;
+        this.birthDate = birthDate;
         this.email = email;
         this.hasCareGiver = hasCareGiver;
+        this.password = password;
     }
 
-    public Customer() {
+    public Customer(int customer_id) {
         //implemented later
+        this.customer_id = customer_id;
+    }
+
+    //security
+
+
+    public Customer(String customer_name, LocalDate birthDate, String email, String password) {
+        this.customer_name = customer_name;
+        this.birthDate = birthDate;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Customer(){
+
     }
 
     public void setCustomer_id(int customer_id) {
@@ -52,8 +72,8 @@ public class Customer {
         return customer_name;
     }
 
-    public int getAge() {
-        return age;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
     public String getEmail() {
@@ -72,8 +92,8 @@ public class Customer {
         this.customer_name = customer_name;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public void setEmail(String email) {
@@ -85,6 +105,18 @@ public class Customer {
     }
 
     public void setCareGiver(CareGiver careGiver) {
+        this.careGivers = careGivers;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCareGivers(List<CareGiver> careGivers) {
         this.careGivers = careGivers;
     }
 
@@ -106,10 +138,14 @@ public class Customer {
 
     @Override
     public String toString() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String formattedDate = dtf.format(birthDate);
+
         return "Customer{" +
                 "customer_id=" + customer_id +
                 ", customer_name='" + customer_name + '\'' +
-                ", age=" + age +
+                ", birthDate=" + formattedDate +
                 ", email='" + email + '\'' +
                 ", hasCareGiver=" + hasCareGiver +
                 '}';

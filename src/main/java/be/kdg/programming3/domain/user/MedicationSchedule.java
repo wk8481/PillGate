@@ -38,7 +38,10 @@ public class MedicationSchedule {
 
     }
 
-    public MedicationSchedule(int customerId, String pillName, LocalDateTime timeTakePill, int interval) {
+
+
+    public MedicationSchedule() {
+
     }
 
     public int getMedSchedule_id() {

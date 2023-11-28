@@ -44,7 +44,9 @@ public class WeightSensor {
         this.weight = weight;
         this.calibrationFactor = calibrationFactor;
     }
-    public WeightSensor(){}
+    public WeightSensor(double weight){
+        this.weight = weight;
+    }
 
 
 

@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-//    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -35,6 +35,10 @@ dependencies {
     // jpa library
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.5")
     runtimeOnly ("com.h2database:h2")
+
+//    implementation('org.springframework.security:spring-security-test')
+    implementation("org.springframework.security:spring-security-core:6.2.0")
+
 }
 
 tasks.withType<Test> {

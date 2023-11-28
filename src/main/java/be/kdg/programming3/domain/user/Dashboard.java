@@ -29,7 +29,8 @@ public class Dashboard {
         this.customer = customer;
     }
 
-    public  Dashboard(){}
+    public  Dashboard(){
+    }
 
     public int getDashboard_id() {
         return dashboard_id;

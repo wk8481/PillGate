@@ -30,7 +30,7 @@ public class Medicine {
     @JoinColumn(name = "medicine_id")
     private transient MedicationSchedule medicationSchedule;
 
-    public Medicine(int name, String weight, double medicine_id) {
+    public Medicine(String name, WeightSensor weight, int medicine_id) {
         this.name = name;
         this.weight = weight;
         this.medicine_id = medicine_id;
@@ -101,6 +101,9 @@ public class Medicine {
 //    }
 
 
+
+    ////counter of how many pills taken, each time pill taken measuremtn kept,
+    // keep measurement all the time
 
 
 

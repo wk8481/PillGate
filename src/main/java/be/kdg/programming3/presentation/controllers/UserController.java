@@ -1,11 +1,17 @@
 package be.kdg.programming3.presentation.controllers;
 
+import be.kdg.programming3.domain.user.CareGiver;
 import be.kdg.programming3.domain.user.Customer;
 import be.kdg.programming3.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 
 @Controller
@@ -20,16 +26,36 @@ public class UserController {
         this.userService = userService;
     }
 
-    /*public String showUsers() {
-    }*/ // to implement later
+    @GetMapping("/customers")
+    public String findAllCustomers(Model model, HttpSession session) {
+        List<Customer> customers = userService.getCustomers();
+        model.addAttribute("customers", customers);
+        log.info("Customers: {}", customers);
+        return "customers";
+    }
 
-    public String addUser(Customer customer) {
+    @GetMapping("/customers/addCustomer")
+    public String addCustomer(Customer customer) {
         log.debug("Adding a customer: " + customer);
         userService.addCustomer(customer);
         return "redirect:customers";
     }
 
-    /*
-    public String addUserForm() {
-    }*/ // to implement later
+    @GetMapping("/")
+
+
+    @GetMapping("/caregivers")
+    public String findAllCaregivers(Model model, HttpSession session) {
+        List<CareGiver> careGivers = userService.getCaregivers();
+        model.addAttribute("caregivers", careGivers);
+        log.info("Caregivers: {} ", careGivers);
+        return "caregivers";
+    }
+    @GetMapping("/caregivers/addCaregiver")
+    public String addCaregiver(CareGiver careGiver) {
+        log.info("Adding a caregiver: " + careGiver);
+        userService.createCareGiver(careGiver);
+        return "redirect:caregivers";
+    }
+
 }

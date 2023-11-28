@@ -51,7 +51,16 @@ public class HardCodedUserRepository implements UserRepository {
                 .orElse(null);
     }
 
+    /**
+     * @param email
+     * @return
+     */
     @Override
+    public Customer findCustomerByEmail(String email) {
+        return null;
+    }
+
+
     public Optional<Customer> findByUsername(String username) {
         return customers.stream()
                 .filter(c -> c.getCustomer_name().equals(username))
@@ -75,6 +84,15 @@ public class HardCodedUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * @param customer_id
+     * @return
+     */
+    @Override
+    public Customer deleteCustomer(int customer_id) {
+        return null;
+    }
+
     @Override
     public CareGiver createCareGiver(CareGiver careGiver) {
         if (careGiver == null) {
@@ -87,8 +105,10 @@ public class HardCodedUserRepository implements UserRepository {
         return careGiver;
     }
 
+
+
     @Override
-    public List<CareGiver> readCareGivers() {
+    public List<CareGiver> findAllCareGivers() {
         logger.info("Reading caregiver from database...");
         return careGivers;
     }
@@ -118,6 +138,15 @@ public class HardCodedUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * @param caregiver_id
+     * @return
+     */
+    @Override
+    public CareGiver deleteCaregiver(int caregiver_id) {
+        return null;
+    }
+
     @Override
     public Dashboard createDashboard(Dashboard dashboard) {
         if (dashboard == null) {
@@ -130,14 +159,20 @@ public class HardCodedUserRepository implements UserRepository {
         return dashboard;
     }
 
+    /**
+     * @return
+     */
+
+
+
     @Override
-    public List<Dashboard> readDashBoards() {
+    public List<Dashboard> findAllDashboards() {
         logger.info("Reading dashboard from database...");
         return dashboards;
     }
 
     @Override
-    public Dashboard getDashboardByID(int dashboard_id) {
+    public Dashboard findDashboardByID(int dashboard_id) {
         return dashboards.stream()
                 .filter(dashboard -> dashboard.getDashboard_id() == dashboard_id)
                 .findFirst()
@@ -161,6 +196,15 @@ public class HardCodedUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * @param dashboard_ID
+     * @return
+     */
+    @Override
+    public Dashboard deleteDashboard(int dashboard_ID) {
+        return null;
+    }
+
     @Override
     public MedicationSchedule createMedSchedule(MedicationSchedule medicationSchedule) {
         if (medicationSchedule == null) {
@@ -173,14 +217,18 @@ public class HardCodedUserRepository implements UserRepository {
         return medicationSchedule;
     }
 
+
+
+
+
     @Override
-    public List<MedicationSchedule> readMedSchedule() {
+    public List<MedicationSchedule> findAllMedSchedules() {
         logger.info("Reading med schedule from database...");
         return medSchedules;
     }
 
     @Override
-    public MedicationSchedule findByMedScheduleId(int medicationSchedule_id) {
+    public MedicationSchedule findMedScheduleById(int medicationSchedule_id) {
         return medSchedules.stream()
                 .filter(medicationSchedule -> medicationSchedule.getMedSchedule_id() == medicationSchedule_id)
                 .findFirst()
@@ -202,6 +250,15 @@ public class HardCodedUserRepository implements UserRepository {
         } else {
             return null;
         }
+    }
+
+    /**
+     * @param medicationSchedule_id
+     * @return
+     */
+    @Override
+    public MedicationSchedule deleteMedSchedule(int medicationSchedule_id) {
+        return null;
     }
 
 }

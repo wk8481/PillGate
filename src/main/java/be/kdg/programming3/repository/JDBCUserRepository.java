@@ -11,18 +11,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
+import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
@@ -39,7 +35,7 @@ public class JDBCUserRepository implements UserRepository {
     private SimpleJdbcInsert customerInserter;
     private SimpleJdbcInsert careGiverInserter;
     private SimpleJdbcInsert dashboardInserter;
-    private SimpleJdbcInsert medSchedule;
+    private SimpleJdbcInsert medScheduleInserter;
 
 
     public JDBCUserRepository(JdbcTemplate jdbcTemplate) {
@@ -53,25 +49,30 @@ public class JDBCUserRepository implements UserRepository {
         this.dashboardInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("Dashboard")
                 .usingGeneratedKeyColumns("dashboard_id");
+        this.medScheduleInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("MedicationSchedule")
+                .usingGeneratedKeyColumns("medSchedule_id");
     }
 
 
-    private static final RowMapper<Customer> CUSTOMER_ROW_MAPPER = (rs, rowNum) -> {
-        Customer customer = new Customer();
-        customer.setCustomer_id(rs.getInt("customer_id"));
-        customer.setCustomer_name(rs.getString("customer_name"));
-        customer.setAge(rs.getInt("age"));
-        customer.setEmail(rs.getString("email"));
-        customer.setHasCareGiver(rs.getBoolean("hasCareGiver"));
-        return customer;
-    };
+    private RowMapper<Customer> customerRowMapper() {
+        return (rs, rowNum) -> new Customer(
+                rs.getInt("customer_id"),
+                rs.getString("customer_name"),
+                rs.getDate("birthDate").toLocalDate(),
+                rs.getString("email"),
+                rs.getBoolean("hasCareGiver"),
+                rs.getString("password")
+                // TODO: Handle other properties if needed
+        );
+    }
 
     @Override
     public Customer createCustomer(Customer customer) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("customer_id", customer.getCustomer_id());
         parameters.put("customer_name", customer.getCustomer_name());
-        parameters.put("age", customer.getAge());
+        parameters.put("birthDate", customer.getBirthDate());
         parameters.put("email", customer.getEmail());
         parameters.put("hasCareGiver", customer.getCareGivers());
         customer.setCustomer_id(customerInserter.executeAndReturnKey(parameters).intValue());
@@ -82,28 +83,87 @@ public class JDBCUserRepository implements UserRepository {
 
     @Override
     public List<Customer> findAllCustomers() {
-        return jdbcTemplate.query("SELECT * FROM Customer", CUSTOMER_ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM Customer", customerRowMapper());
     }
 
     @Override
-    public findCustomerById(int customer_id) {
-        return jdbcTemplate.query("SELECT * FROM Customer where customer_id = ? ",
-                JDBCUserRepository::CUSTOMER_ROW_MAP, customer_id);
+    public Customer findCustomerById(int customer_id) {
+        return (Customer) jdbcTemplate.query("SELECT * FROM Customer where customer_id = ? ",
+                customerRowMapper(), customer_id);
+    }
+
+    @Override
+    public Customer findCustomerByEmail(String email) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM Customer WHERE email = ?",
+                    new Object[]{email},
+                    customerRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null; // No customer found with the given email
+        }
     }
 
     @Override
     public Customer updateCustomer(Customer existingCustomer) {
-        logger.info("Customer updated: {}", existingCustomer);
-        int index = -1;
+        String updateQuery = "UPDATE Customer SET customer_name = ?, birthDate = ?, email = ?, hasCareGiver = ?, password = ? WHERE customer_id = ?";
+
+        int updatedRows = jdbcTemplate.update(updateQuery,
+                existingCustomer.getCustomer_name(),
+                existingCustomer.getBirthDate(),
+                existingCustomer.getEmail(),
+                existingCustomer.isHasCareGiver(),
+                existingCustomer.getCustomer_id(),
+                existingCustomer.getPassword());
+
+        if (updatedRows > 0) {
+            logger.info("Customer updated: {}", existingCustomer);
+            return existingCustomer;
+        } else {
+            logger.warn("Failed to update customer with ID: {}", existingCustomer.getCustomer_id());
+            return null;
+        }
     }
 
+    @Override
+    public Customer deleteCustomer(int customer_id) {
+        String selectQuery = "SELECT * FROM Customer WHERE customer_id = ?";
+        String deleteQuery = "DELETE FROM Customer WHERE customer_id = ?";
+
+        Customer deletedCustomer = jdbcTemplate.queryForObject(selectQuery, customerRowMapper(), customer_id);
+
+        int deletedRows = jdbcTemplate.update(deleteQuery, customer_id);
+
+        if (deletedRows > 0) {
+            logger.info("Customer with ID {} deleted successfully", customer_id);
+            return deletedCustomer;
+        } else {
+            logger.warn("Failed to delete customer with ID: {}", customer_id);
+            return null;
+        }
+    }
+
+
     public static Dashboard dashboardRow(ResultSet rs, int rowid) throws SQLException {
+<<<<<<< HEAD
         return new Dashboard(
                 rs.getInt("dashboard_id"),
                 rs.getInt("nrPillTaken"),
                 rs.getInt("duration"),
                 rs.getInt("customer_id")
         );
+=======
+        int dashboardId = rs.getInt("dashboard_id");
+        int nrPillTaken = rs.getInt("nrPillTaken");
+        int duration = rs.getInt("duration");
+        int customerId = rs.getInt("customer_id");
+
+        // Assuming Customer class has a constructor that takes an int (customer_id)
+        Customer customer = new Customer(customerId);
+
+        return new Dashboard(dashboardId, nrPillTaken, duration, customer);
+>>>>>>> 7f8913a945aa7b61dc62aa90e873a468aadd9e32
     }
 
 
@@ -116,7 +176,7 @@ public class JDBCUserRepository implements UserRepository {
         parameters.put("nrPillTaken", dashboard.getNrPillTaken());
         parameters.put("duration", dashboard.getDuration());
         parameters.put("customer_id", dashboard.getCustomer().getCustomer_id());
-        dashboard.setDashboard_id(dashboardInserter.executeAndReturnKey(parameters));
+        dashboard.setDashboard_id(dashboardInserter.executeAndReturnKey(parameters).intValue());
         logger.info("Creating a dashboard {}", dashboard);
         return dashboard;
 
@@ -127,10 +187,36 @@ public class JDBCUserRepository implements UserRepository {
         logger.info("Finding dashboards from the database...");
         List<Dashboard> dashboards = jdbcTemplate.query(
                 "SELECT * FROM Dashboard", JDBCUserRepository::dashboardRow);
-        return dashboards
+        return dashboards;
     }
 
     @Override
+    public Dashboard findDashboardByID(int dashboard_ID) {
+        Dashboard dashboard = jdbcTemplate.queryForObject("SELECT * FROM Dashboard WHERE dashboard_id = ?",
+                JDBCUserRepository::dashboardRow, dashboard_ID);
+        return dashboard;
+    }
+
+    @Override
+    public Dashboard updateDashboard(Dashboard dashboard) {
+        logger.info("Dashboard is updated {}", dashboard);
+        jdbcTemplate.update("UPDATE Dashboard SET dashboard_ID = ? WHERE CUSTOMER_ID= ?",
+                dashboard.getDashboard_id(), dashboard.getCustomer().getCustomer_id());
+        return dashboard;
+    }
+
+    @Override
+    public Dashboard deleteDashboard(int dashboard_ID) {
+        Dashboard deletedDashboard = findDashboardByID(dashboard_ID);
+
+        jdbcTemplate.update("DELETE FROM DASHBOARD WHERE dashboard_ID = ?", dashboard_ID);
+        logger.info("Dashboard with id {} is deleted ", dashboard_ID);
+
+        return deletedDashboard;
+    }
+
+
+
     private static final RowMapper<CareGiver> CAREGIVER_ROW_MAPPER = (rs, rowNum) -> {
         CareGiver careGiver = new CareGiver();
         careGiver.setCaregiver_id(rs.getInt("caregiver_id"));
@@ -149,75 +235,131 @@ public class JDBCUserRepository implements UserRepository {
     }
 
     @Override
-    public List<CareGiver> findAllCaregivers() {
+    public List<CareGiver> findAllCareGivers() {
         return jdbcTemplate.query("SELECT * FROM CareGiver", CAREGIVER_ROW_MAPPER);
     }
 
     @Override
-    public CareGiver findCaregiverById(int caregiver_id) {
-        try {
-            return jdbcTemplate.queryForObject("SELECT * FROM CareGiver WHERE caregiver_id = ?",
-                    new Object[]{caregiver_id}, CAREGIVER_ROW_MAPPER);
-        } catch (EmptyResultDataAccessException e) {
+    public CareGiver findCaregiverByID(int caregiver_id) {
+        return jdbcTemplate.queryForObject("SELECT * FROM CareGiver WHERE caregiver_id = ?",
+                new Object[]{caregiver_id}, CAREGIVER_ROW_MAPPER);
+    }
+
+
+    @Override
+    public CareGiver updateCareGiver(CareGiver careGiver) {
+        int updatedRows = jdbcTemplate.update(
+                "UPDATE CareGiver SET caregiver_name = ?, email = ? WHERE caregiver_id = ?",
+                careGiver.getCaregiver_name(), careGiver.getEmail(), careGiver.getCaregiver_id()
+        );
+
+        if (updatedRows > 0) {
+            logger.info("CareGiver with ID {} updated successfully", careGiver.getCaregiver_id());
+            return careGiver;
+        } else {
+            logger.warn("Failed to update CareGiver with ID: {}", careGiver.getCaregiver_id());
+            return null;
+        }
+    }
+
+    @Override
+    public CareGiver deleteCaregiver(int caregiverId) {
+        String selectQuery = "SELECT * FROM CareGiver WHERE caregiver_id = ?";
+        CareGiver deletedCaregiver = jdbcTemplate.queryForObject(
+                selectQuery,
+                CAREGIVER_ROW_MAPPER,
+                caregiverId
+        );
+
+        int deletedRows = jdbcTemplate.update(
+                "DELETE FROM CareGiver WHERE caregiver_id = ?",
+                caregiverId
+        );
+
+        if (deletedRows > 0) {
+            logger.info("CareGiver with ID {} deleted successfully", caregiverId);
+            return deletedCaregiver;
+        } else {
+            logger.warn("Failed to delete CareGiver with ID: {}", caregiverId);
             return null;
         }
     }
 
 
-
-    @Override
-    public void updateCareGiver(CareGiver careGiver) {
-        jdbcTemplate.update("UPDATE CareGiver SET caregiver_name = ?, email = ? WHERE caregiver_id = ?",
-                careGiver.getName(), careGiver.getEmail(), careGiver.getCaregiver_id());
-    }
-
-
+    private static final RowMapper<MedicationSchedule> MEDICATION_SCHEDULE_ROW_MAPPER = (rs, rowNum) -> {
+        MedicationSchedule medicationSchedule = new MedicationSchedule();
+        medicationSchedule.setMedSchedule_id(rs.getInt("medSchedule_id"));
+        medicationSchedule.setCustomer_id(rs.getInt("customer_id"));
+        medicationSchedule.setStartDate(rs.getDate("startDate").toLocalDate());
+        medicationSchedule.setEndDate(rs.getDate("endDate").toLocalDate());
+        medicationSchedule.setPillName(rs.getString("pillName"));
+        medicationSchedule.setQuantity(rs.getInt("quantity"));
+        medicationSchedule.setTimeTakePill(rs.getDate("timeTakePill").toLocalDate());
+        // Set other properties as needed
+        return medicationSchedule;
+    };
 
     @Override
     public List<MedicationSchedule> findAllMedSchedules() {
-        List<MedicationSchedule> medicationSchedules = jdbcTemplate.query("SELECT * FROM MedicationSchedule",
-                UserRepository::mapMedicationScheduleRow);
-        return medicationSchedules;
+        return jdbcTemplate.query("SELECT * FROM MedicationSchedule", MEDICATION_SCHEDULE_ROW_MAPPER);
     }
 
     @Override
-    public MedicationSchedule findAllById(int customerId) {
-        MedicationSchedule medicationSchedule = jdbcTemplate.queryForObject("SELECT * FROM MedicationSchedule WHERE customer_id = ?",
-                UserRepository::mapMedicationScheduleRow, customerId);
-
-        return medicationSchedule;
+    public MedicationSchedule findMedScheduleById(int medSchedule_id) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM MedicationSchedule WHERE customer_id = ?",
+                    new Object[]{medSchedule_id},
+                    MEDICATION_SCHEDULE_ROW_MAPPER
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null; // Or handle the exception as needed
+        }
     }
 
-
     @Override
-    public MedicationSchedule createMedicationSchedule(MedicationSchedule medicationSchedule) {
+    public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("PILLNAME", medicationSchedule.getPillName());
-        parameters.put("TIMETAKEPILL", medicationSchedule.getTimeTakePill());
-        parameters.put("REPEAT_IN", medicationSchedule.getRepeatIn());
-        medicationSchedule.setCustomerId(medicationScheduleInserter.executeAndReturnKey(parameters).intValue());
+        parameters.put("customer_id", medSchedule.getCustomer_id());
+        parameters.put("startDate", medSchedule.getStartDate());
+        parameters.put("endDate", medSchedule.getEndDate());
+        parameters.put("pillName", medSchedule.getPillName());
+        parameters.put("quantity", medSchedule.getQuantity());
+        parameters.put("timeTakePill", medSchedule.getTimeTakePill());
+
+        Number newId = medScheduleInserter.executeAndReturnKey(parameters);
+        medSchedule.setMedSchedule_id(newId.intValue());
+        return medSchedule;
+    }
+
+    @Override
+    public MedicationSchedule updateMedSchedule(MedicationSchedule medicationSchedule) {
+        jdbcTemplate.update(
+                "UPDATE MedicationSchedule SET startDate=?, endDate=?, pillName=?, quantity=?, timeTakePill=? WHERE medSchedule_id=?",
+                medicationSchedule.getStartDate(),
+                medicationSchedule.getEndDate(),
+                medicationSchedule.getPillName(),
+                medicationSchedule.getQuantity(),
+                medicationSchedule.getTimeTakePill(),
+                medicationSchedule.getMedSchedule_id()
+        );
         return medicationSchedule;
     }
 
-
     @Override
-    public void updateMedicationSchedule(MedicationSchedule medicationSchedule) {
-        jdbcTemplate.update("UPDATE MEDSCHEDULE SET PILLNAME=?, TIMETAKEPILL=?, REPEAT_IN=? WHERE CUSTOMER_ID=?",
-                medicationSchedule.getPillName(),medicationSchedule.getTimeTakePill(), medicationSchedule.getRepeatIn(), medicationSchedule.getCustomerId());
+    public MedicationSchedule deleteMedSchedule(int medicationSchedule_id) {
+        MedicationSchedule deletedMedSchedule = findMedScheduleById(medicationSchedule_id);
+
+        jdbcTemplate.update("DELETE FROM MedicationSchedule WHERE medSchedule_id=?", medicationSchedule_id);
+
+        return deletedMedSchedule;
     }
 
-    @Override
-    public void deleteMedicationSchedule(int customerId) {
-        jdbcTemplate.update("DELETE FROM MEDSCHEDULE WHERE CUSTOMER_ID=?", customerId);
-    }
 
-    @Override
-    public MedicationSchedule mapResultSetToMedicationSchedule(ResultSet resultSet) throws SQLException {
-        int customerId = resultSet.getInt("CUSTOMER_ID");
-        String pillName = resultSet.getString("PILLNAME");
-        LocalDateTime timeTakePill = resultSet.getTimestamp("TIMETAKEPILL").toLocalDateTime();
-        int interval = resultSet.getInt("REPEAT_IN");
-        return new MedicationSchedule(customerId, pillName, timeTakePill, interval);
-    }
+
+
+
+//counter of how many pills taken, each time pill taken measuremtn kept, keep measurement all the time
+
 
 }
