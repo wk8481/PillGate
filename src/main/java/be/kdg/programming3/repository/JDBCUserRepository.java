@@ -146,14 +146,14 @@ public class JDBCUserRepository implements UserRepository {
 
 
     public static Dashboard dashboardRow(ResultSet rs, int rowid) throws SQLException {
-<<<<<<< HEAD
+
         return new Dashboard(
                 rs.getInt("dashboard_id"),
                 rs.getInt("nrPillTaken"),
                 rs.getInt("duration"),
                 rs.getInt("customer_id")
         );
-=======
+
         int dashboardId = rs.getInt("dashboard_id");
         int nrPillTaken = rs.getInt("nrPillTaken");
         int duration = rs.getInt("duration");
@@ -163,7 +163,7 @@ public class JDBCUserRepository implements UserRepository {
         Customer customer = new Customer(customerId);
 
         return new Dashboard(dashboardId, nrPillTaken, duration, customer);
->>>>>>> 7f8913a945aa7b61dc62aa90e873a468aadd9e32
+
     }
 
 
