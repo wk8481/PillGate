@@ -1,4 +1,5 @@
 -- Medicine Table
+drop table Medicine cascade;
 CREATE TABLE IF NOT EXISTS Medicine (
                                         medicine_id INT AUTO_INCREMENT PRIMARY KEY,
                                         name VARCHAR(255),
@@ -6,6 +7,8 @@ CREATE TABLE IF NOT EXISTS Medicine (
 );
 
 -- WeightSensor Table
+-- previous table
+drop table WEIGHTSENSOR;
 CREATE TABLE IF NOT EXISTS WeightSensor (
                                             sensor_ID INT AUTO_INCREMENT PRIMARY KEY,
                                             WEIGHT_CAPACITY_GRAMS INT DEFAULT 1000,
@@ -13,6 +16,20 @@ CREATE TABLE IF NOT EXISTS WeightSensor (
                                             weight DOUBLE,
                                             FOREIGN KEY (weight) REFERENCES Medicine( weight)
 );
+
+-- one to many relationship with customer
+-- WeightSensor Table
+CREATE TABLE IF NOT EXISTS WeightSensor (
+                                            sensor_ID INT AUTO_INCREMENT PRIMARY KEY,
+                                            customer_id INT,
+                                            WEIGHT_CAPACITY_GRAMS INT DEFAULT 1000,
+                                            calibrationDate DATE,
+                                            weight DOUBLE,
+                                            FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+
+
 
 -- CareGiver Table
 drop table CareGiver;
@@ -59,7 +76,8 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   endDate DATE,
                                                   pillName VARCHAR(255),
                                                   quantity INT,
-                                                  timeTakePill DATE
+                                                  timeTakePill DATE,
+                                                  MedicineName VARCHAR(250)
 );
 
 

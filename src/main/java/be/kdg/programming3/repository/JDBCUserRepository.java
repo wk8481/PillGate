@@ -98,11 +98,14 @@ public class JDBCUserRepository implements UserRepository {
     }
 
     public static Dashboard dashboardRow(ResultSet rs, int rowid) throws SQLException {
-        return new Dashboard(rs.getInt("dashboard_id"),
+        return new Dashboard(
+                rs.getInt("dashboard_id"),
                 rs.getInt("nrPillTaken"),
                 rs.getInt("duration"),
-                rs.getInt("customer_id"));
+                rs.getInt("customer_id")
+        );
     }
+
 
 
 
