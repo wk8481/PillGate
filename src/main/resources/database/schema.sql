@@ -1,6 +1,7 @@
 -- WeightSensor Table
 -- one to many relationship with customer
 -- WeightSensor Table
+Drop table IF EXISTS WeightSensor;
 CREATE TABLE IF NOT EXISTS WeightSensor (
                                             sensor_ID INT AUTO_INCREMENT PRIMARY KEY,
                                             customer_id INT,
@@ -14,6 +15,7 @@ CREATE TABLE IF NOT EXISTS WeightSensor (
 
 
 -- CareGiver Table
+Drop TABLE IF EXISTS CareGiver;
 CREATE TABLE IF NOT EXISTS CareGiver (
                                          caregiver_id INT AUTO_INCREMENT PRIMARY KEY,
                                          caregiver_name VARCHAR(255),
@@ -22,7 +24,7 @@ CREATE TABLE IF NOT EXISTS CareGiver (
 
 -- Customer Table
 
-
+Drop TABLE IF EXISTS Customer;
 CREATE TABLE IF NOT EXISTS Customer (
                                         customer_id INT AUTO_INCREMENT PRIMARY KEY,
                                         customer_name VARCHAR(255),
@@ -31,6 +33,8 @@ CREATE TABLE IF NOT EXISTS Customer (
                                         hasCareGiver BOOLEAN,
                                         password VARCHAR(255) -- Adjust the size of the VARCHAR to match your password hashing format
 );
+
+
 
 
 
@@ -53,15 +57,14 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   endDate DATE,
                                                   pillName VARCHAR(255),
                                                   quantity INT,
-                                                  timeTakePill DATE,
-                                                  MedicineName VARCHAR(250)
+                                                  timeTakePill DATE
 );
 
 
 -- Customer-Caregiver Table
 
 -- Associative table for many-to-many relationship between Customer and CareGiver
-
+Drop TABLE IF EXISTS CustomerCareGiver;
 CREATE TABLE IF NOT EXISTS CustomerCareGiver (
                                                  customer_id INT,
                                                  caregiver_id INT,
@@ -69,4 +72,8 @@ CREATE TABLE IF NOT EXISTS CustomerCareGiver (
                                                  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
                                                  FOREIGN KEY (caregiver_id) REFERENCES CareGiver(caregiver_id)
 );
+
+select * from CUSTOMER;
+
+
 

@@ -3,6 +3,7 @@ package be.kdg.programming3.repository;
 import be.kdg.programming3.domain.sensor.WeightSensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -17,12 +18,14 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-@Profile("jdbc")
+@Profile("jdbctemplate")
 @Repository
 public class JDBCSensorRepository implements SensorRepository{
     private Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
     private static List<WeightSensor> weightSensors = new ArrayList<>();
     private static AtomicInteger nextId = new AtomicInteger(1);
+
+    @Autowired
     private SensorRepository sensorRepository;
 
     private JdbcTemplate jdbcTemplate;
@@ -37,10 +40,12 @@ public class JDBCSensorRepository implements SensorRepository{
     }
 
     public static WeightSensor mapRow(ResultSet rs, int rowId) throws SQLException {
-        return new WeightSensor(rs.getInt("sensor_ID"),
+        return new WeightSensor(
+                rs.getInt("sensor_ID"),
                 rs.getDate("calibrationDate").toLocalDate(),
                 rs.getDouble("weight"),
-                rs.getDouble("calibrationFactor"));
+                rs.getDouble("calibrationFactor"),
+                rs.getInt("customer_id"));
     }
 
     @Override
@@ -66,7 +71,8 @@ public class JDBCSensorRepository implements SensorRepository{
 
     @Override
     public WeightSensor findSenorByID(int sensor_ID) {
-        WeightSensor weightSensor = jdbcTemplate.queryForObject("SELECT * FROM WeightSensor WHERE sensor_ID = ?",
+        WeightSensor weightSensor = jdbcTemplate.queryForObject(
+                "SELECT * FROM WeightSensor WHERE sensor_ID = ?",
                 JDBCSensorRepository::mapRow, sensor_ID);
         logger.info("Finding weight sensor by id {} ", weightSensor);
         return weightSensor;

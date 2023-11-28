@@ -1,16 +1,13 @@
 package be.kdg.programming3.presentation.controllers.viewmodels;
 
-import be.kdg.programming3.domain.pillbox.Medicine;
-import be.kdg.programming3.domain.user.Customer;
-import be.kdg.programming3.domain.user.Dashboard;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class MedicationScheduleViewModel {
 
@@ -22,22 +19,24 @@ public class MedicationScheduleViewModel {
     private LocalDate endDate;
     private String pillName;
     private int quantity;
-    private LocalDate timeTakePill;
+    private LocalDateTime timeTakePill;
+    private int repeatIn;
 
-    private transient Customer customer;
-    private transient Dashboard dashboard;
-    private transient List<Medicine> medicines = new ArrayList<>();
+//    private transient Customer customer;
+//    private transient Dashboard dashboard;
+//    private transient List<Medicine> medicines = new ArrayList<>();
 
 
     public MedicationScheduleViewModel(int customer_id, LocalDate startDate,
                               LocalDate endDate, String pillName,
-                              int quantity, LocalDate timeTakePill ) {
+                              int quantity, LocalDateTime timeTakePill, int repeatIn) {
         this.customer_id = customer_id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.pillName = pillName;
         this.quantity = quantity;
         this.timeTakePill = timeTakePill;
+        this.repeatIn = repeatIn;
 
     }
 
@@ -73,9 +72,11 @@ public class MedicationScheduleViewModel {
         return quantity;
     }
 
-    public LocalDate getTimeTakePill() {
+    public LocalDateTime getTimeTakePill() {
         return timeTakePill;
     }
+
+    public int getRepeatIn() { return repeatIn;}
 
     public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
@@ -97,11 +98,13 @@ public class MedicationScheduleViewModel {
         this.quantity = quantity;
     }
 
-    public void setTimeTakePill(LocalDate timeTakePill) {
+    public void setTimeTakePill(LocalDateTime timeTakePill) {
         this.timeTakePill = timeTakePill;
     }
 
-    public Customer getCustomer() {
+    public void setRepeatIn(int repeatIn) { this.repeatIn = repeatIn;}
+
+/*    public Customer getCustomer() {
         return customer;
     }
 
@@ -115,23 +118,23 @@ public class MedicationScheduleViewModel {
 
     public void setMedicines(List<Medicine> medicines) {
         this.medicines = medicines;
-    }
+    }*/
 
-    public void addMedicine(Medicine medicine) {
-        if (this.medicines == null){
-            this.medicines = new ArrayList<>();
-        }
-        this.medicines.add(medicine);
+//    public void addMedicine(Medicine medicine) {
+//        if (this.medicines == null){
+//            this.medicines = new ArrayList<>();
+//        }
+//        this.medicines.add(medicine);
+//
+//    }
 
-    }
-
-    public void addCustomer(Customer customer) {
+/*    public void addCustomer(Customer customer) {
         this.customer = customer;
     }
 
     public void addDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -152,9 +155,5 @@ public class MedicationScheduleViewModel {
                 '}';
 
 
-    }
-
-    public int getCustomerId() {
-        return customer_id;
     }
 }

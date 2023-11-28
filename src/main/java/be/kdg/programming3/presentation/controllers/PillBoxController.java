@@ -1,6 +1,6 @@
+/*
 package be.kdg.programming3.presentation.controllers;
 
-import be.kdg.programming3.domain.pillbox.PillBox;
 import be.kdg.programming3.service.PillBoxService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +21,12 @@ public class PillBoxController {
         this.pillBoxService = pillBoxService;
     }
 
+*/
 /*    public String createPillBox(PillBox pillBox) {
         logger.debug("Adding a pillbox: " + pillBox);
         pillBoxService.getPillBoxes();
         return "redirect:pillbox";
-    }*/
+    }*//*
+
 }
+*/

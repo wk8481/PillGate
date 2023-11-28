@@ -41,8 +41,6 @@ public class UserController {
         return "redirect:customers";
     }
 
-    @GetMapping("/")
-
 
     @GetMapping("/caregivers")
     public String findAllCaregivers(Model model, HttpSession session) {

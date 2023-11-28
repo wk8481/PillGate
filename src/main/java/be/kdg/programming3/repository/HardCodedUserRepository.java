@@ -6,6 +6,7 @@ import be.kdg.programming3.domain.user.Dashboard;
 import be.kdg.programming3.domain.user.MedicationSchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
-
+@Profile("list")
 public class HardCodedUserRepository implements UserRepository {
 
     private Logger logger = LoggerFactory.getLogger(HardCodedUserRepository.class);

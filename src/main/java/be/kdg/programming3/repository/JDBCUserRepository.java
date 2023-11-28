@@ -13,16 +13,13 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
-@Profile("jdbc")
+@Profile("jdbctemplate")
 public class JDBCUserRepository implements UserRepository {
     private Logger logger = LoggerFactory.getLogger(JDBCUserRepository.class);
     private static List<Customer> customers = new ArrayList<>();
@@ -152,17 +149,18 @@ public class JDBCUserRepository implements UserRepository {
                 rs.getInt("nrPillTaken"),
                 rs.getInt("duration"),
                 rs.getInt("customer_id")
+
         );
 
-        int dashboardId = rs.getInt("dashboard_id");
+/*        int dashboardId = rs.getInt("dashboard_id");
         int nrPillTaken = rs.getInt("nrPillTaken");
         int duration = rs.getInt("duration");
         int customerId = rs.getInt("customer_id");
 
         // Assuming Customer class has a constructor that takes an int (customer_id)
-        Customer customer = new Customer(customerId);
+//        Customer customer = new Customer(customerId);
 
-        return new Dashboard(dashboardId, nrPillTaken, duration, customer);
+        return new Dashboard(dashboardId, nrPillTaken, duration, customerId);*/
 
     }
 
@@ -294,7 +292,7 @@ public class JDBCUserRepository implements UserRepository {
         medicationSchedule.setEndDate(rs.getDate("endDate").toLocalDate());
         medicationSchedule.setPillName(rs.getString("pillName"));
         medicationSchedule.setQuantity(rs.getInt("quantity"));
-        medicationSchedule.setTimeTakePill(rs.getDate("timeTakePill").toLocalDate());
+        medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
         // Set other properties as needed
         return medicationSchedule;
     };

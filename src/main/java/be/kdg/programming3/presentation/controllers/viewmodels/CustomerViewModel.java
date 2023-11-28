@@ -1,6 +1,5 @@
 package be.kdg.programming3.presentation.controllers.viewmodels;
 
-import be.kdg.programming3.domain.pillbox.Medicine;
 import be.kdg.programming3.domain.user.CareGiver;
 import be.kdg.programming3.domain.user.MedicationSchedule;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +17,7 @@ public class CustomerViewModel {
     private boolean hasCareGiver;
     private transient CareGiver careGiver;
     private transient MedicationSchedule medicationSchedule;
-    private transient List<Medicine> medicines;
+//    private transient List<Medicine> medicines;
 
     public CustomerViewModel(int customer_id, String customer_name, int age, String email, boolean hasCareGiver) {
         this.customer_id = customer_id;
@@ -88,13 +87,13 @@ public class CustomerViewModel {
         this.medicationSchedule = medicationSchedule;
     }
 
-    public List<Medicine> getMedicines() {
-        return medicines;
-    }
+//    public List<Medicine> getMedicines() {
+//        return medicines;
+//    }
 
-    public void setMedicines(List<Medicine> medicines) {
-        this.medicines = medicines;
-    }
+//    public void setMedicines(List<Medicine> medicines) {
+//        this.medicines = medicines;
+//    }
 
     @Override
     public String toString() {
@@ -106,18 +105,6 @@ public class CustomerViewModel {
                 ", hasCareGiver=" + hasCareGiver +
                 '}';
     }
-
-
-//    public boolean addCaregiver(CareGiver careGiver) {
-//        // Check if the customer already has a caregiver
-//        if (!hasCareGiver) {
-//            this.careGiver = careGiver;
-//            hasCareGiver = true; // Set hasCareGiver to true since now the customer has a caregiver
-//            return true; // Return true indicating that the caregiver was added
-//        } else {
-//            return false; // Return false indicating that the customer already has a caregiver
-//        }
-//    }
 
     public void addCaregiver(CareGiver careGiver) {
         // Check if the customer already has a caregiver
@@ -132,8 +119,8 @@ public class CustomerViewModel {
         this.medicationSchedule = medicationSchedule;
     }
 
-    public void addMedicine(Medicine medicine) {
-        if (medicines == null) medicines = new ArrayList<>();
-        medicines.add(medicine);
-    }
+//    public void addMedicine(Medicine medicine) {
+//        if (medicines == null) medicines = new ArrayList<>();
+//        medicines.add(medicine);
+//    }
 }

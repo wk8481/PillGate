@@ -1,40 +1,42 @@
 package be.kdg.programming3.domain.user;
 
-import be.kdg.programming3.domain.pillbox.Medicine;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name ="MedicationSchedule")
+//@Entity
+//@Table(name ="MedicationSchedule")
 public class MedicationSchedule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int medSchedule_id;
     private int customer_id;
     private LocalDate startDate;
     private LocalDate endDate;
     private String pillName;
     private int quantity;
-    private LocalDate timeTakePill;
+    private LocalDateTime timeTakePill;
+    private int repeatIn;
 
     private transient Customer customer;
     private transient Dashboard dashboard;
-    private transient List<Medicine> medicines = new ArrayList<>();
+//    private transient List<Medicine> medicines = new ArrayList<>();
 
 
     public MedicationSchedule(int customer_id, LocalDate startDate,
                               LocalDate endDate, String pillName,
-                              int quantity, LocalDate timeTakePill ) {
+                              int quantity, LocalDateTime timeTakePill, int repeatIn ) {
         this.customer_id = customer_id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.pillName = pillName;
         this.quantity = quantity;
         this.timeTakePill = timeTakePill;
+        this.repeatIn = repeatIn;
 
     }
 
@@ -73,8 +75,12 @@ public class MedicationSchedule {
         return quantity;
     }
 
-    public LocalDate getTimeTakePill() {
+    public LocalDateTime getTimeTakePill() {
         return timeTakePill;
+    }
+
+    public int getRepeatIn(){
+        return repeatIn;
     }
 
     public void setCustomer_id(int customer_id) {
@@ -97,8 +103,12 @@ public class MedicationSchedule {
         this.quantity = quantity;
     }
 
-    public void setTimeTakePill(LocalDate timeTakePill) {
+    public void setTimeTakePill(LocalDateTime timeTakePill) {
         this.timeTakePill = timeTakePill;
+    }
+
+    public void setRepeatIn(int repeatIn){
+        this.repeatIn = repeatIn;
     }
 
     public Customer getCustomer() {
@@ -108,22 +118,22 @@ public class MedicationSchedule {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-    public List<Medicine> getMedicines() {
-        return medicines;
-    }
-
-    public void setMedicines(List<Medicine> medicines) {
-        this.medicines = medicines;
-    }
-
-    public void addMedicine(Medicine medicine) {
-        if (this.medicines == null){
-            this.medicines = new ArrayList<>();
-        }
-        this.medicines.add(medicine);
-
-    }
+//
+//    public List<Medicine> getMedicines() {
+//        return medicines;
+//    }
+//
+//    public void setMedicines(List<Medicine> medicines) {
+//        this.medicines = medicines;
+//    }
+//
+//    public void addMedicine(Medicine medicine) {
+//        if (this.medicines == null){
+//            this.medicines = new ArrayList<>();
+//        }
+//        this.medicines.add(medicine);
+//
+//    }
 
     public void addCustomer(Customer customer) {
         this.customer = customer;
@@ -149,6 +159,7 @@ public class MedicationSchedule {
                 ", pillName='" + pillName + '\'' +
                 ", quantity=" + quantity +
                 ", timeTakePill=" + formattedDate3 +
+                ", repeatIn=" + repeatIn +
                 '}';
 
 

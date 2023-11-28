@@ -1,3 +1,4 @@
+/*
 package be.kdg.programming3.service;
 
 import be.kdg.programming3.repository.LSDataHandler;
@@ -92,3 +93,4 @@ public class LSensorServiceImpl implements PIRSensorService {
     }
 
 }
+*/

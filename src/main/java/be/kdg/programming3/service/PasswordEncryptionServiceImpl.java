@@ -2,10 +2,11 @@ package be.kdg.programming3.service;
 
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
-@Service
+@Component
 public class PasswordEncryptionServiceImpl implements PasswordEncryptionService {
 
     private final BCryptPasswordEncoder passwordEncoder;

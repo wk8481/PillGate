@@ -1,14 +1,13 @@
 package be.kdg.programming3.domain.user;
 
-import be.kdg.programming3.domain.pillbox.Medicine;
 import jakarta.persistence.*;
 import jdk.dynalink.linker.LinkerServices;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "Dashboard")
+//@Entity
+//@Table(name = "Dashboard")
 public class Dashboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +17,16 @@ public class Dashboard {
     private int duration;
     private transient List<MedicationSchedule> medicationSchedules;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
+//    @ManyToOne
+//    @JoinColumn(name = "customer_id")
     private transient Customer customer;
 
-    public Dashboard(int dashboard_id, int nrPillTaken, int duration, Customer customer) {
+
+    public Dashboard(int dashboard_id, int nrPillTaken, int duration, int customer_id) {
         this.dashboard_id = dashboard_id;
         this.nrPillTaken = nrPillTaken;
         this.duration = duration;
-        this.customer = customer;
+        this.customer = new Customer(customer_id);
     }
 
     public  Dashboard(){

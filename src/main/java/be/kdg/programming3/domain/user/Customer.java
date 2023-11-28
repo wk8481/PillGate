@@ -1,8 +1,6 @@
 package be.kdg.programming3.domain.user;
 
-import be.kdg.programming3.domain.pillbox.Medicine;
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity
-@Table(name = "Customer")
+//@Entity
+//@Table(name = "Customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +20,15 @@ public class Customer {
     private boolean hasCareGiver;
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "CustomerCareGiver",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "caregiver_id")
-    )
+//    @ManyToMany
+//    @JoinTable(
+//            name = "CustomerCareGiver",
+//            joinColumns = @JoinColumn(name = "customer_id"),
+//            inverseJoinColumns = @JoinColumn(name = "caregiver_id")
+//    )
     private List<CareGiver> careGivers = new ArrayList<>();
     private transient List<MedicationSchedule> medicationSchedules;
-    private transient List<Medicine> medicines;
+//    private transient List<Medicine> medicines;
 
     public Customer(int customer_id, String customer_name, LocalDate birthDate, String email, boolean hasCareGiver, String password) {
         this.customer_id = customer_id;
@@ -128,13 +126,13 @@ public class Customer {
         this.medicationSchedules=medicationSchedules;
     }
 
-    public List<Medicine> getMedicines() {
-        return medicines;
-    }
-
-    public void setMedicines(List<Medicine> medicines) {
-        this.medicines = medicines;
-    }
+//    public List<Medicine> getMedicines() {
+//        return medicines;
+//    }
+//
+//    public void setMedicines(List<Medicine> medicines) {
+//        this.medicines = medicines;
+//    }
 
     @Override
     public String toString() {
@@ -178,8 +176,8 @@ public class Customer {
         medicationSchedules.add(medicationSchedule);
     }
 
-    public void addMedicine(Medicine medicine) {
-        if (medicines == null) medicines = new ArrayList<>();
-        medicines.add(medicine);
-    }
+//    public void addMedicine(Medicine medicine) {
+//        if (medicines == null) medicines = new ArrayList<>();
+//        medicines.add(medicine);
+//    }
 }

@@ -1,6 +1,7 @@
 package be.kdg.programming3.domain.sensor;
 
-import be.kdg.programming3.domain.pillbox.Medicine;
+
+import be.kdg.programming3.domain.user.Customer;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -8,47 +9,56 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "WeightSensor")
+//@Entity
+//@Table(name = "WeightSensor")
 public class WeightSensor {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "SENSOR_ID")
+//    @Column(name = "SENSOR_ID")
     private int sensor_ID;
 
-    @Column(name = "WEIGHT_CAPACITY_GRAMS")
+
+//    @Column(name = "WEIGHT_CAPACITY_GRAMS")
     private final int WEIGHT_CAPACITY_GRAMS = 1000;
-    @Column(name = "calibrationDate")
+//    @Column(name = "calibrationDate")
     private LocalDate calibrationDate;
-    @Column(name = "weight")
+//    @Column(name = "weight")
     private double weight;
-    @Column(name = "calibration")
+//    @Column(name = "calibration")
     private double calibrationFactor;
 //  private Long id;
+
+//    @Column(name = "customer_id")
+    private transient Customer customer;
 
     /*
         private PillBox pillBox;
     */
-    private transient List<Medicine> medicines;
+//    private transient List<Medicine> medicines;
 
-    public WeightSensor(int sensor_ID, LocalDate calibrationDate, double weight, double calibrationFactor) {
+    public WeightSensor(int sensor_ID, LocalDate calibrationDate, double weight, double calibrationFactor, int customer_id) {
         this.calibrationDate = calibrationDate;
         this.sensor_ID = sensor_ID;
         this.weight = weight;
         this.calibrationFactor = calibrationFactor;
+        this.customer = new Customer(customer_id);
+    }
+
+    public WeightSensor() {
+
     }
 
     public void updateValues(double weight, double calibrationFactor) {
         this.weight = weight;
         this.calibrationFactor = calibrationFactor;
     }
+
+
     public WeightSensor(double weight){
         this.weight = weight;
     }
-
-
 
     public double getWeight() {
         return weight;
@@ -83,7 +93,9 @@ public class WeightSensor {
         return calibrationDate;
     }
 
+    public Customer getCustomer() {return customer;}
 
+    public void setCustomer(Customer customer) {this.customer = customer;}
 
 
 //    public void addPillbox(PillBox pillBox) {
@@ -135,20 +147,20 @@ public class WeightSensor {
         return getWEIGHT_CAPACITY_GRAMS();
     }
 
-    public List<Medicine> getMedicines() {
-        return medicines;
-    }
+//    public List<Medicine> getMedicines() {
+//        return medicines;
+//    }
 
-    public void setMedicines(List<Medicine> medicines) {
-        this.medicines = medicines;
-    }
-
-    public void addMedicines(Medicine medicine){
-        if (medicines == null) medicines = new ArrayList<>();
-        medicines.add(medicine);
-
-
-    }
+//    public void setMedicines(List<Medicine> medicines) {
+//        this.medicines = medicines;
+//    }
+//
+//    public void addMedicines(Medicine medicine){
+//        if (medicines == null) medicines = new ArrayList<>();
+//        medicines.add(medicine);
+//
+//
+//    }
 
 
 //    public void setId(Long id) {

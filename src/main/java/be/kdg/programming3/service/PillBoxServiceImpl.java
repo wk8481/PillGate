@@ -1,3 +1,4 @@
+/*
 package be.kdg.programming3.service;
 
 import be.kdg.programming3.domain.pillbox.Medicine;
@@ -36,12 +37,14 @@ public class PillBoxServiceImpl implements PillBoxService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    /**
+    */
+/**
      * @param pillbox_id
      * @param price
      * @param pillTaken
      * @return
-     */
+     *//*
+
     @Override
     public PillBox addPillBox(int pillbox_id, int price, boolean pillTaken) {
         logger.info("Adding pillbox with id {} of price {} of pillTaken {}", pillbox_id, price, pillTaken);
@@ -76,7 +79,8 @@ logger.info("Getting medicines by name");
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    /**
+    */
+/**
      * @param name
      * @param color
      * @param shape
@@ -84,7 +88,8 @@ logger.info("Getting medicines by name");
      * @param weight
      * @param medicine_id
      * @return
-     */
+     *//*
+
     @Override
     public Medicine addMedicine(String name, String color, String shape, String type, double weight, int medicine_id) {
         logger.info("Adding medicine with name {} of color {} of shape {} of type {} of weight {} of medicine_id {}", name, color, shape, type, weight, medicine_id);
@@ -108,3 +113,4 @@ logger.info("Getting medicines by name");
 
 
 }
+*/
