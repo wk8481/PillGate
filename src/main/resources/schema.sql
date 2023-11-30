@@ -1,6 +1,20 @@
 -- WeightSensor Table
 -- one to many relationship with customer
 -- WeightSensor Table
+
+Drop TABLE IF EXISTS Customer;
+CREATE TABLE IF NOT EXISTS Customer (
+                                        customer_id INT AUTO_INCREMENT PRIMARY KEY,
+                                        customer_name VARCHAR(255),
+    birthDate DATE,
+    email VARCHAR(255),
+    hasCareGiver BOOLEAN,
+    password VARCHAR(255) -- Adjust the size of the VARCHAR to match your password hashing format
+    );
+
+
+
+
 Drop table IF EXISTS WeightSensor;
 CREATE TABLE IF NOT EXISTS WeightSensor (
                                             sensor_ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -23,18 +37,6 @@ CREATE TABLE IF NOT EXISTS CareGiver (
     );
 
 -- Customer Table
-
-Drop TABLE IF EXISTS Customer;
-CREATE TABLE IF NOT EXISTS Customer (
-                                        customer_id INT AUTO_INCREMENT PRIMARY KEY,
-                                        customer_name VARCHAR(255),
-                                        birthDate DATE,
-                                        email VARCHAR(255),
-                                        hasCareGiver BOOLEAN,
-                                        password VARCHAR(255) -- Adjust the size of the VARCHAR to match your password hashing format
-);
-
-
 
 
 
