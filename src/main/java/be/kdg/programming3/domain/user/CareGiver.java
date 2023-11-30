@@ -1,6 +1,6 @@
 package be.kdg.programming3.domain.user;
 
-import jakarta.persistence.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.List;
 //@Entity
 //@Table(name = "CareGiver")
 public class CareGiver {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int caregiver_id;
     private String caregiver_name;
     private String email;

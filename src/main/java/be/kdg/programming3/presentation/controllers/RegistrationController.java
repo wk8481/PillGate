@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/home")
+import java.time.LocalDate;
+
+@RequestMapping("/pillgate")
 @Controller
 public class RegistrationController {
     Logger logger = org.slf4j.LoggerFactory.getLogger(RegistrationController.class);
@@ -22,20 +24,42 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping("registration")
+    @GetMapping
+    public String showHomeView() {
+        logger.info("Request for home view!");
+
+        return "home";
+    }
+
+    @GetMapping("/registration")
     public String showRegistration(Model model) {
         logger.info("Showing registration form");
         model.addAttribute("customerDTO", new CustomerRegistrationDto());
         return "registration";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registration")
     public String registerCustomer(@ModelAttribute CustomerRegistrationDto registrationDto) {
         logger.info("Registering customer: " + registrationDto.toString());
         userService.registerNewCustomer(registrationDto);
 
-        return "redirect:/login";
+        return "redirect:/registration";
     }
+
+    @GetMapping("/login")
+    public String showLogin(Model model) {
+        logger.info("Showing login form");
+        model.addAttribute("customerDTO", new CustomerRegistrationDto());
+        return "login";
+    }
+
+//    @PostMapping("/login")
+//    public String loginCustomer(@ModelAttribute CustomerRegistrationDto registrationDto) {
+//        logger.info("Logging in customer: " + registrationDto.toString());
+//        userService.loginCustomer(registrationDto);
+//
+//        return "redirect:/login";
+//    }
 }
 
 

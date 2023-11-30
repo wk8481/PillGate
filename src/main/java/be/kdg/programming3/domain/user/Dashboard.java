@@ -1,6 +1,6 @@
 package be.kdg.programming3.domain.user;
 
-import jakarta.persistence.*;
+
 import jdk.dynalink.linker.LinkerServices;
 
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.List;
 //@Entity
 //@Table(name = "Dashboard")
 public class Dashboard {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private int dashboard_id;
     private int nrPillTaken;

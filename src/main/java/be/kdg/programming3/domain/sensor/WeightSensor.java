@@ -2,7 +2,7 @@ package be.kdg.programming3.domain.sensor;
 
 
 import be.kdg.programming3.domain.user.Customer;
-import jakarta.persistence.*;
+
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

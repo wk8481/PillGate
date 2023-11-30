@@ -1,6 +1,6 @@
 package be.kdg.programming3.domain.user;
 
-import jakarta.persistence.*;
+
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,8 +11,8 @@ import java.util.List;
 //@Entity
 //@Table(name = "Customer")
 public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customer_id;
     private String customer_name;
     private LocalDate birthDate;

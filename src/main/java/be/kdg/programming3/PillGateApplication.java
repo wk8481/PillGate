@@ -13,7 +13,7 @@ import java.io.IOException;
 @ComponentScan(basePackages = "be.kdg.programming3.repository")
 public class PillGateApplication {
     public static void main(String[] args) throws IOException {
-        ConfigurableApplicationContext context = SpringApplication.run(PillGateApplication.class, args);
+        SpringApplication.run(PillGateApplication.class, args);
  /*       PIRDataHandler dataHandler = context.getBean(PIRDataHandler.class);
         dataHandler.start();*/
 
