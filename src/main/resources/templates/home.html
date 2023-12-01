@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" >
 
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-    <script src="../js/dropdown-menu.js" type="module"></script>
-    <link rel="stylesheet" href="../static/style.css">
-    <title>Title</title>
+    <link rel="stylesheet" th:href="@{../static/style.css}">
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
+    </script>
+    <script defer th:src="@{../static/js/users.js}"></script>
+    <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
+    <script defer th:src="@{../static/js/reminder.js}"></script>
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
     <header>
@@ -81,9 +84,9 @@
         </div>
 
         <div id="section2" class="container mt-5">
-                <div>
-                    <img src="../images/pillgateLogo2.png" class="img-fluid smaller-logo">
-                </div>
+<!--                <div>-->
+<!--                    <img src="../images/pillgateLogo2.png" class="img-fluid smaller-logo">-->
+<!--                </div>-->
                 <div class="col">
                     <img src="../images/pills.jpg" class="img-fluid pills">
                 </div>

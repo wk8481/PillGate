@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PillGate.iml" filepath="$PROJECT_DIR$/.idea/modules/PillGate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PillGate.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PillGate.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PillGate.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PillGate.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/misplaced.iml" filepath="$PROJECT_DIR$/.idea/misplaced.iml" />
+    </modules>
+  </component>
+</project>
