@@ -3,20 +3,14 @@
 
 
 INSERT INTO Customer (customer_name, birthDate, email, hasCareGiver, password) VALUES
-<<<<<<< HEAD
-                                                                                   ('John Doe', '1980-01-01', 'john.doe@example.com', true, 'pass123'),
-                                                                                   ('Jane Smith', '1990-02-02', 'jane.smith@example.com', false, 'pass124'),
-                                                                                   ('Alice Johnson', '1985-03-03', 'alice.johnson@example.com', true, 'pass125')
-    ; -- Add more entries as needed
 
-=======
     ('John Doe', '1980-01-01', 'john.doe@example.com', true, 'pass123'),
     ('Jane Smith', '1990-02-02', 'jane.smith@example.com', false, 'pass124'),
     ('Alice Johnson', '1985-03-03', 'alice.johnson@example.com', true, 'pass125'),
     ('Bob White', '1995-04-04', 'bob.white@example.com', false, 'pass126'),
     ('Emma Turner', '1982-05-05', 'emma.turner@example.com', true, 'pass127')
     ;
->>>>>>> FriConWeb
+
 
 
 INSERT INTO WeightSensor (customer_id, WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES
@@ -47,8 +41,4 @@ INSERT INTO CustomerCareGiver (customer_id, caregiver_id) VALUES
                                                               (2, 2),
                                                               (3, 3)
     ; -- Add more entries as needed
-<<<<<<< HEAD
-=======
 
-
->>>>>>> FriConWeb
