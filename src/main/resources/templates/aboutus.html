@@ -1,41 +1,3 @@
-<<<<<<< HEAD
-
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" type="text/css" media="all" href="../static/style.css" th:href="@{/static/style.css}">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-    <title>Dashboard</title>
-</head>
-
-<body>
-
-<table>
-    <thead>
-    <tr>
-        <th>Sensor ID</th>
-        <th>Weight</th>
-        <th>Calibration Factor</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="sensor : ${sensors}">
-        <td th:text="${sensor.sensor_ID}"></td>
-        <td th:text="${sensor.weight}"></td>
-        <td th:text="${sensor.calibrationFactor}"></td>
-    </tr>
-    </tbody>
-</table>
-
-</body>
-<footer> PillGate &#169; 2023 All rights reserved</footer>
-</html>
-
-
-=======
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -69,7 +31,7 @@
                         <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"></a>
+                        <a class="nav-link"> th:href="@{/reminder}">About us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"></a>
@@ -109,35 +71,3 @@
         </div>
     </nav>
 </header>
-
-<main class="container mt-5">
-    <h1 class="text-center">Dashboard</h1>
-
-    <!-- Sensor Table -->
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Sensor ID</th>
-            <th>Weight</th>
-            <th>Calibration Factor</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Iterate over sensors and populate the table rows -->
-        <tr th:each="sensor : ${sensors}">
-            <td th:text="${sensor.sensor_ID}"></td>
-            <td th:text="${sensor.weight}"></td>
-            <td th:text="${sensor.calibrationFactor}"></td>
-        </tr>
-        </tbody>
-    </table>
-
-</main>
-
-<footer> PillGate &#169; 2023 All rights reserved</footer>
-</body>
-</html>
-
-<!--customers, caregivers, medicine-->
-
->>>>>>> FriConWeb

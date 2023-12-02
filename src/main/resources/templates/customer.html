@@ -1,46 +1,7 @@
-<<<<<<< HEAD
-
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" type="text/css" media="all" href="../static/style.css" th:href="@{/static/style.css}">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-    <title>Dashboard</title>
-</head>
-
-<body>
-
-<table>
-    <thead>
-    <tr>
-        <th>Sensor ID</th>
-        <th>Weight</th>
-        <th>Calibration Factor</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="sensor : ${sensors}">
-        <td th:text="${sensor.sensor_ID}"></td>
-        <td th:text="${sensor.weight}"></td>
-        <td th:text="${sensor.calibrationFactor}"></td>
-    </tr>
-    </tbody>
-</table>
-
-</body>
-<footer> PillGate &#169; 2023 All rights reserved</footer>
-</html>
-
-
-=======
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" >
-    <title>Dashboard</title>
 
     <link rel="stylesheet" th:href="@{../static/css/style.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
@@ -57,16 +18,16 @@
             <div class="navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/home}">Homepage</a>
+                        <a class="nav-link" href="home.html">Homepage</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
+                        <a class="nav-link" href="deliverables.html">Deliverables</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
+                        <a class="nav-link" href="reminder.html">Medication Schedule</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"></a>
@@ -101,7 +62,7 @@
                             <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
                         </li>
                         <li class="nav-item"><!--class="nav-item"-->
-                            <a class="btn btn-primary" th:href="@{/login}">Log In</a>
+                            <a class="btn btn-primary" href="login.html">Log In</a>
                         </li>
                     </ul>
                 </ul>
@@ -110,34 +71,12 @@
     </nav>
 </header>
 
-<main class="container mt-5">
-    <h1 class="text-center">Dashboard</h1>
+<main>
 
-    <!-- Sensor Table -->
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Sensor ID</th>
-            <th>Weight</th>
-            <th>Calibration Factor</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Iterate over sensors and populate the table rows -->
-        <tr th:each="sensor : ${sensors}">
-            <td th:text="${sensor.sensor_ID}"></td>
-            <td th:text="${sensor.weight}"></td>
-            <td th:text="${sensor.calibrationFactor}"></td>
-        </tr>
-        </tbody>
-    </table>
 
+    <div id="footer">
+        <footer> PillGate &#169; 2023 All rights reserved</footer>
+    </div>
 </main>
-
-<footer> PillGate &#169; 2023 All rights reserved</footer>
 </body>
 </html>
-
-<!--customers, caregivers, medicine-->
-
->>>>>>> FriConWeb
