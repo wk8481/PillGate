@@ -86,10 +86,7 @@ public class HardCodedUserRepository implements UserRepository {
         }
     }
 
-    /**
-     * @param customer_id
-     * @return
-     */
+
 //    @Override
 //    public Customer deleteCustomer(int customer_id) {
 //        return null;

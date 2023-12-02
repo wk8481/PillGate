@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -24,9 +25,8 @@ public class ReminderService {
 
     private Logger logger = LoggerFactory.getLogger(ReminderService.class);
 
-
     @Autowired
-    public ReminderService(JDBCUserRepository userRepository) {
+    public ReminderService(JDBCUserRepository userRepository){
         this.userRepository = userRepository;
     }
 
@@ -85,6 +85,20 @@ public class ReminderService {
 
 
 
+    public String getMedScheduleAlert() {
+        logger.info("Getting medication schedule message");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        for (MedicationSchedule medicationSchedule : userRepository.findAllMedSchedules()) {
+            if (medicationSchedule.getTimeTakePill().getHour() == currentDateTime.getHour()
+            && medicationSchedule.getTimeTakePill().getMinute() == currentDateTime.getMinute()
+            && !medicationSchedule.isStopped()) {
+                medicationSchedule.setStopped(true);
+                userRepository.createMedSchedule(medicationSchedule);
+                return medicationSchedule.getMessage();
+            }
+        }
+        return null;
+    }
 
 
 

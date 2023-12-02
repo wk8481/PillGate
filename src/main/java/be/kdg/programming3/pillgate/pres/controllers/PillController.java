@@ -4,6 +4,7 @@ import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationSchedu
 import be.kdg.programming3.pillgate.service.ReminderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class PillController {
 
     private final ReminderService reminderService;
 
+    @Autowired
     public PillController(ReminderService reminderService) {
         this.reminderService = reminderService;
     }
@@ -29,25 +31,14 @@ public class PillController {
         return "reminder";
     }
 
-//    @PostMapping("/reminder")
-//    public String scheduleReminder(PillForm pillForm){
-//        logger.info("Scheduling reminder for pill: " + pillForm.getPillName());
-//        reminderService.scheduleReminder(pillForm);
-//        return "redirect:/reminder2";
-////    }
-//    @PostMapping("/reminder")
-//    public String submitForm(@ModelAttribute MedicationSchedule medicationSchedule){
-//        logger.info("Scheduling reminder for pill: " + medicationSchedule.getPillName());
-//        reminderService.scheduleReminder(medicationSchedule);
-//        return "redirect:/reminder";
-//    }
-
 
     @PostMapping("/reminder")
     public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
         logger.info("Processing " + pillForm.toString());
 
         // Validation errors will be automatically handled by Spring MVC
+        logger.info("Trying to get customerID...");
+      //  int customerID = reminderService.getCustomerID();
 
         logger.info("saving medicationSchedule....");
         reminderService.saveMedicationSchedule(pillForm);
@@ -62,6 +53,28 @@ public class PillController {
 //        medicationSchedule.setRepeatIn(pillForm.getRepeatIn());
 //        return medicationSchedule;
 //    }
+
+    @GetMapping(path = "/now", produces = "application/json")
+    public @ResponseBody AlarmResponse getCurrentAlarm() {
+        String message = reminderService.getMedScheduleAlert();
+        return new AlarmResponse(message);
+    }
+
+
+    public static class AlarmResponse {
+        private String message;
+
+        public AlarmResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
+
+
+
 
     @GetMapping("/reminder2")
     public String showReminder2() {

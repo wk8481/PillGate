@@ -39,5 +39,3 @@ public class LoginController {
         return "redirect:/dashboard";
     }
 }
-
-//if

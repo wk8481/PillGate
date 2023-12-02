@@ -1,19 +1,18 @@
 package be.kdg.programming3.pillgate.domain.user;
 
-
-
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 @Component
 public class MedicationSchedule {
 
     private int medSchedule_id;
+/*
     private int customer_id;
+*/
     private LocalDate startDate;
     private LocalDate endDate;
     private String pillName;
@@ -21,15 +20,20 @@ public class MedicationSchedule {
     private LocalDateTime timeTakePill;
     private int repeatIn;
 
+    private boolean isStopped;
+    private String message;
+
+
     private transient Customer customer;
     private transient Dashboard dashboard;
 //    private transient List<Medicine> medicines = new ArrayList<>();
 
 
-    public MedicationSchedule(int customer_id, LocalDate startDate,
+
+    public MedicationSchedule(Customer customer, LocalDate startDate,
                               LocalDate endDate, String pillName,
                               int quantity, LocalDateTime timeTakePill, int repeatIn ) {
-        this.customer_id = customer_id;
+        this.customer = customer;
         this.startDate = startDate;
         this.endDate = endDate;
         this.pillName = pillName;
@@ -39,7 +43,18 @@ public class MedicationSchedule {
 
     }
 
-
+    public MedicationSchedule(Customer customer_id, LocalDate startDate, LocalDate endDate, String pillName, int quantity, LocalDateTime timeTakePill, int repeatIn
+            , boolean isStopped, String message) {
+        this.customer= customer_id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.pillName = pillName;
+        this.quantity = quantity;
+        this.timeTakePill = timeTakePill;
+        this.repeatIn = repeatIn;
+        this.isStopped = isStopped;
+        this.message = message;
+    }
 
     public MedicationSchedule() {
 
@@ -54,9 +69,9 @@ public class MedicationSchedule {
     }
 
 
-    public int getCustomer_id() {
+/*    public int getCustomer_id() {
         return customer_id;
-    }
+    }*/
 
     public LocalDate getStartDate() {
         return startDate;
@@ -82,9 +97,9 @@ public class MedicationSchedule {
         return repeatIn;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
-    }
+//    public void setCustomer_id(int customer_id) {
+//        this.customer_id = customer_id;
+//    }
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
@@ -117,6 +132,33 @@ public class MedicationSchedule {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+
+/*    public int getCustomer_id() {
+        if (customer != null) {
+            return customer.getCustomer_id();
+        } else {
+            // Handle the case where customer is null (choose an appropriate default or throw an exception)
+            return 0; // or throw new IllegalStateException("Customer is not set");
+        }
+    }
+
+    public void setCustomer_id(Customer customer) {
+
+        this.customer = customer;
+        if(customer != null){
+            this.customer  = customer.getCustomer_id();
+        };
+    }*/
+
+    public boolean isStopped() {return isStopped;}
+
+    public void setStopped(boolean stopped) {isStopped = stopped;}
+
+    public String getMessage() {return message;}
+
+    public void setMessage(String message) {this.message = message;}
+
 //
 //    public List<Medicine> getMedicines() {
 //        return medicines;
@@ -142,6 +184,9 @@ public class MedicationSchedule {
         this.dashboard = dashboard;
     }
 
+    public void setDashboard(Dashboard dashboard) {this.dashboard = dashboard;}
+
+
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -152,7 +197,7 @@ public class MedicationSchedule {
 
         return "MedicationSchedule{" +
                 "medSchedule_id=" + medSchedule_id +
-                ", customer_id=" + customer_id +
+                ", customer_id=" + customer.getCustomer_id() +
                 ", startDate=" + formattedDate +
                 ", endDate=" + formattedDate2 +
                 ", pillName='" + pillName + '\'' +
@@ -164,8 +209,5 @@ public class MedicationSchedule {
 
     }
 
-    public int getCustomerId() {
-        return customer_id;
-    }
 }
 
