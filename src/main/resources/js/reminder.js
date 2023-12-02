@@ -1,15 +1,38 @@
 
-
-function checkReminder(){
-    $.get("/api/checkreminder", function(data){
-        if( data ==="true"){
-            alert("It's time to take your medication!")
-            location.reload();
-        }
-    });
+const repeatedFunction = () => {
+    console.log("Calling backend...");
+    fetch("http://localhost:8080/alarm/now")
+    .then((response) => {
+    return response.json();
+})
+    .then((data) => {
+    if (data.message != null) {
+    alert("Alarm: " + data.message);
 }
-// check for a reminder every minute
-setInterval(checkReminder, 60000)
+})
+};
+    setInterval(repeatedFunction, 5000);//check every 5 seconds if there is an alarm...
+
+
+
+
+
+
+
+
+
+
+
+// function checkReminder(){
+//     $.get("/api/checkreminder", function(data){
+//         if( data ==="true"){
+//             alert("It's time to take your medication!")
+//             location.reload();
+//         }
+//     });
+// }
+// // check for a reminder every minute
+// setInterval(checkReminder, 60000)
 
 
 

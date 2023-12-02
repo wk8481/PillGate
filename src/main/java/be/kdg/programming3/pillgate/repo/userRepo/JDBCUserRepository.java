@@ -294,23 +294,29 @@ public class JDBCUserRepository implements UserRepository {
     private static final RowMapper<MedicationSchedule> MEDICATION_SCHEDULE_ROW_MAPPER = (rs, rowNum) -> {
         MedicationSchedule medicationSchedule = new MedicationSchedule();
         medicationSchedule.setMedSchedule_id(rs.getInt("medSchedule_id"));
-        medicationSchedule.setCustomer_id(rs.getInt("customer_id"));
+        medicationSchedule.getCustomer().setCustomer_id(rs.getInt("customer_id"));
         medicationSchedule.setStartDate(rs.getDate("startDate").toLocalDate());
         medicationSchedule.setEndDate(rs.getDate("endDate").toLocalDate());
         medicationSchedule.setPillName(rs.getString("pillName"));
         medicationSchedule.setQuantity(rs.getInt("quantity"));
         medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
+        medicationSchedule.setRepeatIn(rs.getInt("repeatIn"));
+        medicationSchedule.setStopped(rs.getBoolean("isStopped"));
+        medicationSchedule.setMessage(rs.getString("message"));
         // Set other properties as needed
         return medicationSchedule;
     };
 
     @Override
     public List<MedicationSchedule> findAllMedSchedules() {
+        logger.info("Finding medication schedules...");
         return jdbcTemplate.query("SELECT * FROM MedicationSchedule", MEDICATION_SCHEDULE_ROW_MAPPER);
     }
 
     @Override
     public MedicationSchedule findMedScheduleById(int medSchedule_id) {
+        logger.info("Finding medication schedules by id");
+
         try {
             return jdbcTemplate.queryForObject(
                     "SELECT * FROM MedicationSchedule WHERE customer_id = ?",
@@ -322,10 +328,11 @@ public class JDBCUserRepository implements UserRepository {
         }
     }
 
-    @Override
+/*    @Override
     public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
+        logger.info("Creating MedSchedule...");
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("customer_id", medSchedule.getCustomer_id());
+        parameters.put("customer_id", medSchedule.getCustomer().getCustomer_id());
         parameters.put("startDate", medSchedule.getStartDate());
         parameters.put("endDate", medSchedule.getEndDate());
         parameters.put("pillName", medSchedule.getPillName());
@@ -334,11 +341,30 @@ public class JDBCUserRepository implements UserRepository {
 
         Number newId = medScheduleInserter.executeAndReturnKey(parameters);
         medSchedule.setMedSchedule_id(newId.intValue());
+
+        return medSchedule;
+    }*/
+
+    @Override
+    public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
+        logger.info("Creating medschedule");
+        jdbcTemplate.update("INSERT INTO MedicationSchedule(medSchedule_id,customer_id,startDate,endDate,pillName,quantity,timeTakePill,isStopped,message) " +
+                "VALUES (?,?,?,?,?,?,?,?,?)",
+                medSchedule.getMedSchedule_id(),
+                medSchedule.getCustomer().getCustomer_id(),
+                medSchedule.getStartDate(),
+                medSchedule.getEndDate(),
+                medSchedule.getPillName(),
+                medSchedule.getQuantity(),
+                medSchedule.getTimeTakePill(),
+                medSchedule.isStopped(),
+                medSchedule.getMessage());
         return medSchedule;
     }
 
     @Override
     public MedicationSchedule updateMedSchedule(MedicationSchedule medicationSchedule) {
+        logger.info("Updating medschedule...");
         jdbcTemplate.update(
                 "UPDATE MedicationSchedule SET startDate=?, endDate=?, pillName=?, quantity=?, timeTakePill=? WHERE medSchedule_id=?",
                 medicationSchedule.getStartDate(),

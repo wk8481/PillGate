@@ -3,6 +3,7 @@ package be.kdg.programming3.pillgate.domain.user;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //@Component
@@ -14,7 +15,7 @@ public class Dashboard {
     private int duration;
     private transient List<MedicationSchedule> medicationSchedules;
 
-//    @ManyToOne
+    //    @ManyToOne
 //    @JoinColumn(name = "customer_id")
     private transient Customer customer;
 
@@ -26,7 +27,7 @@ public class Dashboard {
         this.customer = new Customer(customer_id);
     }
 
-    public  Dashboard(){
+    public Dashboard() {
     }
 
     public int getDashboard_id() {
@@ -66,7 +67,7 @@ public class Dashboard {
     }
 
     public void setCustomer(Customer customer) {
-        this.customer=customer;
+        this.customer = customer;
     }
 
     @Override
@@ -81,15 +82,24 @@ public class Dashboard {
 
 
 
-    public void addMedicationSchedule(MedicationSchedule medicationSchedule) {
+/*    public void addMedicationSchedule(MedicationSchedule medicationSchedule) {
 //   t
         this.medicationSchedules.add(medicationSchedule);
         medicationSchedule.addDashboard(this);
 
 
       }
-    }
+    }*/
 
+    public void addMedicationSchedule(MedicationSchedule medicationSchedule) {
+        if (this.medicationSchedules == null) {
+            this.medicationSchedules = new ArrayList<>();
+        }
+
+        this.medicationSchedules.add(medicationSchedule);
+        medicationSchedule.setDashboard(this);
+    }
+}
 
 
 

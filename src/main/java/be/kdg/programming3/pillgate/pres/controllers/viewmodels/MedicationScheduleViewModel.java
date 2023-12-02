@@ -37,6 +37,9 @@ public class MedicationScheduleViewModel {
 
     }
 
+
+
+
     public MedicationScheduleViewModel() {
     }
 
@@ -135,22 +138,22 @@ public class MedicationScheduleViewModel {
 
     @Override
     public String toString() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String formattedDate = dtf.format(startDate);
-        String formattedDate2 = dtf.format(endDate);
-        String formattedDate3 = dtf.format(timeTakePill);
+        // Add null checks before formatting
+        String formattedStartDate = (startDate != null) ? dtf2.format(startDate) : "null";
+        String formattedEndDate = (endDate != null) ? dtf2.format(endDate) : "null";
+        String formattedTimeTakePill = (timeTakePill != null) ? dtf.format(timeTakePill) : "null";
 
         return "MedicationSchedule{" +
                 "medSchedule_id=" + medSchedule_id +
                 ", customer_id=" + customer_id +
-                ", startDate=" + formattedDate +
-                ", endDate=" + formattedDate2 +
+                ", startDate=" + formattedStartDate +
+                ", endDate=" + formattedEndDate +
                 ", pillName='" + pillName + '\'' +
                 ", quantity=" + quantity +
-                ", timeTakePill=" + formattedDate3 +
+                ", timeTakePill=" + formattedTimeTakePill +
                 '}';
-
-
     }
 }

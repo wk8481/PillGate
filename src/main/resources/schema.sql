@@ -142,7 +142,10 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   endDate DATE,
                                                   pillName VARCHAR(255),
                                                   quantity INT,
-                                                  timeTakePill DATE
+                                                  timeTakePill DATE,
+                                                  isStopped BOOLEAN,
+                                                  message VARCHAR(255)
+
 );
 
 

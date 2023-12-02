@@ -5,10 +5,12 @@ import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationSchedu
 import be.kdg.programming3.pillgate.repo.userRepo.JDBCUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -21,6 +23,13 @@ public class ReminderService {
 
 
     private Logger logger = LoggerFactory.getLogger(ReminderService.class);
+
+    @Autowired
+    public ReminderService(JDBCUserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
+
 
 
     private MedicationSchedule convertToMedicationSchedule(MedicationScheduleViewModel pillForm){
@@ -63,5 +72,19 @@ public class ReminderService {
 
 
 
+    public String getMedScheduleAlert() {
+        logger.info("Getting medication schedule message");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        for (MedicationSchedule medicationSchedule : userRepository.findAllMedSchedules()) {
+            if (medicationSchedule.getTimeTakePill().getHour() == currentDateTime.getHour()
+            && medicationSchedule.getTimeTakePill().getMinute() == currentDateTime.getMinute()
+            && !medicationSchedule.isStopped()) {
+                medicationSchedule.setStopped(true);
+                userRepository.createMedSchedule(medicationSchedule);
+                return medicationSchedule.getMessage();
+            }
+        }
+        return null;
+    }
 
 }
