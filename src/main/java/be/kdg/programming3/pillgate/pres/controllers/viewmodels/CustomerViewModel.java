@@ -1,4 +1,4 @@
-package be.kdg.programming3.pillgate.pres.controllers.viewmodels;//package be.kdg.programming3.presentation.controllers.viewmodels;
+package be.kdg.programming3.pillgate.pres.controllers.viewmodels;//package be.kdg.programming3.oldproj.controllers.viewmodels;
 import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import jakarta.validation.constraints.NotBlank;

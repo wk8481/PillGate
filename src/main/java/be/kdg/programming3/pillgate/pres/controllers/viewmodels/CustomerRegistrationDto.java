@@ -1,4 +1,4 @@
-package be.kdg.programming3.pillgate.pres.controllers.viewmodels;//package be.kdg.programming3.presentation.controllers.viewmodels;
+package be.kdg.programming3.pillgate.pres.controllers.viewmodels;//package be.kdg.programming3.oldproj.controllers.viewmodels;
 
 import org.springframework.stereotype.Component;
 

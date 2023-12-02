@@ -1,4 +1,4 @@
-package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.presentation.controllers;
+package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
 
 import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import be.kdg.programming3.pillgate.domain.user.Customer;
