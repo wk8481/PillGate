@@ -2,7 +2,10 @@ package be.kdg.programming3.pillgate.pres.controllers.viewmodels;
 
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -133,7 +136,7 @@ public class MedicationScheduleViewModel {
         this.dashboard = dashboard;
     }*/
 
-    @Override
+  /*  @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -151,6 +154,28 @@ public class MedicationScheduleViewModel {
                 ", timeTakePill=" + formattedDate3 +
                 '}';
 
+*/
 
+
+    @Override
+    public String toString() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String formattedStartDate = startDate != null ? dateFormatter.format(startDate) : "n/a";
+        String formattedEndDate = endDate != null ? dateFormatter.format(endDate) : "n/a";
+        String formattedTimeTakePill = timeTakePill != null ? dateTimeFormatter.format(timeTakePill) : "n/a";
+
+        return "MedicationSchedule{" +
+                "medSchedule_id=" + medSchedule_id +
+                ", customer_id=" + customer_id +
+                ", startDate=" + formattedStartDate +
+                ", endDate=" + formattedEndDate +
+                ", pillName='" + pillName + '\'' +
+                ", quantity=" + quantity +
+                ", timeTakePill=" + formattedTimeTakePill +
+                '}';
     }
+
 }
+

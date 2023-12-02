@@ -5,9 +5,11 @@ import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationSchedu
 import be.kdg.programming3.pillgate.repo.userRepo.JDBCUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +23,12 @@ public class ReminderService {
 
 
     private Logger logger = LoggerFactory.getLogger(ReminderService.class);
+
+
+    @Autowired
+    public ReminderService(JDBCUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 
     private MedicationSchedule convertToMedicationSchedule(MedicationScheduleViewModel pillForm){
@@ -40,10 +48,24 @@ public class ReminderService {
 
 
 
-    public void saveMedicationSchedule(MedicationScheduleViewModel pillForm){
+   /* public void saveMedicationSchedule(MedicationScheduleViewModel pillForm){
         MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm); //convert pillForm to medschedule
         userRepository.createMedSchedule(medicationSchedule); // create it
 
+    }*/
+
+    public void saveMedicationSchedule(MedicationScheduleViewModel pillForm) {
+        // Validate that the customer_id exists in the Customer table
+        logger.error("Customer ID {} does not exist.", pillForm.getCustomer_id());
+        boolean customerExists = userRepository.existsById(pillForm.getCustomer_id());
+
+        if (!customerExists) {
+            // Handle the case where the customer_id does not exist
+            throw new IllegalArgumentException("Invalid customer_id: " + pillForm.getCustomer_id());
+        }
+
+        MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm); //convert pillForm to medication schedule
+        userRepository.createMedSchedule(medicationSchedule); // save it
     }
 
     // this method to check if it is time for a reminder
@@ -60,6 +82,10 @@ public class ReminderService {
         }
         return false;
     }
+
+
+
+
 
 
 

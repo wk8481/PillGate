@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 @Profile("jdbctemplate")
 public class JDBCUserRepository implements UserRepository {
-    private Logger logger = LoggerFactory.getLogger(JDBCUserRepository.class);
+    private static Logger logger = LoggerFactory.getLogger(JDBCUserRepository.class);
     private static List<Customer> customers = new ArrayList<>();
     private static List<CareGiver> careGivers = new ArrayList<>();
     private static List<Dashboard> dashboard = new ArrayList<>();
@@ -107,6 +107,20 @@ public class JDBCUserRepository implements UserRepository {
             return null; // No customer found with the given email
         }
     }
+
+   /* @Override
+    public static Customer findCustomerByEmail(String email) {
+        logger.info("Finding customers by email: {}", email);
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM Customer WHERE email = ?",
+                    new Object[]{email},
+                    customerRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null; // No customer found with the given email
+        }
+    }*/
 
     @Override
     public Customer updateCustomer(Customer existingCustomer) {
@@ -359,6 +373,13 @@ public class JDBCUserRepository implements UserRepository {
 
         return deletedMedSchedule;
     }
+
+    public boolean existsById(int customerId) {
+        String sql = "SELECT COUNT(*) FROM Customer WHERE customer_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{customerId}, Integer.class);
+        return count != null && count > 0;
+    }
+
 
 
 
