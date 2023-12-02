@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 -- WeightSensor Table
 -- one to many relationship with customer
 -- WeightSensor Table
@@ -162,4 +162,4 @@ select * from CUSTOMER;
 
 
 
->>>>>>> FriConWeb
+
