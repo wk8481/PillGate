@@ -127,6 +127,7 @@ public class JDBCUserRepository implements UserRepository {
 
     @Override
     public Customer findCustomerByUsername(String username) {
+        logger.info("Finding customers by username: {}", username);
         String query = "SELECT * FROM Customer WHERE customer_name = ?";
 
         try {

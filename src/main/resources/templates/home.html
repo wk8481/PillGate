@@ -1,9 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" >
-
     <link rel="stylesheet" th:href="@{../style.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
@@ -13,91 +11,86 @@
     <script defer th:src="@{../static/js/reminder.js}"></script>
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
-    <header>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <div class="navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" th:href="@{/home}">Homepage</a>
+<header>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/home}">Homepage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/PresentedBy}">Presented By</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"></a>
+                    </li>
+                    <!--                        <li class="nav-item">-->
+                    <!--                            <a class="nav-link"></a>-->
+                    <!--                        </li>-->
+                    <!--                        <li class="nav-item">-->
+                    <!--                            <a class="nav-link"></a>-->
+                    <!--                        </li>-->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><!--class="nav-item"-->
+                            <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
+                        <li class="nav-item"><!--class="nav-item"-->
+                            <a class="btn btn-primary" th:href="@{/login}">Log In</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/PresentedBy}">Presented By</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"></a>
-                        </li>
-
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><!--class="nav-item"-->
-                                <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
-                            </li>
-                            <li class="nav-item"><!--class="nav-item"-->
-                                <a class="btn btn-primary" th:href="@{/login}">Log In</a>
-                            </li>
-                        </ul>
                     </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <div id="section1" class="container mt-5">
-            <div class="logo-container">
-                <img src="../images/pillgateLogo2.png" class="img-fluid logo">
-                <h2 id="slogan">YOUR GATEWAY TO PILL MANAGEMENT</h2>
+                </ul>
             </div>
         </div>
-
-        <div id="section2" class="container mt-5">
-<!--                <div>-->
-<!--                    <img src="../images/pillgateLogo2.png" class="img-fluid smaller-logo">-->
-<!--                </div>-->
-                <div class="col">
-                    <img src="../images/pills.jpg" class="img-fluid pills">
-                </div>
-                <div class="col">
-                    <div class="rounded-box">
-                        <p>Welcome to PillGate, where innovation meets healthcare with a touch of personalized care. At PillGate, we're dedicated to revolutionizing the way you manage your health. Our cutting-edge platform empowers you to take control of your medication schedule effortlessly, ensuring you never miss a dose. We understand that healthcare is personal, and that's why PillGate goes beyond the ordinary. Our team is committed to providing you with a seamless experience, tailored to your unique needs. Whether you're a caregiver or managing your own health journey, PillGate is here to simplify, organize, and enhance your daily medication routine. Explore the future of healthcare with PillGate – where your well-being is our top priority.</p>
-                    </div>
-                </div>
+    </nav>
+</header>
+<main>
+    <div id="section1" class="container mt-5">
+        <div class="logo-container">
+            <img src="../images/pillgateLogo2.png" class="img-fluid logo">
+            <h2 id="slogan">YOUR GATEWAY TO PILL MANAGEMENT</h2>
         </div>
-
-        <div id="footer">
-            <footer> PillGate &#169; 2023 All rights reserved</footer>
+    </div>
+    <div id="section2" class="container mt-5">
+        <!--                <div>-->
+        <!--                    <img src="../images/pillgateLogo2.png" class="img-fluid smaller-logo">-->
+        <!--                </div>-->
+        <div class="col">
+            <img src="../images/pills.jpg" class="img-fluid pills">
         </div>
-    </main>
+        <div class="col">
+            <div class="rounded-box">
+                <p>Welcome to PillGate, where innovation meets healthcare with a touch of personalized care. At PillGate, we're dedicated to revolutionizing the way you manage your health. Our cutting-edge platform empowers you to take control of your medication schedule effortlessly, ensuring you never miss a dose. We understand that healthcare is personal, and that's why PillGate goes beyond the ordinary. Our team is committed to providing you with a seamless experience, tailored to your unique needs. Whether you're a caregiver or managing your own health journey, PillGate is here to simplify, organize, and enhance your daily medication routine. Explore the future of healthcare with PillGate – where your well-being is our top priority.</p>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <footer> PillGate &#169; 2023 All rights reserved</footer>
+    </div>
+</main>
 </body>
-
 </html>

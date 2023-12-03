@@ -1,6 +1,7 @@
 package be.kdg.programming3.pillgate.pres.controllers.viewmodels;
 
 
+import be.kdg.programming3.pillgate.domain.user.Customer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;

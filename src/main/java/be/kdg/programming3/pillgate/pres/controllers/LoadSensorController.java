@@ -41,8 +41,7 @@ public class LoadSensorController {
         return "dashboard";
     }
 
-<<<<<<< HEAD
-=======
+
     @GetMapping("/createSensor")
     public String createSensor(Model model) {
         WeightSensor newSensor = new WeightSensor(/* initialize with necessary values */);
@@ -50,6 +49,5 @@ public class LoadSensorController {
         model.addAttribute("sensors", sensorRepository.findAllWSensors());
         return "dashboard";
     }
->>>>>>> 632d8c17e20bbf79203709ca32d9dd75eec1f5d3
 
 }

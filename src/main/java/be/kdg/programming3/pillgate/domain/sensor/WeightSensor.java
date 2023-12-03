@@ -16,9 +16,6 @@ public class WeightSensor {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "SENSOR_ID")
     private int sensor_ID;
-
-
-
     private final int WEIGHT_CAPACITY_GRAMS = 1000;
 
     private LocalDate calibrationDate;
