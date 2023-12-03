@@ -75,13 +75,16 @@
 <main class="container mt-5">
     <h1 class="text-center">Dashboard</h1>
 
+<!--
+    <a href="/readArduino" class="btn btn-primary">Read ArduinoData</a>
+-->
     <!-- Sensor Table -->
     <table class="table table-bordered">
         <thead>
         <tr>
             <th>Sensor ID</th>
             <th>Weight</th>
-            <th>Calibration Factor</th>
+            <th>Calibration Time</th>
         </tr>
         </thead>
         <tbody>
@@ -89,7 +92,7 @@
         <tr th:each="sensor : ${sensors}">
             <td th:text="${sensor.sensor_ID}"></td>
             <td th:text="${sensor.weight}"></td>
-            <td th:text="${sensor.calibrationFactor}"></td>
+            <td th:text="${sensor.calibrationDate}"></td>
         </tr>
         </tbody>
     </table>

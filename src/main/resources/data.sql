@@ -15,9 +15,11 @@ INSERT INTO Customer (customer_name, birthDate, email, hasCareGiver, password) V
 
 INSERT INTO WeightSensor (customer_id, WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES
                                                                                            (1, 1500, '2023-01-01', 1200.0),
+
                                                                                            (2, 2000, '2023-01-02', 1300.0),
                                                                                            (3, 1000, '2023-01-03', 1100.0)
     ; -- Add more entries as needed
+INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1000, '2022-01-01', 750);
 
 
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 
 @Service
 @Qualifier
@@ -93,12 +94,14 @@ public class SerialReaderServiceImpl implements SerialReader{
             try {
                 logger.info("Parsing weight value: {}", parts[2]);
                 logger.info("Parsing calibration factor: {}", parts[6]);
+
                 double weight = Double.parseDouble(parts[2]);
                 double calibrationFactor = Double.parseDouble(parts[6]);
 
                 // Retrieve the latest WeightSensor from the repository
                 WeightSensor latestSensor = sensorRepository.findAllWSensors().stream().findFirst().orElse(null);
 
+                sensorRepository.createSensor(latestSensor);
                 // Update the values in the latest WeightSensor
                 if (latestSensor != null) {
                     latestSensor.updateValues(weight, calibrationFactor);

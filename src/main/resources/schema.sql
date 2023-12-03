@@ -108,8 +108,7 @@ CREATE TABLE IF NOT EXISTS WeightSensor (
                                             FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
 );
 
-
-
+SELECT * FROM WEIGHTSENSOR;
 
 -- CareGiver Table
 Drop TABLE IF EXISTS CareGiver;
