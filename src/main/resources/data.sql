@@ -36,6 +36,8 @@ INSERT INTO Dashboard (nrPillTaken, duration, customer_id) VALUES
     ; -- Add more entries as needed
 
 
+
+
 INSERT INTO CustomerCareGiver (customer_id, caregiver_id) VALUES
                                                               (1, 1),
                                                               (2, 2),

@@ -11,7 +11,10 @@ public class Dashboard {
 
 
     private int dashboard_id;
+
+//    @Column(name = "NRPILLTAKEN")
     private int nrPillTaken;
+
     private int duration;
     private transient List<MedicationSchedule> medicationSchedules;
 
@@ -25,6 +28,14 @@ public class Dashboard {
         this.nrPillTaken = nrPillTaken;
         this.duration = duration;
         this.customer = new Customer(customer_id);
+    }
+
+    public Dashboard(int dashboard_id, int nrPillTaken, int duration, List<MedicationSchedule> medicationSchedules, Customer customer) {
+        this.dashboard_id = dashboard_id;
+        this.nrPillTaken = nrPillTaken;
+        this.duration = duration;
+        this.medicationSchedules = medicationSchedules;
+        this.customer = customer;
     }
 
     public Dashboard() {
@@ -82,20 +93,8 @@ public class Dashboard {
 
 
 
-/*    public void addMedicationSchedule(MedicationSchedule medicationSchedule) {
-//   t
-        this.medicationSchedules.add(medicationSchedule);
-        medicationSchedule.addDashboard(this);
-
-
-      }
-    }*/
 
     public void addMedicationSchedule(MedicationSchedule medicationSchedule) {
-        if (this.medicationSchedules == null) {
-            this.medicationSchedules = new ArrayList<>();
-        }
-
         this.medicationSchedules.add(medicationSchedule);
         medicationSchedule.setDashboard(this);
     }

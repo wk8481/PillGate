@@ -5,6 +5,7 @@ import be.kdg.programming3.pillgate.domain.user.Dashboard;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -125,7 +126,7 @@ public class JDBCUserRepository implements UserRepository {
 
     @Override
     public Customer findCustomerByUsername(String username) {
-        String query = "SELECT * FROM Customer WHERE username = ?";
+        String query = "SELECT * FROM Customer WHERE customer_name = ?";
 
         try {
             return jdbcTemplate.queryForObject(query, new Object[]{username}, new BeanPropertyRowMapper<>(Customer.class));
@@ -231,7 +232,7 @@ public class JDBCUserRepository implements UserRepository {
     public Dashboard updateDashboard(Dashboard dashboard) {
         logger.info("Dashboard is updated {}", dashboard);
         jdbcTemplate.update("UPDATE Dashboard SET dashboard_ID = ? WHERE CUSTOMER_ID= ?",
-                dashboard.getDashboard_id(), dashboard.getCustomer().getCustomer_id());
+                dashboard.getDashboard_id(), dashboard.getNrPillTaken(), dashboard.getCustomer().getCustomer_id());
         return dashboard;
     }
 

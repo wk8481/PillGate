@@ -1,13 +1,15 @@
 package be.kdg.programming3.oldproj.domain.user;
 
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
-//@Entity
-//@Table(name = "Dashboard")
+@Entity
+@Table(name = "Dashboard")
 public class Dashboard {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private int dashboard_id;
     private int nrPillTaken;

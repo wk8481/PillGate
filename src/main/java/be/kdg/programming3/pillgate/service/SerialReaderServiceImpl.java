@@ -1,11 +1,13 @@
 package be.kdg.programming3.pillgate.service;
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
-import be.kdg.programming3.pillgate.repo.SensorRepository;
+import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,14 +15,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Service
+@Qualifier
 public class SerialReaderServiceImpl implements SerialReader{
     private BufferedReader input;
     private final SensorRepository sensorRepository;
     private Logger logger = LoggerFactory.getLogger(SerialReaderServiceImpl.class);
 
-    public SerialReaderServiceImpl(SensorRepository sensorRepository) {
+
+    @Autowired
+    public SerialReaderServiceImpl(@Qualifier("JDBCSensorRepository") SensorRepository sensorRepository) {
         this.sensorRepository = sensorRepository;
     }
+//    public SerialReaderServiceImpl(SensorRepository sensorRepository) {
+//        this.sensorRepository = sensorRepository;
+//    }
 
     public void readArduinoData(String portName) {
         SerialPort[] serialPorts = SerialPort.getCommPorts();

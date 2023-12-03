@@ -6,6 +6,7 @@ import be.kdg.programming3.pillgate.domain.user.Dashboard;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.PersistenceContext;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Profile("jpa")
 @Repository
+//@Primary
 public class JPAUserRepository implements UserRepository{
 
     @PersistenceContext
@@ -51,7 +53,6 @@ public class JPAUserRepository implements UserRepository{
             String query = "SELECT c FROM Customer c WHERE c.customer_name = :username";
             TypedQuery<Customer> typedQuery = em.createQuery(query, Customer.class);
             typedQuery.setParameter("username", username);
-
             return typedQuery.getSingleResult();
         } catch (NoResultException ex) {
             // No user found with the given username

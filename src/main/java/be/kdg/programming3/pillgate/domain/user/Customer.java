@@ -2,8 +2,8 @@ package be.kdg.programming3.pillgate.domain.user;
 
 
 
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,15 +13,15 @@ import java.util.List;
 
 
 
-//@Component
+@Component
 //@Entity
 //@Table(name = "Customer")
 public class Customer {
 
-
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customer_id;
+
 
 
     private String customer_name;
@@ -30,18 +30,28 @@ public class Customer {
     private boolean hasCareGiver;
     private String password;
 
-//    @ManyToMany
+//    @ManyToMany(mappedBy = "customers")
+
 //    @JoinTable(
 //            name = "CustomerCareGiver",
 //            joinColumns = @JoinColumn(name = "customer_id"),
 //            inverseJoinColumns = @JoinColumn(name = "caregiver_id")
 //    )
 
-    @ManyToMany(mappedBy = "customers")
 
-    private List<CareGiver> careGivers = new ArrayList<>();
+
+    private transient List<CareGiver> careGivers = new ArrayList<>();
+
+//    @OneToMany
+//    @JoinColumn(name = "customer_id")
     private transient List<MedicationSchedule> medicationSchedules;
-//    private transient List<Medicine> medicines;
+
+//    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private transient Dashboard dashboard;
+
+//    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private transient WeightSensor weightSensor;
+
 
     public Customer(String customer_name, String password) {
         this.customer_name = customer_name;
@@ -74,6 +84,8 @@ public class Customer {
     public Customer(){
 
     }
+
+
 
     public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
@@ -143,13 +155,9 @@ public class Customer {
         this.medicationSchedules=medicationSchedules;
     }
 
-//    public List<Medicine> getMedicines() {
-//        return medicines;
-//    }
-//
-//    public void setMedicines(List<Medicine> medicines) {
-//        this.medicines = medicines;
-//    }
+    public WeightSensor getWeightSensor() {
+        return weightSensor;
+    }
 
     @Override
     public String toString() {
@@ -167,16 +175,6 @@ public class Customer {
     }
 
 
-//    public boolean addCaregiver(CareGiver careGiver) {
-//        // Check if the customer already has a caregiver
-//        if (!hasCareGiver) {
-//            this.careGiver = careGiver;
-//            hasCareGiver = true; // Set hasCareGiver to true since now the customer has a caregiver
-//            return true; // Return true indicating that the caregiver was added
-//        } else {
-//            return false; // Return false indicating that the customer already has a caregiver
-//        }
-//    }
 
     public void addCaregiver(CareGiver careGiver) {
         // Check if the customer already has a caregiver
@@ -193,8 +191,20 @@ public class Customer {
         medicationSchedules.add(medicationSchedule);
     }
 
-//    public void addMedicine(Medicine medicine) {
-//        if (medicines == null) medicines = new ArrayList<>();
-//        medicines.add(medicine);
-//    }
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+
+    public void setDashboard(Dashboard dashboard) {
+        this.dashboard = dashboard;
+        dashboard.setCustomer(this);
+    }
+
+
+    public void setWeightSensor(WeightSensor weightSensor) {
+        this.weightSensor = weightSensor;
+        weightSensor.setCustomer(this);
+    }
+
+
 }

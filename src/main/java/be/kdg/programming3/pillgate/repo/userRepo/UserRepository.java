@@ -6,6 +6,7 @@ import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.Dashboard;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * This interface shows the methods that are used in the repository.
  * These methods are implemented in the repository implementation for the user package.
  */
+
 
 
 public interface UserRepository {

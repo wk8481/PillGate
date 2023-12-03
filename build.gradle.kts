@@ -54,6 +54,7 @@ dependencies{
     implementation("org.webjars:bootstrap:5.3.2") //
     implementation("org.webjars:webjars-locator-core:0.48")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.security:spring-security-test")
 
 
 }
