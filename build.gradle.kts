@@ -43,6 +43,7 @@ repositories {
 dependencies{
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("com.google.code.gson:gson:2.9.1")
@@ -55,6 +56,7 @@ dependencies{
     implementation("org.webjars:webjars-locator-core:0.48")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.security:spring-security-test")
+
 
 
 }

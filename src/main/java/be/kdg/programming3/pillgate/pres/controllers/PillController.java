@@ -5,10 +5,12 @@ import be.kdg.programming3.pillgate.service.ReminderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 
 
 @Controller
@@ -25,25 +27,40 @@ public class PillController {
     }
 
     @GetMapping("/reminder")
-    public String showForm(Model model) {
+    public String showForm(Model model, Principal principal) {
         logger.info("Showing reminder form");
+
+        if (principal != null) {
+            String username = principal.getName();
+            // Now you have the authenticated username, you can retrieve the user details as needed
+            // Example: Customer customer = userService.findCustomerByUsername(username);
+        } else {
+            logger.info("Principal is null");
+            // Handle the case where the principal is null
+        }
+
         model.addAttribute("pillForm", new MedicationScheduleViewModel());
         return "reminder";
     }
 
 
     @PostMapping("/reminder")
-    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
+    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm, Authentication authentication) {
         logger.info("Processing " + pillForm.toString());
 
-        // Validation errors will be automatically handled by Spring MVC
-        logger.info("Trying to get customerID...");
-      //  int customerID = reminderService.getCustomerID();
+        if (authentication != null) {
+            String username = authentication.getName();
+            // Now you have the authenticated username, you can retrieve the user details as needed
+            // Example: Customer customer = userService.findCustomerByUsername(username);
 
-        logger.info("saving medicationSchedule....");
-        reminderService.saveMedicationSchedule(pillForm);
+            // Perform other actions based on the authenticated user
+            reminderService.saveMedicationSchedule(pillForm, authentication);
+        } else {
+            logger.info("Principal is null");
+            // Handle the case where the principal is null
+        }
 
-        return "redirect:reminder"; // Redirect to a confirmation page or back to the form
+        return "redirect:reminder";
     }
 
 //    private MedicationSchedule convertToMedicationSchedule(PillForm pillForm) {
@@ -129,6 +146,35 @@ public class PillController {
 
 }
 
+//
+//        // Validation errors will be automatically handled by Spring MVC
+//        logger.info("Trying to get customerID...");
+//      //  int customerID = reminderService.getCustomerID();
+//
+//        logger.info("saving medicationSchedule....");
+//        reminderService.saveMedicationSchedule(pillForm);
+//
+//        return "redirect:reminder"; // Redirect to a confirmation page or back to the form
+////////
+
+//        if (principal == null || principal.getName() == null) {
+//            // Handle the case where the principal is null or has a null name
+//            logger.info("Principal name is null");
+//            return "errorPage == principal is null";
+
+//        }
+//
+//
+//        String username = principal.getName();
+//        logger.info("Processing " + pillForm.toString());
+//
+//        // Validation errors will be automatically handled by Spring MVC
+//        logger.info("Trying to get customerID...");
+//
+//        logger.info("saving medicationSchedule....");
+//        reminderService.saveMedicationSchedule(pillForm, username);
+//
+//        return "redirect:reminder"; // Redirect to a confirmation page or back to the form
 
 
 
