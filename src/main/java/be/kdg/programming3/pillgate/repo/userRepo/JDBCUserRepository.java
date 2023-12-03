@@ -320,8 +320,7 @@ public class JDBCUserRepository implements UserRepository {
     private static final RowMapper<MedicationSchedule> MEDICATION_SCHEDULE_ROW_MAPPER = (rs, rowNum) -> {
         MedicationSchedule medicationSchedule = new MedicationSchedule();
         medicationSchedule.setMedSchedule_id(rs.getInt("medSchedule_id"));
-//        medicationSchedule.getCustomer().setCustomer_id(rs.getInt("customer_id"));
-        medicationSchedule.setCustomer(new Customer(rs.getInt("customer_id")));
+        medicationSchedule.getCustomer().setCustomer_id(rs.getInt("customer_id"));
         medicationSchedule.setStartDate(rs.getDate("startDate").toLocalDate());
         medicationSchedule.setEndDate(rs.getDate("endDate").toLocalDate());
         medicationSchedule.setPillName(rs.getString("pillName"));
