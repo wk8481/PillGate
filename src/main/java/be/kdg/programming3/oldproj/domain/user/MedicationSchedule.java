@@ -2,7 +2,7 @@ package be.kdg.programming3.oldproj.domain.user;
 
 
 
-import be.kdg.programming3.pillgate.domain.user.Medicine;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

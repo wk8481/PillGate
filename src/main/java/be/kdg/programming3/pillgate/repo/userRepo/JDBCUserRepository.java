@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 @Profile("jdbctemplate")
+@Primary
 public class JDBCUserRepository implements UserRepository {
     private static Logger logger = LoggerFactory.getLogger(JDBCUserRepository.class);
     private static List<Customer> customers = new ArrayList<>();

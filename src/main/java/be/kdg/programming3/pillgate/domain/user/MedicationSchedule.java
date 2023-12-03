@@ -62,18 +62,6 @@ public class MedicationSchedule {
         this.dashboard = dashboard;
     }
 
-    public MedicationSchedule(Customer customer_id, LocalDate startDate, LocalDate endDate, String pillName, int quantity, LocalDateTime timeTakePill, int repeatIn
-            , boolean isStopped, String message) {
-        this.customer= customer_id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.pillName = pillName;
-        this.quantity = quantity;
-        this.timeTakePill = timeTakePill;
-        this.repeatIn = repeatIn;
-        this.isStopped = isStopped;
-        this.message = message;
-    }
 
     public MedicationSchedule() {
 
@@ -86,6 +74,7 @@ public class MedicationSchedule {
     public void setMedSchedule_id(int medSchedule_id) {
         this.medSchedule_id = medSchedule_id;
     }
+
 
 
 /*    public int getCustomer_id() {

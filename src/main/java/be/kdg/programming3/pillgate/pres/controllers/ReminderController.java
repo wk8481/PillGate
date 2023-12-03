@@ -46,7 +46,7 @@ public class ReminderController {
     public String handleReminderForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm, Principal principal) {
         // Assuming the username is the email or a unique identifier that maps to customer_id
         String username = principal.getName();
-        Customer customer = userRepository.findCustomerByEmail(username);
+        Customer customer = userRepository.findCustomerByUsername(username);
 
         if (customer != null) {
             pillForm.setCustomer_id(customer.getCustomer_id());

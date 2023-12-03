@@ -3,7 +3,6 @@ package be.kdg.programming3.pillgate.repo.sensorRepo;
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -20,13 +19,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Profile("jdbctemplate")
-@Primary
 @Repository
 public class JDBCSensorRepository implements SensorRepository {
     private Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
     private static List<WeightSensor> weightSensors = new ArrayList<>();
     private static AtomicInteger nextId = new AtomicInteger(1);
-
 
 
     private JdbcTemplate jdbcTemplate;
@@ -40,26 +37,31 @@ public class JDBCSensorRepository implements SensorRepository {
         logger.info("Setting up the sensor repository...");
     }
 
-    public  WeightSensor mapRow(ResultSet rs, int rowId) throws SQLException {
+    public WeightSensor mapRow(ResultSet rs, int rowId) throws SQLException {
         return new WeightSensor(
                 rs.getInt("sensor_ID"),
                 rs.getInt("customer_id"),
                 rs.getInt("WEIGHT_CAPACITY_GRAMS"),
                 rs.getDate("calibrationDate").toLocalDate(),
                 rs.getDouble("weight"));
-
     }
-
 
     @Override
     public WeightSensor createSensor(WeightSensor weightSensor) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("sensor_ID", weightSensor.getSensor_ID());
+        parameters.put("sensorID", weightSensor.getSensor_ID());
+        parameters.put("customer_id", weightSensor.getCustomer().getCustomer_id());
         parameters.put("WEIGHT_CAPACITY_GRAMS", weightSensor.getWEIGHT_CAPACITY_GRAMS());
         parameters.put("calibrationDate", weightSensor.getCalibrationDate());
+/*
+        parameters.put("calibrationDate", java.sql.Date.valueOf(weightSensor.getCalibrationDate()));
+*/
         parameters.put("weight", weightSensor.getWeight());
-//        parameters.put("calibrationFactor", weightSensor.getCalibrationFactor());
-        weightSensor.setSensor_ID(sensorInserter.executeAndReturnKey(parameters).intValue());
+
+        // Execute the insert and get the auto-generated key
+        Number newId = sensorInserter.executeAndReturnKey(parameters);
+        weightSensor.setSensor_ID(newId.intValue());
+
         logger.info("Creating weight sensor {}", weightSensor);
         return weightSensor;
     }
@@ -67,35 +69,36 @@ public class JDBCSensorRepository implements SensorRepository {
     @Override
     public List<WeightSensor> findAllWSensors() {
         logger.info("Reading weightSensors from the database...");
-//        List<WeightSensor> sensor = jdbcTemplate.query("SELECT * FROM WeightSensor" , mapRow);
-
-        return jdbcTemplate.query("SELECT * FROM WeightSensor",this::mapRow );
+        return jdbcTemplate.query("SELECT * FROM WeightSensor", this::mapRow);
     }
 
     @Override
-    public WeightSensor findSensorById(int sensor_ID) {
+    public WeightSensor findSensorByID(int sensor_ID) {
         WeightSensor weightSensor = jdbcTemplate.queryForObject("SELECT * FROM WeightSensor WHERE sensor_ID = ?", this::mapRow, sensor_ID);
-        logger.info("Finding weight sensor by id {} ", weightSensor);
+        logger.info("Finding weight sensor by id {} ", weightSensor.getSensor_ID());
         return weightSensor;
     }
 
     @Override
     public WeightSensor updateSensor(WeightSensor existingWSensor) {
-        logger.info("Weight sensor updated: {}", existingWSensor);
-        int index = -1;
-        for (int i = 0; i < weightSensors.size(); i++) {
-            WeightSensor weightSensor = weightSensors.get(i);
-            if (weightSensor.getSensor_ID() == existingWSensor.getSensor_ID()) {
-                index = i;
-                break;
-            }
-        }
-        if (index != -1) {
-            weightSensors.set(index, existingWSensor);
+        logger.info("Updating weight sensor: {}", existingWSensor);
+
+        String sql = "UPDATE WeightSensor SET WEIGHT_CAPACITY_GRAMS = ?, calibrationDate = ?, weight = ? WHERE sensor_ID = ?";
+
+        int updatedRows = jdbcTemplate.update(sql,
+                existingWSensor.getWEIGHT_CAPACITY_GRAMS(),
+                existingWSensor.getCalibrationDate(),
+                existingWSensor.getWeight(),
+                existingWSensor.getSensor_ID());
+
+        if (updatedRows > 0) {
+            logger.info("Weight sensor updated successfully: {}", existingWSensor);
             return existingWSensor;
         } else {
+            logger.warn("No weight sensor found with ID: {}", existingWSensor.getSensor_ID());
             return null;
         }
+
     }
 
 }

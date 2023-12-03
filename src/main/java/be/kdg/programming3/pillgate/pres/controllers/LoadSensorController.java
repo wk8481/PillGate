@@ -1,5 +1,6 @@
 package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
 
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import be.kdg.programming3.pillgate.service.SerialReader;
 import org.slf4j.Logger;
@@ -40,5 +41,15 @@ public class LoadSensorController {
         return "dashboard";
     }
 
+<<<<<<< HEAD
+=======
+    @GetMapping("/createSensor")
+    public String createSensor(Model model) {
+        WeightSensor newSensor = new WeightSensor(/* initialize with necessary values */);
+        sensorRepository.createSensor(newSensor);
+        model.addAttribute("sensors", sensorRepository.findAllWSensors());
+        return "dashboard";
+    }
+>>>>>>> 632d8c17e20bbf79203709ca32d9dd75eec1f5d3
 
 }
