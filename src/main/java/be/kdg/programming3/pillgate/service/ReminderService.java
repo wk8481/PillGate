@@ -20,7 +20,6 @@ import java.util.List;
 public class ReminderService {
 
     private JDBCUserRepository userRepository;
-    private UserService userService;
 
     //@Autowired
     //private SimpMessagingTemplate messagingTemplate;
@@ -29,9 +28,8 @@ public class ReminderService {
     private Logger logger = LoggerFactory.getLogger(ReminderService.class);
 
     @Autowired
-    public ReminderService(JDBCUserRepository userRepository, UserService userService) {
+    public ReminderService(JDBCUserRepository userRepository){
         this.userRepository = userRepository;
-        this.userService = userService;
     }
 
 
@@ -58,22 +56,37 @@ public class ReminderService {
 
     }*/
 
-    public void saveMedicationSchedule(MedicationScheduleViewModel pillForm) {
-        // Validate that the customer_id exists in the Customer table
-        //int customer_id = userRepository.getPrincipal().getCustomer_id();
+    public void saveMedicationSchedule(MedicationScheduleViewModel pillForm, Authentication authentication) {
+//         Validate that the customer_id exists in the Customer table
+//        logger.error("Customer ID {} does not exist.", pillForm.getCustomer_id());
+//        boolean customerExists = userRepository.existsById(pillForm.getCustomer_id());
+//
+//        if (!customerExists) {
+//            // Handle the case where the customer_id does not exist
+//            throw new IllegalArgumentException("Invalid customer_id: " + pillForm.getCustomer_id());
+//        }
+//
+//        MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm); //convert pillForm to medication schedule
+//        userRepository.createMedSchedule(medicationSchedule); // save i
 
-        logger.error("Customer ID {} does not exist.", pillForm.getCustomer_id());
-        boolean customerExists = userRepository.existsById(pillForm.getCustomer_id());
+        String username=authentication.getName();
+        Customer customer = userRepository.findCustomerByUsername(username);
+        logger.info("This is customer {} from customerByUsername", customer);
 
-        if (!customerExists) {
-            // Handle the case where the customer_id does not exist
-            throw new IllegalArgumentException("Invalid customer_id: " + pillForm.getCustomer_id());
+
+
+        logger.error("Username {} does not exist.", username);
+        //Customer customer = userRepository.findCustomerByUsername(username);
+
+        if (customer != null) {
+            pillForm.setCustomer_id(customer.getCustomer_id());
+        } else {
+            // Handle the case where the customer is not found
+            logger.info("customer not found.");
         }
 
-        MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm); //convert pillForm to medication schedule
-       // medicationSchedule.setCustomer(dummyCustomer);
-
-        userRepository.createMedSchedule(medicationSchedule); // save it
+        MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
+        userRepository.createMedSchedule(medicationSchedule);
     }
 
     // this method to check if it is time for a reminder

@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-
 public class ReminderController {
 
     private final UserRepository userRepository;
@@ -42,23 +41,39 @@ public class ReminderController {
         }
     }
 
-    @PostMapping("/reminder")
-    public String handleReminderForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm, Principal principal) {
-        // Assuming the username is the email or a unique identifier that maps to customer_id
-        String username = principal.getName();
-        Customer customer = userRepository.findCustomerByUsername(username);
-
-        if (customer != null) {
-            pillForm.setCustomer_id(customer.getCustomer_id());
-
-        } else {
-            // Handle the case where the customer is not found
-            return "errorPage"; // Redirect to an error page or handle appropriately
-        }
-
-        reminderService.saveMedicationSchedule(pillForm);
-        return "redirect:/successPage"; // Redirect to a success or confirmation page
-    }
+/*    @PostMapping("/reminder")
+//    public String handleReminderForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm, Principal principal) {
+////        if (principal == null || principal.getName() == null) {
+////            // Handle the case where the principal is null or has a null name
+////            logger.info("Principal name: {}", principal.getName());
+////            return "errorPage == principal is null";
+////        }
+////
+////        String username = principal.getName();
+////        Customer customer = userRepository.findCustomerByUsername(username);
+////
+////        if (customer != null) {
+////            pillForm.setCustomer_id(customer.getCustomer_id());
+////        } else {
+////            // Handle the case where the customer is not found
+////            logger.info("customer not found.");
+////        }
+////
+////        reminderService.saveMedicationSchedule(pillForm);
+////        logger.info("reminder set successfully.");
+////        return "redirect:/successPage";
+//        if (principal == null || principal.getName() == null) {
+//            // Handle the case where the principal is null or has a null name
+//            logger.info("Principal name: {}", principal.getName());
+//            return "errorPage == principal is null";
+//        }
+//
+//        String username = principal.getName();
+//
+//        reminderService.saveMedicationSchedule(pillForm, username);
+//        logger.info("reminder set successfully.");
+//        return "redirect:/successPage";
+//    }*/
 
     @GetMapping("/reminder")
     public String showMedicationSchedule(Model model, Principal principal) {
