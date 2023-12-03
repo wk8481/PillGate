@@ -109,20 +109,6 @@ public class JDBCUserRepository implements UserRepository {
         }
     }
 
-   /* @Override
-    public static Customer findCustomerByEmail(String email) {
-        logger.info("Finding customers by email: {}", email);
-        try {
-            return jdbcTemplate.queryForObject(
-                    "SELECT * FROM Customer WHERE email = ?",
-                    new Object[]{email},
-                    customerRowMapper()
-            );
-        } catch (EmptyResultDataAccessException e) {
-            return null; // No customer found with the given email
-        }
-    }*/
-
     @Override
     public Customer findCustomerByUsername(String username) {
         String query = "SELECT * FROM Customer WHERE username = ?";

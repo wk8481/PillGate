@@ -100,7 +100,7 @@ public class JPAUserRepository implements UserRepository{
 
     @Override
     @Transactional
-    public CareGiver updateCareGiver(CareGiver existingCareGiver) {
+    public CareGiver updateCareGiver(CareGiver existingCareGiver)  {
         return em.merge(existingCareGiver);
     }
 
