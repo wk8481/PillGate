@@ -19,7 +19,8 @@ import java.util.List;
 @Profile("jpa")
 @Repository
 //@Primary
-public class JPAUserRepository implements UserRepository{
+public class
+JPAUserRepository implements UserRepository{
 
     @PersistenceContext
     private EntityManager em;

@@ -87,7 +87,7 @@
 
 Drop TABLE IF EXISTS Customer;
 CREATE TABLE IF NOT EXISTS Customer (
-                                        customer_id INT AUTO_INCREMENT PRIMARY KEY,
+                                        customer_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
                                         customer_name VARCHAR(255),
     birthDate DATE,
     email VARCHAR(255),

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 
+
 @Service
 @Qualifier
 public class SerialReaderServiceImpl implements SerialReader{
@@ -120,8 +121,7 @@ public class SerialReaderServiceImpl implements SerialReader{
     public void disconnect() throws IOException {
         if (input != null) {
             input.close();
-        }
-    }
-
+  }
 }
 
+}
