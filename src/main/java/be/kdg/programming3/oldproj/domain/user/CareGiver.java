@@ -2,13 +2,15 @@ package be.kdg.programming3.oldproj.domain.user;
 
 
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
-//@Entity
-//@Table(name = "CareGiver")
+@Entity
+@Table(name = "CareGiver")
 public class CareGiver {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int caregiver_id;
     private String caregiver_name;
     private String email;
@@ -21,7 +23,7 @@ public class CareGiver {
         this.email = email;
     }
 
-//    @ManyToMany(mappedBy = "careGivers")
+    @ManyToMany(mappedBy = "careGivers")
     private transient List<Customer> customers;
 
     public CareGiver(int caregiver_id, String caregiver_name, String email ) {

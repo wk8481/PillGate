@@ -1,9 +1,10 @@
 package be.kdg.programming3.pillgate.service;
 
+import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
 import be.kdg.programming3.pillgate.repo.userRepo.JDBCUserRepository;
-import be.kdg.programming3.pillgate.repo.userRepo.JPAUserRepository;
+//import be.kdg.programming3.pillgate.repo.userRepo.JPAUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ReminderService {
 
     private JDBCUserRepository userRepository;
+    private UserService userService;
 
     //@Autowired
     //private SimpMessagingTemplate messagingTemplate;
@@ -27,8 +29,9 @@ public class ReminderService {
     private Logger logger = LoggerFactory.getLogger(ReminderService.class);
 
     @Autowired
-    public ReminderService(JDBCUserRepository userRepository){
+    public ReminderService(JDBCUserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
 
@@ -57,6 +60,8 @@ public class ReminderService {
 
     public void saveMedicationSchedule(MedicationScheduleViewModel pillForm) {
         // Validate that the customer_id exists in the Customer table
+        //int customer_id = userRepository.getPrincipal().getCustomer_id();
+
         logger.error("Customer ID {} does not exist.", pillForm.getCustomer_id());
         boolean customerExists = userRepository.existsById(pillForm.getCustomer_id());
 
@@ -66,6 +71,8 @@ public class ReminderService {
         }
 
         MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm); //convert pillForm to medication schedule
+       // medicationSchedule.setCustomer(dummyCustomer);
+
         userRepository.createMedSchedule(medicationSchedule); // save it
     }
 

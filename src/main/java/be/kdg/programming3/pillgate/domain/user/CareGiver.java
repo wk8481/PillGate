@@ -16,13 +16,15 @@ import java.util.List;
 //@Table(name = "CareGiver")
 //@Component
 public class CareGiver {
-
+//
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int caregiver_id;
 
+
     private String caregiver_name;
     private String email;
+
 
     public String getEmail() {
         return email;
@@ -81,9 +83,10 @@ public class CareGiver {
 
     public void addCustomer(Customer customer) {
 
-       this.customers.add(customer);
-       customer.addCaregiver(this);
+        this.customers.add(customer);
+        customer.getCareGivers().add(this);
     }
+
 
 
 }

@@ -2,15 +2,18 @@ package be.kdg.programming3.oldproj.domain.user;
 
 
 
+
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-//@Entity
-//@Table(name ="MedicationSchedule")
+@Entity
+@Table(name ="MedicationSchedule")
 public class MedicationSchedule {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int medSchedule_id;
     private int customer_id;
     private LocalDate startDate;
@@ -22,7 +25,7 @@ public class MedicationSchedule {
 
     private transient Customer customer;
     private transient Dashboard dashboard;
-//    private transient List<Medicine> medicines = new ArrayList<>();
+ //   private transient List<Medicine> medicines = new ArrayList<>();
 
 
     public MedicationSchedule(int customer_id, LocalDate startDate,

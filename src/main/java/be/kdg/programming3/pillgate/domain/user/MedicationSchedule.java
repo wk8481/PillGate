@@ -1,5 +1,7 @@
 package be.kdg.programming3.pillgate.domain.user;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -9,10 +11,10 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class MedicationSchedule {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int medSchedule_id;
-/*
-    private int customer_id;
-*/
+
     private LocalDate startDate;
     private LocalDate endDate;
     private String pillName;
@@ -23,10 +25,13 @@ public class MedicationSchedule {
     private boolean isStopped;
     private String message;
 
-
+//    @ManyToOne
+//    @JoinColumn(name = "customer_id")
     private transient Customer customer;
+
+//    @ManyToOne
+//    @JoinColumn(name = "dashboard_id")
     private transient Dashboard dashboard;
-//    private transient List<Medicine> medicines = new ArrayList<>();
 
 
 
@@ -43,9 +48,8 @@ public class MedicationSchedule {
 
     }
 
-    public MedicationSchedule(Customer customer_id, LocalDate startDate, LocalDate endDate, String pillName, int quantity, LocalDateTime timeTakePill, int repeatIn
-            , boolean isStopped, String message) {
-        this.customer= customer_id;
+    public MedicationSchedule(int medSchedule_id, LocalDate startDate, LocalDate endDate, String pillName, int quantity, LocalDateTime timeTakePill, int repeatIn, boolean isStopped, String message, Customer customer, Dashboard dashboard) {
+        this.medSchedule_id = medSchedule_id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.pillName = pillName;
@@ -54,7 +58,10 @@ public class MedicationSchedule {
         this.repeatIn = repeatIn;
         this.isStopped = isStopped;
         this.message = message;
+        this.customer = customer;
+        this.dashboard = dashboard;
     }
+
 
     public MedicationSchedule() {
 
@@ -67,6 +74,7 @@ public class MedicationSchedule {
     public void setMedSchedule_id(int medSchedule_id) {
         this.medSchedule_id = medSchedule_id;
     }
+
 
 
 /*    public int getCustomer_id() {
@@ -134,22 +142,7 @@ public class MedicationSchedule {
     }
 
 
-/*    public int getCustomer_id() {
-        if (customer != null) {
-            return customer.getCustomer_id();
-        } else {
-            // Handle the case where customer is null (choose an appropriate default or throw an exception)
-            return 0; // or throw new IllegalStateException("Customer is not set");
-        }
-    }
 
-    public void setCustomer_id(Customer customer) {
-
-        this.customer = customer;
-        if(customer != null){
-            this.customer  = customer.getCustomer_id();
-        };
-    }*/
 
     public boolean isStopped() {return isStopped;}
 
@@ -159,22 +152,7 @@ public class MedicationSchedule {
 
     public void setMessage(String message) {this.message = message;}
 
-//
-//    public List<Medicine> getMedicines() {
-//        return medicines;
-//    }
-//
-//    public void setMedicines(List<Medicine> medicines) {
-//        this.medicines = medicines;
-//    }
-//
-//    public void addMedicine(Medicine medicine) {
-//        if (this.medicines == null){
-//            this.medicines = new ArrayList<>();
-//        }
-//        this.medicines.add(medicine);
-//
-//    }
+
 
     public void addCustomer(Customer customer) {
         this.customer = customer;

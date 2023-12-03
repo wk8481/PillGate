@@ -14,28 +14,23 @@ public class WeightSensor {
 
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
 //    @Column(name = "SENSOR_ID")
     private int sensor_ID;
 
 
-//    @Column(name = "WEIGHT_CAPACITY_GRAMS")
-    private final int WEIGHT_CAPACITY_GRAMS = 1000;
-//    @Column(name = "calibrationDate")
-    private LocalDate calibrationDate;
-//    @Column(name = "weight")
-    private double weight;
-//    @Column(name = "calibration")
-    private double calibrationFactor;
-//  private Long id;
 
-//    @Column(name = "customer_id")
+    private final int WEIGHT_CAPACITY_GRAMS = 1000;
+
+    private LocalDate calibrationDate;
+
+    private double weight;
+
+    private double calibrationFactor;
+
+//    @OneToOne
+//    @JoinColumn(name = "customer_id")
     private transient Customer customer;
 
-    /*
-        private PillBox pillBox;
-    */
-//    private transient List<Medicine> medicines;
 
     public WeightSensor(int sensor_ID, LocalDate calibrationDate, double weight, double calibrationFactor, int customer_id) {
         this.calibrationDate = calibrationDate;
@@ -50,6 +45,15 @@ public class WeightSensor {
         this.weight = weight;
         this.customer = new Customer(customer_id);
     }
+
+    public WeightSensor(int sensor_ID, LocalDate calibrationDate, double weight, double calibrationFactor, Customer customer) {
+        this.sensor_ID = sensor_ID;
+        this.calibrationDate = calibrationDate;
+        this.weight = weight;
+        this.calibrationFactor = calibrationFactor;
+        this.customer = customer;
+    }
+
     public WeightSensor() {
 
     }
@@ -108,6 +112,7 @@ public class WeightSensor {
 
 
 
+
     public void setCalibrationDate(LocalDate calibrationDate) {
         this.calibrationDate = calibrationDate;
     }
@@ -150,29 +155,9 @@ public class WeightSensor {
     public int getWeightCapacityGrams() {
         return getWEIGHT_CAPACITY_GRAMS();
     }
+    public void assignToCustomer(Customer customer) {
+        this.customer = customer;
+        customer.setWeightSensor(this);
+    }
 
-//    public List<Medicine> getMedicines() {
-//        return medicines;
-//    }
-
-//    public void setMedicines(List<Medicine> medicines) {
-//        this.medicines = medicines;
-//    }
-//
-//    public void addMedicines(Medicine medicine){
-//        if (medicines == null) medicines = new ArrayList<>();
-//        medicines.add(medicine);
-//
-//
-//    }
-
-
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    @Id
-//    public Long getId() {
-//        return id;
-//    }
 }

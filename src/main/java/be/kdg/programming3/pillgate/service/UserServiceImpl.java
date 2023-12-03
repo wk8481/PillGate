@@ -19,7 +19,11 @@ public class UserServiceImpl implements UserService {
     private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncryptionService passwordEncoder;
 
     @Override
     public Customer createCustomer(Customer customer) {
@@ -36,16 +40,22 @@ public class UserServiceImpl implements UserService {
     public Customer loginCustomer(CustomerLoginDto login) {
         String username = login.getUsername();
         String password = login.getPassword();
+        Customer customer = userRepository.findCustomerByUsername(username);
 
-        Customer user = userRepository.findCustomerByUsername(username);
-
-        if (user != null && user.getPassword().equals(password)) {
-            logger.info("User with username {} logged in successfully", username);
-            return user;
-        } else {
-            logger.warn("Failed login attempt for username: {}", username);
-            return null;
+        if (customer != null) {
+            logger.info("Retrieved username from the database: {}", customer.getCustomer_name());
+            if (customer.getPassword().equals(password)) {
+                logger.info("Password correctly inputted: {}", password);
+                return customer;
+            } else if (!customer.getPassword().equals(password)) {
+                logger.info("password incorrectly inputted {}", password);
+            }
         }
+
+        logger.info("Logging failed. {} does not exist.", username);
+
+        // Login failed
+        return null;
     }
 
     @Override
