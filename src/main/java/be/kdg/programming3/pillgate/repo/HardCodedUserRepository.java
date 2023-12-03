@@ -62,6 +62,18 @@ public class HardCodedUserRepository implements UserRepository {
         return null;
     }
 
+    @Override
+    public Customer findCustomerByUsername(String username) {
+        for (Customer user : customers) {
+            if (user.getCustomer_name().equals(username)) {
+                return user;
+            }
+        }
+
+        // No user found with the given username
+        return null;
+    }
+
 
     public Optional<Customer> findByUsername(String username) {
         return customers.stream()
@@ -86,11 +98,14 @@ public class HardCodedUserRepository implements UserRepository {
         }
     }
 
-
-//    @Override
-//    public Customer deleteCustomer(int customer_id) {
-//        return null;
-//    }
+    /**
+     * @param customer
+     * @return
+     */
+    @Override
+    public Customer deleteCustomer(Customer customer) {
+        return null;
+    }
 
     @Override
     public CareGiver createCareGiver(CareGiver careGiver) {

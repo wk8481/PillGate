@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -123,6 +124,18 @@ public class JDBCUserRepository implements UserRepository {
     }*/
 
     @Override
+    public Customer findCustomerByUsername(String username) {
+        String query = "SELECT * FROM Customer WHERE username = ?";
+
+        try {
+            return jdbcTemplate.queryForObject(query, new Object[]{username}, new BeanPropertyRowMapper<>(Customer.class));
+        } catch (Exception e) {
+            // No user found with the given username
+            return null;
+        }
+    }
+
+    @Override
     public Customer updateCustomer(Customer existingCustomer) {
         logger.info("Updating customer: {}", existingCustomer);
         String updateQuery = "UPDATE Customer SET customer_name = ?, birthDate = ?, email = ?, hasCareGiver = ?, password = ? WHERE customer_id = ?";
@@ -144,23 +157,21 @@ public class JDBCUserRepository implements UserRepository {
         }
     }
 
-//    @Override
-//    public Customer deleteCustomer(Customer customer) {
-//        String selectQuery = "SELECT * FROM Customer WHERE customer_id = ?";
-//        String deleteQuery = "DELETE FROM Customer WHERE customer_id = ?";
-//
-//        Customer deletedCustomer = jdbcTemplate.queryForObject(selectQuery, customerRowMapper(), customer_id);
-//
-//        int deletedRows = jdbcTemplate.update(deleteQuery, customer_id);
-//
-//        if (deletedRows > 0) {
-//            logger.info("Customer with ID {} deleted successfully", customer_id);
-//            return deletedCustomer;
-//        } else {
-//            logger.warn("Failed to delete customer with ID: {}", customer_id);
-//            return null;
-//        }
-//    }
+    @Override
+    public Customer deleteCustomer(Customer customer) {
+        Objects.requireNonNull(customer, "Customer must not be null");
+        String deleteQuery = "DELETE FROM Customer WHERE customer_id = ?";
+
+        int deletedRows = jdbcTemplate.update(deleteQuery, customer.getCustomer_id());
+
+        if (deletedRows > 0) {
+            logger.info("Customer with ID {} deleted successfully", customer.getCustomer_id());
+            return customer;
+        } else {
+            logger.warn("Failed to delete customer with ID: {}", customer.getCustomer_id());
+            return null;
+        }
+    }
 
 
     public static Dashboard dashboardRow(ResultSet rs, int rowid) throws SQLException {

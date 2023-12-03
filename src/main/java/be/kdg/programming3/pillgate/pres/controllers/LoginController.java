@@ -1,5 +1,7 @@
 package be.kdg.programming3.pillgate.pres.controllers;
 
+import be.kdg.programming3.pillgate.domain.user.Customer;
+import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerLoginDto;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
 import be.kdg.programming3.pillgate.service.UserService;
 import org.slf4j.Logger;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
     Logger logger = org.slf4j.LoggerFactory.getLogger(be.kdg.programming3.pillgate.pres.controllers.LoginController.class);
-
     private final UserService userService;
 
     @Autowired
@@ -27,15 +28,22 @@ public class LoginController {
     @GetMapping("/login")
     public String showLogin(Model model) {
         logger.info("Showing login form");
-        model.addAttribute("customerDTO", new CustomerRegistrationDto());
+        model.addAttribute("customerDTO", new CustomerLoginDto());
         return "login";
     }
 
     @PostMapping("/login")
-    public String loginCustomer(@ModelAttribute CustomerRegistrationDto registrationDto) {
-        logger.info("Logging in customer: " + registrationDto.getFirstName() + registrationDto.getLastName());
-        userService.loginCustomer(registrationDto);
+    public String loginCustomer(@ModelAttribute CustomerLoginDto loginDto, Model model) {
+        Customer authenticatedUser = userService.loginCustomer(loginDto);
 
-        return "redirect:/dashboard";
+        if (authenticatedUser != null) {
+            model.addAttribute("message", "Login successful");
+            return "redirect:/reminder";
+        } else {
+            model.addAttribute("error", "Invalid username or password");
+            return "login";
+        }
+
     }
 }
+

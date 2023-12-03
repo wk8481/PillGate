@@ -3,6 +3,7 @@ package be.kdg.programming3.pillgate.service;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
 import be.kdg.programming3.pillgate.repo.userRepo.JDBCUserRepository;
+import be.kdg.programming3.pillgate.repo.userRepo.JPAUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
