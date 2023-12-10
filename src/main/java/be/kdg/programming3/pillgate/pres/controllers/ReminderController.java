@@ -2,9 +2,11 @@ package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programmi
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
-import be.kdg.programming3.pillgate.repo.userRepo.JDBCUserRepository;
-import be.kdg.programming3.pillgate.repo.userRepo.UserRepository;
+import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
+import be.kdg.programming3.pillgate.repo.customerRepo.UserRepository;
+import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.service.ReminderService;
+import be.kdg.programming3.pillgate.service.ReminderServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,60 +22,30 @@ import java.util.List;
 @RequestMapping("/api")
 public class ReminderController {
 
-    private final UserRepository userRepository;
+    private MedScheduleRepository medScheduleRepository;
+    private CustomerRepository customerRepository;
     private ReminderService reminderService;
     private Logger logger = LoggerFactory.getLogger(ReminderController.class);
 
     @Autowired
-    public ReminderController(UserRepository userRepository, ReminderService reminderService) {
-        this.userRepository = userRepository;
-        this.reminderService = reminderService;
+    public ReminderController(CustomerRepository customerRepository, ReminderService reminderService) {
+        this.customerRepository = customerRepository;
+        this.reminderService =  reminderService;
+
     }
 
-
     @GetMapping("/checkreminder")
-    public ResponseEntity<String> checkReminder(){
+    public ResponseEntity<String> checkReminder() {
         logger.info("Checking if it is time for a reminder");
-        if (reminderService.isTimeForReminder()){
+        if (reminderService.isTimeForReminder()) {
             return ResponseEntity.ok("true");
-        }else{
+        } else {
             return ResponseEntity.ok("false");
         }
     }
 
-/*    @PostMapping("/reminder")
-//    public String handleReminderForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm, Principal principal) {
-////        if (principal == null || principal.getName() == null) {
-////            // Handle the case where the principal is null or has a null name
-////            logger.info("Principal name: {}", principal.getName());
-////            return "errorPage == principal is null";
-////        }
-////
-////        String username = principal.getName();
-////        Customer customer = userRepository.findCustomerByUsername(username);
-////
-////        if (customer != null) {
-////            pillForm.setCustomer_id(customer.getCustomer_id());
-////        } else {
-////            // Handle the case where the customer is not found
-////            logger.info("customer not found.");
-////        }
-////
-////        reminderService.saveMedicationSchedule(pillForm);
-////        logger.info("reminder set successfully.");
-////        return "redirect:/successPage";
-//        if (principal == null || principal.getName() == null) {
-//            // Handle the case where the principal is null or has a null name
-//            logger.info("Principal name: {}", principal.getName());
-//            return "errorPage == principal is null";
-//        }
-//
-//        String username = principal.getName();
-//
-//        reminderService.saveMedicationSchedule(pillForm, username);
-//        logger.info("reminder set successfully.");
-//        return "redirect:/successPage";
-//    }*/
+
+
 
     @GetMapping("/reminder")
     public String showMedicationSchedule(Model model, Principal principal) {

@@ -1,11 +1,10 @@
 package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.pillgate.controllers;
 
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
-import be.kdg.programming3.pillgate.service.ReminderService;
+import be.kdg.programming3.pillgate.service.ReminderServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +18,10 @@ public class PillController {
 
     Logger logger = LoggerFactory.getLogger(PillController.class);
 
-    private final ReminderService reminderService;
+    private final ReminderServiceImpl reminderService;
 
     @Autowired
-    public PillController(ReminderService reminderService) {
+    public PillController(ReminderServiceImpl reminderService) {
         this.reminderService = reminderService;
     }
 
@@ -45,31 +44,15 @@ public class PillController {
 
 
     @PostMapping("/reminder")
-    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm, Authentication authentication) {
+    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
         logger.info("Processing " + pillForm.toString());
 
-        if (authentication != null) {
-            String username = authentication.getName();
-            // Now you have the authenticated username, you can retrieve the user details as needed
-            // Example: Customer customer = userService.findCustomerByUsername(username);
-
-            // Perform other actions based on the authenticated user
-            reminderService.saveMedicationSchedule(pillForm, authentication);
-        } else {
-            logger.info("Principal is null");
-            // Handle the case where the principal is null
-        }
+        reminderService.saveMedicationSchedule(pillForm);
 
         return "redirect:reminder";
     }
 
-//    private MedicationSchedule convertToMedicationSchedule(PillForm pillForm) {
-//        MedicationSchedule medicationSchedule = new MedicationSchedule();
-//        medicationSchedule.setPillName(pillForm.getPillName());
-//        medicationSchedule.setTimeTakePill(pillForm.getTimeTakePill());
-//        medicationSchedule.setRepeatIn(pillForm.getRepeatIn());
-//        return medicationSchedule;
-//    }
+
 
     @GetMapping(path = "/now", produces = "application/json")
     public @ResponseBody AlarmResponse getCurrentAlarm() {
@@ -98,32 +81,6 @@ public class PillController {
         logger.info("Showing reminder2");
         return "reminder2";
     }
-//@GetMapping("/reminder2")
-//public String showReminder2(Model model) {
-//    logger.info("Checking if it's time to show reminder2");
-//
-//    if (reminderService.checkMedicationSchedule()) {
-//        logger.info("Showing reminder2");
-//        return "reminder2";
-//    } else {
-//        logger.info("Not time for reminder2 yet");
-//        return "redirect:/reminder";  // Redirect to the form if it's not time for the reminder
-//    }
-//}
-
-//    @GetMapping("/reminder2")
-//    public String showReminder2(Model model) {
-//        logger.info("Checking if it's time to show reminder2");
-//
-//        if (reminderService.isExactTimeForReminder()) {
-//            logger.info("Showing reminder2");
-//            return "reminder2";
-//        } else {
-//            logger.info("Not time for reminder2 yet");
-//            return "redirect:/reminder";  // Redirect to the form if it's not time for the reminder
-//        }
-//    }
-    //TODO make sure that the reminder2 page is only shown when it's time to take the pill or as popup link to pollReminders
 
 
     @PostMapping("/reminder2")
