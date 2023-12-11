@@ -26,12 +26,12 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
- @GetMapping("/customers")
+ @GetMapping("/customer")
     public String findAllCustomers(Model model, HttpSession session) {
         List<Customer> customers = customerService.getCustomers();
         model.addAttribute("customers", customers);
         log.info("Customers: {}", customers);
-        return "customers";
+        return "customer";
     }
 
     @GetMapping("/customers/addCustomer")

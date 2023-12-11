@@ -74,8 +74,6 @@ public class PillController {
     }
 
 
-
-
     @GetMapping("/reminder2")
     public String showReminder2() {
         logger.info("Showing reminder2");

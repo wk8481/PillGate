@@ -3,11 +3,11 @@ package be.kdg.programming3.pillgate.repo.sensorRepo;
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 @Profile("jdbctemplate")
 @Repository
+@Primary
 public class JDBCSensorRepository implements SensorRepository {
     private Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
     private static List<WeightSensor> weightSensors = new ArrayList<>();
@@ -53,9 +53,6 @@ public class JDBCSensorRepository implements SensorRepository {
         parameters.put("customer_id", weightSensor.getCustomer().getCustomer_id());
         parameters.put("WEIGHT_CAPACITY_GRAMS", weightSensor.getWEIGHT_CAPACITY_GRAMS());
         parameters.put("calibrationDate", weightSensor.getCalibrationDate());
-/*
-        parameters.put("calibrationDate", java.sql.Date.valueOf(weightSensor.getCalibrationDate()));
-*/
         parameters.put("weight", weightSensor.getWeight());
 
         // Execute the insert and get the auto-generated key

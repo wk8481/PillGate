@@ -25,7 +25,8 @@ public class ReminderController {
     private MedScheduleRepository medScheduleRepository;
     private CustomerRepository customerRepository;
     private ReminderService reminderService;
-    private Logger logger = LoggerFactory.getLogger(ReminderController.class);
+
+    private final Logger logger = LoggerFactory.getLogger(ReminderController.class);
 
     @Autowired
     public ReminderController(CustomerRepository customerRepository, ReminderService reminderService) {
@@ -50,7 +51,7 @@ public class ReminderController {
     @GetMapping("/reminder")
     public String showMedicationSchedule(Model model, Principal principal) {
         // Retrieve the logged-in user (customer)
-        Customer customer = userRepository.findCustomerByUsername(principal.getName());
+        Customer customer = customerRepository.findCustomerByUsername(principal.getName());
 
         // Retrieve the customer's medication schedule
         List<MedicationSchedule> medicationSchedule = customer.getDashboard().getMedicationSchedules();

@@ -1,7 +1,6 @@
 package be.kdg.programming3.pillgate.service;
 
 
-
 import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
@@ -10,21 +9,11 @@ import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistra
 
 import java.util.List;
 
-public interface UserService {
+public interface CareGiverService {
 
-    Customer createCustomer(Customer customer);
-    List<Customer> getCustomers();
-
-    Customer loginCustomer(CustomerLoginDto login);
 
 
     CareGiver createCareGiver(CareGiver careGiver);
 
     List<CareGiver> getCaregivers();
-
- //   MedicationSchedule createMedSchedule(MedicationSchedule medSchedule);
-
-//    Customer registerNewCustomer(CustomerRegistrationDto registrationDto);
-//    Customer convertDtoToCustomer(CustomerRegistrationDto registrationDto);
-
 }

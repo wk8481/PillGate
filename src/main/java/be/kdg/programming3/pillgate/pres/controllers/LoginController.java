@@ -3,7 +3,7 @@ package be.kdg.programming3.pillgate.pres.controllers;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerLoginDto;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
-import be.kdg.programming3.pillgate.service.UserService;
+import be.kdg.programming3.pillgate.service.CustomerService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginController {
 
-    Logger logger = LoggerFactory.getLogger(be.kdg.programming3.pillgate.pres.controllers.LoginController.class);
-    private final UserService userService;
+    Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private final CustomerService customerService;
 
     @Autowired
-    public LoginController(UserService userService) {
-        this.userService = userService;
+    public LoginController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @GetMapping("/login")
@@ -34,20 +34,11 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/login")
+ /*   @PostMapping("/login")
     public String loginCustomer(@ModelAttribute CustomerLoginDto loginDto, Model model, HttpSession session) {
-//        Customer authenticatedUser = userService.loginCustomer(loginDto);
-//
-//        if (authenticatedUser != null) {
-//            model.addAttribute("message", "Login successful");
-//            logger.info("Login successful. User {} authenticated", authenticatedUser);
-//            return "redirect:/reminder";
-//        } else {
-//            model.addAttribute("error", "Invalid username or password");
-//            return "login";
-//        }
 
-        Customer authenticatedUser = userService.loginCustomer(loginDto);
+
+        Customer authenticatedUser = customerService.loginCustomer(loginDto);
 
         if (authenticatedUser != null) {
             session.setAttribute("authenticatedUser", authenticatedUser);
@@ -60,6 +51,31 @@ public class LoginController {
             return "login";
         }
 
+    }*/
+
+    @PostMapping("/login")
+    public String loginCustomer(@ModelAttribute CustomerLoginDto loginDto, Model model, HttpSession session) {
+        if (session.getAttribute("authenticatedUser") != null) {
+            // User already logged in
+            return "redirect:/dashboard";
+        }
+        Customer authenticatedUser = customerService.loginCustomer(loginDto);
+        if (authenticatedUser != null) {
+            session.setAttribute("authenticatedUser", authenticatedUser);
+            logger.info("Login successful. User {} authenticated", authenticatedUser);
+            return "redirect:/reminder";
+        } else {
+            model.addAttribute("error", "Invalid username or password");
+            return "login";
+        }
     }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
+    }
+
 }
 

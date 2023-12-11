@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile("jdbctemplate")
+@Profile("dev")
 public class JdbcDatasourceConfig {
 
     @Bean

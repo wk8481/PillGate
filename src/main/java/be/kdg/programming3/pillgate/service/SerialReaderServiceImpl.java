@@ -100,6 +100,7 @@ public class SerialReaderServiceImpl implements SerialReader{
                 // Retrieve the latest WeightSensor from the repository
                 WeightSensor latestSensor = sensorRepository.findAllWSensors().stream().findFirst().orElse(null);
 
+                sensorRepository.createSensor(latestSensor);
                 // Update the values in the latest WeightSensor
                 if (latestSensor != null) {
                     latestSensor.updateValues(weight, calibrationFactor);
@@ -118,7 +119,7 @@ public class SerialReaderServiceImpl implements SerialReader{
     public void disconnect() throws IOException {
         if (input != null) {
             input.close();
-  }
-}
+        }
+    }
 
 }

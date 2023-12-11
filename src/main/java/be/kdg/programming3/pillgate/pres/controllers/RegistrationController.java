@@ -1,6 +1,5 @@
 //package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
 //import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
-//import be.kdg.programming3.pillgate.service.UserService;
 //import org.springframework.web.bind.annotation.RequestMapping;
 //
 //import org.slf4j.Logger;
@@ -14,11 +13,11 @@
 //public class RegistrationController {
 //    Logger logger = org.slf4j.LoggerFactory.getLogger(RegistrationController.class);
 //
-//    private final UserService userService;
+//    private final CustomerService customerService;
 //
 //    @Autowired
-//    public RegistrationController(UserService userService) {
-//        this.userService = userService;
+//    public RegistrationController(CustomerService customerService) {
+//        this.customerService = customerService;
 //    }
 //
 //    @GetMapping
@@ -51,7 +50,7 @@
 //public class CustomerController {
 //
 //    @Autowired
-//    private UserService customerService;
+//    private CustomerService customerService;
 //
 //    @PostMapping("/register")
 //    public ResponseEntity<String> registerCustomer(@RequestBody CustomerRegistrationDto customerRegistrationDto) {
