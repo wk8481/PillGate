@@ -41,7 +41,7 @@ public class MedicationSchedule {
 
     public MedicationSchedule(Customer customer, LocalDate startDate,
                               LocalDate endDate, String pillName,
-                              int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced) {
+                              int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced, double weightOfSinglePill, int nrOfPillsTaken) {
         this.customer = customer;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -50,6 +50,8 @@ public class MedicationSchedule {
         this.timeTakePill = timeTakePill;
         this.repeatIn = repeatIn;
         this.nrOfPillsPlaced = nrOfPillsPlaced;
+        this.weightOfSinglePill = weightOfSinglePill;
+        this.nrOfPillsTaken = nrOfPillsTaken;
     }
 
     public MedicationSchedule(int medSchedule_id, LocalDate startDate, LocalDate endDate, String pillName, int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced, boolean isStopped, String message, Customer customer, Dashboard dashboard) {

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serial;
 import java.security.Principal;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class ReminderController {
     private MedScheduleRepository medScheduleRepository;
     private CustomerRepository customerRepository;
     private ReminderService reminderService;
+    private SerialReader sensorservice;
 
     private final Logger logger = LoggerFactory.getLogger(ReminderController.class);
 

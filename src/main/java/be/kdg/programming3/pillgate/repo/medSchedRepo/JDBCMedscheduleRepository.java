@@ -45,6 +45,8 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
         medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
         medicationSchedule.setRepeatIn(rs.getInt("repeatIn"));
         medicationSchedule.setNrOfPillsPlaced(rs.getInt("nrOfPillsPlaced"));
+        medicationSchedule.setWeightOfSinglePill(rs.getDouble("weightOfSinglePill"));
+        medicationSchedule.setNrOfPillsTaken(rs.getInt("nrOfPillsTaken"));
         medicationSchedule.setStopped(rs.getBoolean("isStopped"));
         medicationSchedule.setMessage(rs.getString("message"));
         // Set other properties as needed
@@ -84,6 +86,8 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
                 medSchedule.getQuantity(),
                 medSchedule.getTimeTakePill(),
                 medSchedule.getNrOfPillsPlaced(),
+                medSchedule.getWeightOfSinglePill(),
+                medSchedule.getNrOfPillsTaken(),
                 medSchedule.isStopped(),
                 medSchedule.getMessage());
         return medSchedule;

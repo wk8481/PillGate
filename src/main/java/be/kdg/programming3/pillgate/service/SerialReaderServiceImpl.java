@@ -131,34 +131,30 @@ public class SerialReaderServiceImpl implements SerialReader{
     }
 
 
-
         private void calculateWeightOfSinglePill(MedicationSchedule latestMedSchedule, WeightSensor latestSensor) {
             if (latestMedSchedule != null) {
                 // Add logic to check if the weight is reduced from the total weight of the box and pills
                 double weightReduction = latestMedSchedule.getNrOfPillsPlaced() * latestMedSchedule.getWeightOfSinglePill();
-                if (latestSensor.getWeight() < weightReduction) {
-                    int pillsTaken = (int) ((weightReduction - latestSensor.getWeight()) / latestMedSchedule.getWeightOfSinglePill());
+            if (latestSensor.getWeight() < weightReduction) {
+                int pillsTaken = (int) ((weightReduction - latestSensor.getWeight()) / latestMedSchedule.getWeightOfSinglePill());
 
-                    // Update the number of pills placed in the MedicationSchedule
-                    latestMedSchedule.setNrOfPillsPlaced(latestMedSchedule.getNrOfPillsPlaced() + pillsTaken);
+                // Update the number of pills placed in the MedicationSchedule
+                latestMedSchedule.setNrOfPillsPlaced(latestMedSchedule.getNrOfPillsPlaced() + pillsTaken);
 
-                    // Calculate the weight of a single pill
-                    if (latestMedSchedule.getNrOfPillsPlaced() > 0) {
-                        double totalWeightWithPills = latestSensor.getWeight() + weightReduction;
-                        double weightOfSinglePill = weightReduction / latestMedSchedule.getNrOfPillsPlaced();
+                // Calculate the weight of a single pill
+                if (latestMedSchedule.getNrOfPillsPlaced() > 0) {
+                    double totalWeightWithPills = latestSensor.getWeight() + weightReduction;
+                    double weightOfSinglePill = weightReduction / latestMedSchedule.getNrOfPillsPlaced();
 
-                        // Set the calculated weightOfSinglePill in the MedicationSchedule
-                        latestMedSchedule.setWeightOfSinglePill(weightOfSinglePill);
+                    // Set the calculated weightOfSinglePill in the MedicationSchedule
+                    latestMedSchedule.setWeightOfSinglePill(weightOfSinglePill);
 
-                        // Update the number of pills placed and the number of pills taken
-                        int pillsPlaced = (int) (totalWeightWithPills / weightOfSinglePill);
-                        //int pillsTaken = latestMedSchedule.getNrOfPillsPlaced() - pillsPlaced;
+                    // Update the number of pills taken
+                    int pillsTakenUpdated = latestMedSchedule.getNrOfPillsPlaced() - (int) (totalWeightWithPills / weightOfSinglePill);
+                    latestMedSchedule.setNrOfPillsTaken(pillsTakenUpdated);
 
-                        latestMedSchedule.setNrOfPillsPlaced(pillsPlaced);
-                        //latestMedSchedule.setNrOfPillsTaken(pillsTaken);
-
-                        // Save the updated MedicationSchedule back to the repository
-                        medScheduleRepository.updateMedSchedule(latestMedSchedule);
+                    // Save the updated MedicationSchedule back to the repository
+                    medScheduleRepository.updateMedSchedule(latestMedSchedule);
                     } else {
                         logger.error("Invalid MedicationSchedule or WeightSensor: latestMedSchedule={}, latestSensor={}", latestMedSchedule, latestSensor);
                     }

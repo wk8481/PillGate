@@ -87,6 +87,7 @@
             <th>Sensor ID</th>
             <th>Weight</th>
             <th>Calibration Date</th>
+            <th>Number of pills taken</th>
         </tr>
         </thead>
         <tbody>
@@ -95,7 +96,9 @@
             <td th:text="${sensor.sensor_ID}"></td>
             <td th:text="${sensor.weight}"></td>
             <td th:text="${sensor.calibrationDate}"></td>
+            <td th:text="${nrOfPillsTaken}"></td>
         </tr>
+
         </tbody>
     </table>
 

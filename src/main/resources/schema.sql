@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   quantity INT,
                                                   timeTakePill DATE,
                                                   nrOfPillsPlaced INT,
+                                                  weightOfSinglePill DOUBLE,
+                                                  nrOfPillsTaken INT,
                                                   isStopped BOOLEAN,
                                                   message VARCHAR(255)
 

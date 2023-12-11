@@ -1,6 +1,9 @@
 package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
+import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedscheduleRepository;
+import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import be.kdg.programming3.pillgate.service.SerialReader;
 import org.slf4j.Logger;
@@ -16,11 +19,13 @@ public class LoadSensorController {
 
     private final SerialReader serialReader;
     private final SensorRepository sensorRepository;
+    private final MedScheduleRepository medscheduleRepository;
     private Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
 
-    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository) {
+    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository ) {
         this.serialReader = serialReader;
         this.sensorRepository = sensorRepository;
+        this.medscheduleRepository = medScheduleRepository;
     }
 
     @GetMapping()
@@ -38,6 +43,19 @@ public class LoadSensorController {
         } catch (Exception e) {
             logger.info("Error reading Arduino data", e);
         }
+        return "dashboard";
+    }
+
+    @GetMapping("/readArduino")
+    public String showNumberOfPillsTaken(Model model) {
+        // Assuming you have a method in the service to get the latest medication schedule
+        //MedicationSchedule latestMedSchedule = medicationScheduleService.getLatestMedicationSchedule();
+        MedicationSchedule latestMedSchedule = medscheduleRepository.findAllMedSchedules().stream().findFirst().orElse(null);
+
+        if (latestMedSchedule != null) {
+            model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
+        }
+
         return "dashboard";
     }
 
