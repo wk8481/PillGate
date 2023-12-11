@@ -77,8 +77,9 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
     @Override
     public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
         logger.info("Creating medschedule");
-        jdbcTemplate.update("INSERT INTO MedicationSchedule(customer_id,startDate,endDate,pillName,quantity,timeTakePill,nrOfPillsPlaced,isStopped,message) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO MedicationSchedule(customer_id,startDate,endDate,pillName," +
+                        "quantity,timeTakePill,nrOfPillsPlaced, weightOfSinglePill, nrOfPillsTaken, isStopped, message) " +
+                        "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
                 medSchedule.getCustomer().getCustomer_id(),
                 medSchedule.getStartDate(),
                 medSchedule.getEndDate(),

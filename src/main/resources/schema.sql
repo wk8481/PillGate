@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS Dashboard (
     );
 
 -- MedicationSchedule Table
+DROP TABLE IF EXISTS MEDICATIONSCHEDULE;
 CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   medSchedule_id INT AUTO_INCREMENT PRIMARY KEY,
                                                   customer_id INT,
@@ -62,6 +63,7 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   pillName VARCHAR(255),
                                                   quantity INT,
                                                   timeTakePill DATE,
+                                                  repeatIn INT,
                                                   nrOfPillsPlaced INT,
                                                   weightOfSinglePill DOUBLE,
                                                   nrOfPillsTaken INT,

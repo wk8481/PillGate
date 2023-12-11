@@ -69,12 +69,11 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         if (customerExists == null) {
             logger.error("Customer ID {} does not exist.", customerId);
             throw new IllegalArgumentException("Invalid customer_id: " + customerId);
-        } else {
-            MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
-            medScheduleRepository.createMedSchedule(medicationSchedule);
-            medScheduleRepository.updateMedSchedule(medicationSchedule);
-            logger.info("Customer_id: {} saved medication schedule", customerId);
         }
+
+        MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
+        medScheduleRepository.createMedSchedule(medicationSchedule);
+        logger.info("Customer_id: {} saved medication schedule", customerId);
     }
 
     private int extractCustomerIdFromSession() {
@@ -86,6 +85,7 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
             throw new IllegalStateException("User not authenticated");
         }
     }
+
 
 
     @Override
