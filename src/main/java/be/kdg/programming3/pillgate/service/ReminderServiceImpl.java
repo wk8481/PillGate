@@ -14,14 +14,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ReminderServiceImpl implements ReminderService {
+public class ReminderServiceImpl implements ReminderService, Serializable {
 
     private final MedScheduleRepository medScheduleRepository;
     private final CustomerRepository customerRepository;
+
+
 
     @Autowired
     private HttpServletRequest request;
@@ -43,8 +46,7 @@ public class ReminderServiceImpl implements ReminderService {
         int customerId = extractCustomerIdFromSession();
         Customer customer = customerRepository.findCustomerById(customerId);
         medicationSchedule.setCustomer(customer);
-
-       medicationSchedule.setPillName(pillForm.getPillName());
+        medicationSchedule.setPillName(pillForm.getPillName());
         medicationSchedule.setTimeTakePill(pillForm.getTimeTakePill());
         medicationSchedule.setRepeatIn(pillForm.getRepeatIn());
         medicationSchedule.setNrOfPillsPlaced(pillForm.getNrOfPillsPlaced());
@@ -67,14 +69,12 @@ public class ReminderServiceImpl implements ReminderService {
         if (customerExists == null) {
             logger.error("Customer ID {} does not exist.", customerId);
             throw new IllegalArgumentException("Invalid customer_id: " + customerId);
-        }
-
+        } else {
             MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
             medScheduleRepository.createMedSchedule(medicationSchedule);
+            medScheduleRepository.updateMedSchedule(medicationSchedule);
             logger.info("Customer_id: {} saved medication schedule", customerId);
-
-
-
+        }
     }
 
     private int extractCustomerIdFromSession() {

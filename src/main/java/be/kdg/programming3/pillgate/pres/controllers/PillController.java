@@ -41,7 +41,7 @@ public class PillController {
             // Now you have the authenticated username, you can retrieve the user details as needed
             // Example: Customer customer = userService.findCustomerByUsername(username);
         } else {
-            logger.info("Principal is null");
+            logger.info("session is null");
             // Handle the case where the principal is null
         }
 
