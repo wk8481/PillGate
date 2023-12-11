@@ -53,30 +53,15 @@ public class PillController {
     @PostMapping("/reminder")
     public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
         logger.info("Processing " + pillForm.toString());
+
+        logger.info("saving medicationSchedule....");
+
         reminderService.saveMedicationSchedule(pillForm);
+
         return "redirect:reminder";
     }
 
 
-
-    @GetMapping(path = "/now", produces = "application/json")
-    public @ResponseBody AlarmResponse getCurrentAlarm() {
-        String message = reminderService.getMedScheduleAlert();
-        return new AlarmResponse(message);
-    }
-
-
-    public static class AlarmResponse {
-        private String message;
-
-        public AlarmResponse(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-    }
 
 
     @GetMapping("/reminder2")

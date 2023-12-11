@@ -72,6 +72,7 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         }
 
         MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
+        medicationSchedule.setMessage("It's time to take your " + pillForm.getPillName());
         medScheduleRepository.createMedSchedule(medicationSchedule);
         logger.info("Customer_id: {} saved medication schedule", customerId);
     }
@@ -115,7 +116,6 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
     }
 
 
-
     @Override
     public String getMedScheduleAlert() {
         logger.info("Getting medication schedule message");
@@ -125,6 +125,7 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
             && medicationSchedule.getTimeTakePill().getMinute() == currentDateTime.getMinute()
             && !medicationSchedule.isStopped()) {
                 medicationSchedule.setStopped(true);
+                medScheduleRepository.createMedSchedule(medicationSchedule);
                 return medicationSchedule.getMessage();
             }
         }

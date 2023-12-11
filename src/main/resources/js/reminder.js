@@ -1,17 +1,57 @@
+// use alert windows
+// const repeatedFunction = () => {
+//     console.log("Calling backend...");
+//     fetch("http://localhost:8080/alarm/now")
+//         .then((response) => {
+//         if(!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`)
+//         }
+//             return response.json();
+//         })
+//         .then((data) => {
+//             if (data.message != null) {
+//                 alert("Alarm: " + data.message);
+//             }
+//         })
+//         .catch((error) => {
+//             console.error('Fetch error: ', error);
+//         });
+// };
+
+// use swal2
+
+// Define a flag to track whether the alert is currently shown
+let isAlartShown = false;
 
 const repeatedFunction = () => {
     console.log("Calling backend...");
     fetch("http://localhost:8080/alarm/now")
-    .then((response) => {
-    return response.json();
-})
-    .then((data) => {
-    if (data.message != null) {
-    alert("Alarm: " + data.message);
-}
-})
+        .then((response) => {
+            if(!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`)
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.message != null) {
+                swal.fire({
+                    title: "Alarm",
+                    text: data.message,
+                    icon:"info",
+                    button:"Stop"
+                }).then((result) => {
+                    // clearInterval(interval);
+
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('Fetch error: ', error);
+        });
 };
-    setInterval(repeatedFunction, 5000);//check every 5 seconds if there is an alarm...
+
+
+setInterval(repeatedFunction, 5000);//check every 5 seconds if there is an alarm...
 
 
 
@@ -19,20 +59,6 @@ const repeatedFunction = () => {
 
 
 
-
-
-
-
-// function checkReminder(){
-//     $.get("/api/checkreminder", function(data){
-//         if( data ==="true"){
-//             alert("It's time to take your medication!")
-//             location.reload();
-//         }
-//     });
-// }
-// // check for a reminder every minute
-// setInterval(checkReminder, 60000)
 
 
 
