@@ -1,6 +1,8 @@
 package be.kdg.programming3.pillgate.service;
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
+import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortTimeoutException;
@@ -20,12 +22,14 @@ import java.io.InputStreamReader;
 public class SerialReaderServiceImpl implements SerialReader{
     private BufferedReader input;
     private final SensorRepository sensorRepository;
+    private final MedScheduleRepository medScheduleRepository;
     private Logger logger = LoggerFactory.getLogger(SerialReaderServiceImpl.class);
 
 
     @Autowired
-    public SerialReaderServiceImpl(@Qualifier("JDBCSensorRepository") SensorRepository sensorRepository) {
+    public SerialReaderServiceImpl(@Qualifier("JDBCSensorRepository") SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
         this.sensorRepository = sensorRepository;
+        this.medScheduleRepository=medScheduleRepository;
     }
 //    public SerialReaderServiceImpl(SensorRepository sensorRepository) {
 //        this.sensorRepository = sensorRepository;
@@ -106,7 +110,17 @@ public class SerialReaderServiceImpl implements SerialReader{
                     latestSensor.updateValues(weight, calibrationFactor);
                     // Save the updated sensor back to the repository
                     sensorRepository.updateSensor(latestSensor);
+
+                    // Retrieve the latest MedicationSchedule from the repository
+                    MedicationSchedule latestMedSchedule = medScheduleRepository.findAllMedSchedules().stream().findFirst().orElse(null);
+
+                    // Update the MedicationSchedule based on weight sensor data
+                    if (latestMedSchedule != null) {
+                        // Call the method to calculate the weight of a single pill
+                        calculateWeightOfSinglePill(latestMedSchedule, latestSensor);
+                    }
                 }
+
             } catch (NumberFormatException e) {
                 logger.error("Error parsing number in data: {}", inputLine);
                 System.out.println("Invalid number format in data: " + inputLine);
@@ -115,6 +129,42 @@ public class SerialReaderServiceImpl implements SerialReader{
             System.out.println("Invalid data format: " + inputLine);
         }
     }
+
+
+
+        private void calculateWeightOfSinglePill(MedicationSchedule latestMedSchedule, WeightSensor latestSensor) {
+            if (latestMedSchedule != null) {
+                // Add logic to check if the weight is reduced from the total weight of the box and pills
+                double weightReduction = latestMedSchedule.getNrOfPillsPlaced() * latestMedSchedule.getWeightOfSinglePill();
+                if (latestSensor.getWeight() < weightReduction) {
+                    int pillsTaken = (int) ((weightReduction - latestSensor.getWeight()) / latestMedSchedule.getWeightOfSinglePill());
+
+                    // Update the number of pills placed in the MedicationSchedule
+                    latestMedSchedule.setNrOfPillsPlaced(latestMedSchedule.getNrOfPillsPlaced() + pillsTaken);
+
+                    // Calculate the weight of a single pill
+                    if (latestMedSchedule.getNrOfPillsPlaced() > 0) {
+                        double totalWeightWithPills = latestSensor.getWeight() + weightReduction;
+                        double weightOfSinglePill = weightReduction / latestMedSchedule.getNrOfPillsPlaced();
+
+                        // Set the calculated weightOfSinglePill in the MedicationSchedule
+                        latestMedSchedule.setWeightOfSinglePill(weightOfSinglePill);
+
+                        // Update the number of pills placed and the number of pills taken
+                        int pillsPlaced = (int) (totalWeightWithPills / weightOfSinglePill);
+                        //int pillsTaken = latestMedSchedule.getNrOfPillsPlaced() - pillsPlaced;
+
+                        latestMedSchedule.setNrOfPillsPlaced(pillsPlaced);
+                        //latestMedSchedule.setNrOfPillsTaken(pillsTaken);
+
+                        // Save the updated MedicationSchedule back to the repository
+                        medScheduleRepository.updateMedSchedule(latestMedSchedule);
+                    } else {
+                        logger.error("Invalid MedicationSchedule or WeightSensor: latestMedSchedule={}, latestSensor={}", latestMedSchedule, latestSensor);
+                    }
+                }
+            }
+        }
 
     public void disconnect() throws IOException {
         if (input != null) {

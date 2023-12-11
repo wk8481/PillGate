@@ -50,7 +50,7 @@ public class ReminderServiceImpl implements ReminderService {
        medicationSchedule.setPillName(pillForm.getPillName());
         medicationSchedule.setTimeTakePill(pillForm.getTimeTakePill());
         medicationSchedule.setRepeatIn(pillForm.getRepeatIn());
-
+        medicationSchedule.setNrOfPillsPlaced(pillForm.getNrOfPillsPlaced());
         return medicationSchedule;
     }
 

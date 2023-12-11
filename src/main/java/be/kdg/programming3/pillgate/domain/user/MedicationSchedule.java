@@ -22,6 +22,10 @@ public class MedicationSchedule {
     private LocalDateTime timeTakePill;
     private int repeatIn;
 
+    private int nrOfPillsPlaced;
+    private double weightOfSinglePill;
+    private int nrOfPillsTaken;
+
     private boolean isStopped;
     private String message;
 
@@ -37,7 +41,7 @@ public class MedicationSchedule {
 
     public MedicationSchedule(Customer customer, LocalDate startDate,
                               LocalDate endDate, String pillName,
-                              int quantity, LocalDateTime timeTakePill, int repeatIn ) {
+                              int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced) {
         this.customer = customer;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -45,10 +49,10 @@ public class MedicationSchedule {
         this.quantity = quantity;
         this.timeTakePill = timeTakePill;
         this.repeatIn = repeatIn;
-
+        this.nrOfPillsPlaced = nrOfPillsPlaced;
     }
 
-    public MedicationSchedule(int medSchedule_id, LocalDate startDate, LocalDate endDate, String pillName, int quantity, LocalDateTime timeTakePill, int repeatIn, boolean isStopped, String message, Customer customer, Dashboard dashboard) {
+    public MedicationSchedule(int medSchedule_id, LocalDate startDate, LocalDate endDate, String pillName, int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced, boolean isStopped, String message, Customer customer, Dashboard dashboard) {
         this.medSchedule_id = medSchedule_id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -58,6 +62,7 @@ public class MedicationSchedule {
         this.repeatIn = repeatIn;
         this.isStopped = isStopped;
         this.message = message;
+        this.nrOfPillsPlaced = nrOfPillsPlaced;
         this.customer = customer;
         this.dashboard = dashboard;
     }
@@ -105,9 +110,15 @@ public class MedicationSchedule {
         return repeatIn;
     }
 
-//    public void setCustomer_id(int customer_id) {
-//        this.customer_id = customer_id;
-//    }
+    public int getNrOfPillsPlaced(){
+        return nrOfPillsPlaced;
+    }
+    public double getWeightOfSinglePill() {
+        return weightOfSinglePill;
+    }
+    public int getNrOfPillsTaken(){
+        return nrOfPillsTaken;
+    }
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
@@ -133,6 +144,15 @@ public class MedicationSchedule {
         this.repeatIn = repeatIn;
     }
 
+    public void setNrOfPillsPlaced(int nrOfPillsPlaced){
+        this.nrOfPillsPlaced = nrOfPillsPlaced;
+    }
+    public void setWeightOfSinglePill(double weightOfSinglePill) {
+        this.weightOfSinglePill = weightOfSinglePill;
+    }
+    public void setNrOfPillsTaken(int nrOfPillsTaken){
+        this.nrOfPillsTaken = nrOfPillsTaken;
+    }
     public Customer getCustomer() {
         return customer;
     }
@@ -186,6 +206,7 @@ public class MedicationSchedule {
                 ", quantity=" + quantity +
                 ", timeTakePill=" + formattedDate3 +
                 ", repeatIn=" + repeatIn +
+                ", nrOfPillsPlaced=" + nrOfPillsPlaced +
                 '}';
 
 

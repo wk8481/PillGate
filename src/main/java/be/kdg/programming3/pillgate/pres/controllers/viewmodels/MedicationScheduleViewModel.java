@@ -21,6 +21,7 @@ public class MedicationScheduleViewModel {
     private int quantity;
     private LocalDateTime timeTakePill;
     private int repeatIn;
+    private int nrOfPillsPlaced;
 
 //    private transient Customer customer;
 //    private transient Dashboard dashboard;
@@ -29,7 +30,7 @@ public class MedicationScheduleViewModel {
 
     public MedicationScheduleViewModel(int customer_id, LocalDate startDate,
                               LocalDate endDate, String pillName,
-                              int quantity, LocalDateTime timeTakePill, int repeatIn) {
+                              int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced) {
         this.customer_id = customer_id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -37,6 +38,7 @@ public class MedicationScheduleViewModel {
         this.quantity = quantity;
         this.timeTakePill = timeTakePill;
         this.repeatIn = repeatIn;
+        this.nrOfPillsPlaced = nrOfPillsPlaced;
 
     }
 
@@ -81,6 +83,9 @@ public class MedicationScheduleViewModel {
 
     public int getRepeatIn() { return repeatIn;}
 
+    public int getNrOfPillsPlaced(){
+        return nrOfPillsPlaced;
+    }
     public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
     }
@@ -107,6 +112,9 @@ public class MedicationScheduleViewModel {
 
     public void setRepeatIn(int repeatIn) { this.repeatIn = repeatIn;}
 
+    public void setNrOfPillsPlaced(int nrOfPillsPlaced){
+        this.nrOfPillsPlaced=nrOfPillsPlaced;
+    }
 /*    public Customer getCustomer() {
         return customer;
     }
@@ -180,6 +188,7 @@ public class MedicationScheduleViewModel {
                 ", pillName='" + pillName + '\'' +
                 ", quantity=" + quantity +
                 ", timeTakePill=" + formattedTimeTakePill +
+                ", nrOfPillsPlaced=" + nrOfPillsPlaced +
                 '}';
 
     }

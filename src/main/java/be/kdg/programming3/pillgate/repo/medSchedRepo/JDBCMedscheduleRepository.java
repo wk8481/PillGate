@@ -44,6 +44,7 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
         medicationSchedule.setQuantity(rs.getInt("quantity"));
         medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
         medicationSchedule.setRepeatIn(rs.getInt("repeatIn"));
+        medicationSchedule.setNrOfPillsPlaced(rs.getInt("nrOfPillsPlaced"));
         medicationSchedule.setStopped(rs.getBoolean("isStopped"));
         medicationSchedule.setMessage(rs.getString("message"));
         // Set other properties as needed
@@ -74,8 +75,8 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
     @Override
     public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
         logger.info("Creating medschedule");
-        jdbcTemplate.update("INSERT INTO MedicationSchedule(medSchedule_id,customer_id,startDate,endDate,pillName,quantity,timeTakePill,isStopped,message) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO MedicationSchedule(medSchedule_id,customer_id,startDate,endDate,pillName,quantity,timeTakePill,nrOfPillsPlaced,isStopped,message) " +
+                        "VALUES (?,?,?,?,?,?,?,?,?,?)",
                 medSchedule.getMedSchedule_id(),
                 medSchedule.getCustomer().getCustomer_id(),
                 medSchedule.getStartDate(),
@@ -83,6 +84,7 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
                 medSchedule.getPillName(),
                 medSchedule.getQuantity(),
                 medSchedule.getTimeTakePill(),
+                medSchedule.getNrOfPillsPlaced(),
                 medSchedule.isStopped(),
                 medSchedule.getMessage());
         return medSchedule;
