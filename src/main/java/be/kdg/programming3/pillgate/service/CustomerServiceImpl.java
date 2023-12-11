@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+
     private final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
     CustomerRepository customerRepository;
 
@@ -39,17 +40,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer loginCustomer(CustomerLoginDto login) {
-        String username = login.getUsername();
+        String email= login.getEmail();
         String password = login.getPassword();
 
         Customer authenticatedCustomer = customerRepository.findCustomerByEmail(email);
 
-        if (customer != null) {
-            logger.info("Retrieved username from the database: {}", customer.getCustomer_name());
-            if (customer.getPassword().equals(password)) {
+        if (authenticatedCustomer != null) {
+            logger.info("Retrieved username from the database: {}", authenticatedCustomer.getCustomer_name());
+            if (authenticatedCustomer.getPassword().equals(password)) {
                 logger.info("Password correctly inputted: {}", password);
-                return customer;
-            } else if (!customer.getPassword().equals(password)) {
+                return authenticatedCustomer;
+            } else if (!authenticatedCustomer.getPassword().equals(password)) {
                 logger.info("password incorrectly inputted {}", password);
                 HttpSession session = request.getSession(true);
                 session.setAttribute("customer", authenticatedCustomer);

@@ -7,6 +7,7 @@ import be.kdg.programming3.pillgate.repo.customerRepo.UserRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.service.ReminderService;
 import be.kdg.programming3.pillgate.service.ReminderServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class ReminderController {
 
 
     @GetMapping("/reminder")
-    public String showMedicationSchedule(Model model, Principal principal) {
+    public String showMedicationSchedule(Model model, HttpSession session) {
         // Retrieve the logged-in user (customer)
         Customer customer = customerRepository.findCustomerByUsername(session.getId());
 

@@ -6,15 +6,12 @@ import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationSchedu
 //import be.kdg.programming3.pillgate.repo.userRepo.JPAUserRepository;
 import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
 import be.kdg.programming3.pillgate.repo.customerRepo.JDBCCustomerRepository;
-import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedscheduleRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
