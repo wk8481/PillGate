@@ -3,9 +3,7 @@ package be.kdg.programming3.pillgate.service;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
-//import be.kdg.programming3.pillgate.repo.userRepo.JPAUserRepository;
 import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
-import be.kdg.programming3.pillgate.repo.customerRepo.JDBCCustomerRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -33,7 +32,7 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
     private Logger logger = LoggerFactory.getLogger(ReminderServiceImpl.class);
 
     @Autowired
-    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, JDBCCustomerRepository customerRepository){
+    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, CustomerRepository customerRepository){
         this.medScheduleRepository = medscheduleRepository;
         this.customerRepository = customerRepository;
     }
@@ -58,7 +57,17 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         medScheduleRepository.createMedSchedule(convertToMedicationSchedule(model));
     }
 
+    @Override
+    public MedicationSchedule getLatestMedicationSchedule() {
+        // Logic to retrieve the latest medication schedule from the repository
+        // Example: Order by medSchedule_id in descending order and return the first one
+        List<MedicationSchedule> allSchedules = medScheduleRepository.findAllMedSchedules();
 
+        return allSchedules.stream()
+                .sorted(Comparator.comparingInt(MedicationSchedule::getMedSchedule_id).reversed())
+                .findFirst()
+                .orElse(null);
+    }
 
     @Override
     public void saveMedicationSchedule(MedicationScheduleViewModel pillForm) {

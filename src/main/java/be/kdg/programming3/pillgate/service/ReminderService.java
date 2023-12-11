@@ -8,6 +8,8 @@ public interface ReminderService {
 
     void getMedicationScheduleForm(MedicationScheduleViewModel model);
 
+    MedicationSchedule getLatestMedicationSchedule();
+
     void saveMedicationSchedule(MedicationScheduleViewModel pillForm);
 
     // this method to check if it is time for a reminder

@@ -114,6 +114,7 @@ public class MedicationSchedule {
         this.repeatIn = repeatIn;
     }
 
+
     public void setNrOfPillsPlaced(int nrOfPillsPlaced){
         this.nrOfPillsPlaced = nrOfPillsPlaced;
     }
@@ -123,6 +124,8 @@ public class MedicationSchedule {
     public void setNrOfPillsTaken(int nrOfPillsTaken){
         this.nrOfPillsTaken = nrOfPillsTaken;
     }
+
+
     public Customer getCustomer() {
         return customer;
     }

@@ -2,9 +2,9 @@ package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programmi
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
-import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedscheduleRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
+import be.kdg.programming3.pillgate.service.ReminderService;
 import be.kdg.programming3.pillgate.service.SerialReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +20,14 @@ public class LoadSensorController {
     private final SerialReader serialReader;
     private final SensorRepository sensorRepository;
     private final MedScheduleRepository medscheduleRepository;
+    private final ReminderService reminderService;
     private Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
 
-    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository ) {
+    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository, ReminderService reminderService) {
         this.serialReader = serialReader;
         this.sensorRepository = sensorRepository;
         this.medscheduleRepository = medScheduleRepository;
+        this.reminderService = reminderService;
     }
 
     @GetMapping()
@@ -50,16 +52,20 @@ public class LoadSensorController {
     @GetMapping("/readArduino/showPillsTaken")
     public String showNumberOfPillsTaken(Model model) {
         // Assuming you have a method in the service to get the latest medication schedule
-        //MedicationSchedule latestMedSchedule = medicationScheduleService.getLatestMedicationSchedule();
-
         //I NEED TO CHANGE THAT LINE AND GET IT FROM MED SCHEDULE SERVICE
-
-        MedicationSchedule latestMedSchedule = medscheduleRepository.findAllMedSchedules().stream().findFirst().orElse(null);
+        MedicationSchedule latestMedSchedule = reminderService.getLatestMedicationSchedule();
+        logger.info("Getting latest medication schedule {}", latestMedSchedule);
 
         if (latestMedSchedule != null) {
             model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
+            logger.info("Showing number of pills taken {}", latestMedSchedule.getNrOfPillsTaken());
+
             model.addAttribute("weightOfSinglePill", latestMedSchedule.getWeightOfSinglePill());
+            logger.info("Weight of Single Pill: {}", latestMedSchedule.getWeightOfSinglePill());
+
             model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
+            logger.info("Number of Pills Placed: {}", latestMedSchedule.getNrOfPillsPlaced());
+
         }
 
         return "dashboard";

@@ -15,10 +15,7 @@ public class MedicationScheduleViewModel {
 
     private int medSchedule_id;
     private int customer_id;
-    private LocalDate startDate;
-    private LocalDate endDate;
     private String pillName;
-    private int quantity;
     private LocalDateTime timeTakePill;
     private int repeatIn;
     private int nrOfPillsPlaced;
@@ -28,14 +25,9 @@ public class MedicationScheduleViewModel {
 //    private transient List<Medicine> medicines = new ArrayList<>();
 
 
-    public MedicationScheduleViewModel(int customer_id, LocalDate startDate,
-                              LocalDate endDate, String pillName,
-                              int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced) {
+    public MedicationScheduleViewModel(int customer_id, String pillName, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced) {
         this.customer_id = customer_id;
-        this.startDate = startDate;
-        this.endDate = endDate;
         this.pillName = pillName;
-        this.quantity = quantity;
         this.timeTakePill = timeTakePill;
         this.repeatIn = repeatIn;
         this.nrOfPillsPlaced = nrOfPillsPlaced;
@@ -61,20 +53,8 @@ public class MedicationScheduleViewModel {
         return customer_id;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
     public String getPillName() {
         return pillName;
-    }
-
-    public int getQuantity() {
-        return quantity;
     }
 
     public LocalDateTime getTimeTakePill() {
@@ -90,20 +70,8 @@ public class MedicationScheduleViewModel {
         this.customer_id = customer_id;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
     public void setPillName(String pillName) {
         this.pillName = pillName;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public void setTimeTakePill(LocalDateTime timeTakePill) {
@@ -115,60 +83,6 @@ public class MedicationScheduleViewModel {
     public void setNrOfPillsPlaced(int nrOfPillsPlaced){
         this.nrOfPillsPlaced=nrOfPillsPlaced;
     }
-/*    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public List<Medicine> getMedicines() {
-        return medicines;
-    }
-
-    public void setMedicines(List<Medicine> medicines) {
-        this.medicines = medicines;
-    }*/
-
-//    public void addMedicine(Medicine medicine) {
-//        if (this.medicines == null){
-//            this.medicines = new ArrayList<>();
-//        }
-//        this.medicines.add(medicine);
-//
-//    }
-
-/*    public void addCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public void addDashboard(Dashboard dashboard) {
-        this.dashboard = dashboard;
-    }*/
-
-  /*  @Override
-    public String toString() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        // Add null checks before formatting
-        String formattedStartDate = (startDate != null) ? dtf2.format(startDate) : "null";
-        String formattedEndDate = (endDate != null) ? dtf2.format(endDate) : "null";
-        String formattedTimeTakePill = (timeTakePill != null) ? dtf.format(timeTakePill) : "null";
-
-        return "MedicationSchedule{" +
-                "medSchedule_id=" + medSchedule_id +
-                ", customer_id=" + customer_id +
-                ", startDate=" + formattedStartDate +
-                ", endDate=" + formattedEndDate +
-                ", pillName='" + pillName + '\'' +
-                ", quantity=" + quantity +
-                ", timeTakePill=" + formattedTimeTakePill +
-                '}';
-<<<<<<< HEAD
-
-*/
 
 
     @Override
@@ -176,17 +90,12 @@ public class MedicationScheduleViewModel {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        String formattedStartDate = startDate != null ? dateFormatter.format(startDate) : "n/a";
-        String formattedEndDate = endDate != null ? dateFormatter.format(endDate) : "n/a";
         String formattedTimeTakePill = timeTakePill != null ? dateTimeFormatter.format(timeTakePill) : "n/a";
 
         return "MedicationSchedule{" +
                 "medSchedule_id=" + medSchedule_id +
                 ", customer_id=" + customer_id +
-                ", startDate=" + formattedStartDate +
-                ", endDate=" + formattedEndDate +
                 ", pillName='" + pillName + '\'' +
-                ", quantity=" + quantity +
                 ", timeTakePill=" + formattedTimeTakePill +
                 ", nrOfPillsPlaced=" + nrOfPillsPlaced +
                 '}';
