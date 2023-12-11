@@ -4,23 +4,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerLoginDto {
-    private String username;
     private String password;
+    private String email;
 
     public CustomerLoginDto() {
     }
 
-    public CustomerLoginDto(String username, String password) {
-        this.username = username;
+    public CustomerLoginDto(String email,String password)  {
+        this.email = email;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

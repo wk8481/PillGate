@@ -25,12 +25,12 @@ public class MedicationSchedule {
     private boolean isStopped;
     private String message;
 
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id")
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private transient Customer customer;
 
-//    @ManyToOne
-//    @JoinColumn(name = "dashboard_id")
+    @ManyToOne
+    @JoinColumn(name = "dashboard_id")
     private transient Dashboard dashboard;
 
 
@@ -139,6 +139,10 @@ public class MedicationSchedule {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public int getCustomer_id() {
+        return customer != null ? customer.getCustomer_id() : null;
     }
 
 

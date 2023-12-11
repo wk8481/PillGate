@@ -34,35 +34,25 @@ public class LoginController {
         return "login";
     }
 
- /*   @PostMapping("/login")
-    public String loginCustomer(@ModelAttribute CustomerLoginDto loginDto, Model model, HttpSession session) {
-
-
-        Customer authenticatedUser = customerService.loginCustomer(loginDto);
-
-        if (authenticatedUser != null) {
-            session.setAttribute("authenticatedUser", authenticatedUser);
-
-            model.addAttribute("message", "Login successful");
-            logger.info("Login successful. User {} authenticated", authenticatedUser);
-            return "redirect:/reminder";
-        } else {
-            model.addAttribute("error", "Invalid username or password");
-            return "login";
-        }
-
-    }*/
 
     @PostMapping("/login")
     public String loginCustomer(@ModelAttribute CustomerLoginDto loginDto, Model model, HttpSession session) {
-        if (session.getAttribute("authenticatedUser") != null) {
+        if (session.getAttribute("authenticatedCustomer") != null) {
             // User already logged in
             return "redirect:/dashboard";
         }
-        Customer authenticatedUser = customerService.loginCustomer(loginDto);
-        if (authenticatedUser != null) {
-            session.setAttribute("authenticatedUser", authenticatedUser);
-            logger.info("Login successful. User {} authenticated", authenticatedUser);
+        Customer authenticatedCustomer = customerService.loginCustomer(loginDto);
+        if (authenticatedCustomer != null) {
+            // Store customer_id in the session
+            logger.info("Customer id setting as attribute");
+
+            session.setAttribute("customer_id", authenticatedCustomer.getCustomer_id());
+
+            logger.info("Customer id has been set");
+
+            session.setAttribute("authenticatedUser", authenticatedCustomer);
+
+            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer); 
             return "redirect:/reminder";
         } else {
             model.addAttribute("error", "Invalid username or password");

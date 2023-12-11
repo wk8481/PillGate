@@ -11,4 +11,5 @@ public interface CustomerService {
     List<Customer> getCustomers();
 
     Customer loginCustomer(CustomerLoginDto login);
+    String extractEmailFromSession();
 }

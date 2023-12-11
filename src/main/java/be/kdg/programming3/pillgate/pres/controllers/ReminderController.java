@@ -51,7 +51,7 @@ public class ReminderController {
     @GetMapping("/reminder")
     public String showMedicationSchedule(Model model, Principal principal) {
         // Retrieve the logged-in user (customer)
-        Customer customer = customerRepository.findCustomerByUsername(principal.getName());
+        Customer customer = customerRepository.findCustomerByUsername(session.getId());
 
         // Retrieve the customer's medication schedule
         List<MedicationSchedule> medicationSchedule = customer.getDashboard().getMedicationSchedules();

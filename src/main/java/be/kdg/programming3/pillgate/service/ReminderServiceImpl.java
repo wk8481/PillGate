@@ -8,6 +8,8 @@ import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
 import be.kdg.programming3.pillgate.repo.customerRepo.JDBCCustomerRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedscheduleRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,8 @@ public class ReminderServiceImpl implements ReminderService {
     private final MedScheduleRepository medScheduleRepository;
     private final CustomerRepository customerRepository;
 
-    //@Autowired
-    //private SimpMessagingTemplate messagingTemplate;
+    @Autowired
+    private HttpServletRequest request;
 
 
     private Logger logger = LoggerFactory.getLogger(ReminderServiceImpl.class);
@@ -41,8 +43,11 @@ public class ReminderServiceImpl implements ReminderService {
     public MedicationSchedule convertToMedicationSchedule(MedicationScheduleViewModel pillForm){
         MedicationSchedule medicationSchedule = new MedicationSchedule();
 
-        // set the properties of the medicationSchedule object
-        medicationSchedule.setPillName(pillForm.getPillName());
+        int customerId = extractCustomerIdFromSession();
+        Customer customer = customerRepository.findCustomerById(customerId);
+        medicationSchedule.setCustomer(customer);
+
+       medicationSchedule.setPillName(pillForm.getPillName());
         medicationSchedule.setTimeTakePill(pillForm.getTimeTakePill());
         medicationSchedule.setRepeatIn(pillForm.getRepeatIn());
 
@@ -58,27 +63,33 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public void saveMedicationSchedule(MedicationScheduleViewModel pillForm) {
-        Customer customerExists = customerRepository.findCustomerById(pillForm.getCustomer_id());
+        int customerId  = extractCustomerIdFromSession();
+
+        Customer customerExists = customerRepository.findCustomerById(customerId);
 
         if (customerExists == null) {
-            logger.error("Customer ID {} does not exist.", pillForm.getCustomer_id());
-            throw new IllegalArgumentException("Invalid customer_id: " + pillForm.getCustomer_id());
+            logger.error("Customer ID {} does not exist.", customerId);
+            throw new IllegalArgumentException("Invalid customer_id: " + customerId);
         }
 
-        MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
-        medScheduleRepository.createMedSchedule(medicationSchedule);
+            MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
+            medScheduleRepository.createMedSchedule(medicationSchedule);
+            logger.info("Customer_id: {} saved medication schedule", customerId);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        Customer customer = customerRepository.findCustomerByUsername(username);
 
-        if (customer == null) {
-            logger.error("Username {} does not exist.", username);
-        } else {
-            logger.info("This is customer {} from customerByUsername", customer);
-        }
 
     }
+
+    private int extractCustomerIdFromSession() {
+        HttpSession session = request.getSession(false);
+
+        if (session != null && session.getAttribute("customer_id") != null) {
+            return (int) session.getAttribute("customer_id");
+        } else {
+            throw new IllegalStateException("User not authenticated");
+        }
+    }
+
 
     @Override
     public boolean isTimeForReminder(){
@@ -93,6 +104,17 @@ public class ReminderServiceImpl implements ReminderService {
             }
         }
         return false;
+    }
+
+    // Method to extract username from the session
+    private String extractUsernameFromSession() {
+        HttpSession session = request.getSession(false);
+
+        if (session != null && session.getAttribute("email") != null) {
+            return (String) session.getAttribute("email");
+        } else {
+            throw new IllegalStateException("User not authenticated");
+        }
     }
 
 
