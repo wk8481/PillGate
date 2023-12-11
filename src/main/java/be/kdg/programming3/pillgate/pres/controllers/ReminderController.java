@@ -1,12 +1,12 @@
-package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
+package be.kdg.programming3.pillgate.pres.controllers;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
-import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
+
 import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
-import be.kdg.programming3.pillgate.repo.customerRepo.UserRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.service.ReminderService;
-import be.kdg.programming3.pillgate.service.ReminderServiceImpl;
+
+import be.kdg.programming3.pillgate.service.SerialReader;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serial;
-import java.security.Principal;
+
 import java.util.List;
 
 
@@ -54,7 +54,7 @@ public class ReminderController {
     @GetMapping("/reminder")
     public String showMedicationSchedule(Model model, HttpSession session) {
         // Retrieve the logged-in user (customer)
-        Customer customer = customerRepository.findCustomerByUsername(session.getId());
+        Customer customer = customerRepository.findCustomerByEmail(session.getId());
 
         // Retrieve the customer's medication schedule
         List<MedicationSchedule> medicationSchedule = customer.getDashboard().getMedicationSchedules();

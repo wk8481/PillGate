@@ -167,9 +167,9 @@ public class MedicationSchedule {
         return customer != null ? customer.getCustomer_id() : null;
     }
 
-
-
-
+    public void setCustomer_id(int customer_id) {
+        //this.() = customer_id;
+    }
 
 
     public boolean isStopped() {return isStopped;}

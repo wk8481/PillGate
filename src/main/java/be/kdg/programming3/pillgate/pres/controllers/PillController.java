@@ -1,4 +1,4 @@
-package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.pillgate.controllers;
+package be.kdg.programming3.pillgate.pres.controllers;
 
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
 import be.kdg.programming3.pillgate.service.CustomerService;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+
 
 
 @Controller
@@ -52,8 +52,8 @@ public class PillController {
 
     @PostMapping("/reminder")
     public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
-        logger.info("Processing " + pillForm.toString());
         reminderService.saveMedicationSchedule(pillForm);
+        logger.info("Processing " + pillForm.toString());
         return "redirect:reminder";
     }
 

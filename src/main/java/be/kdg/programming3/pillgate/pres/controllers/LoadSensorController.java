@@ -47,6 +47,7 @@ public class LoadSensorController {
     }
 
 
+    @GetMapping("readArduino/showPillsTaken")
     public String showNumberOfPillsTaken(Model model) {
         // Assuming you have a method in the service to get the latest medication schedule
         //MedicationSchedule latestMedSchedule = medicationScheduleService.getLatestMedicationSchedule();

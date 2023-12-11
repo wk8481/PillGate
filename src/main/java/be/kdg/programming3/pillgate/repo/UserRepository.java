@@ -1,4 +1,4 @@
-package be.kdg.programming3.pillgate.repo.customerRepo;
+package be.kdg.programming3.pillgate.repo;
 
 
 import be.kdg.programming3.pillgate.domain.user.CareGiver;
