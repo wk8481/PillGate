@@ -37,11 +37,8 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
     private static final RowMapper<MedicationSchedule> MEDICATION_SCHEDULE_ROW_MAPPER = (rs, rowNum) -> {
         MedicationSchedule medicationSchedule = new MedicationSchedule();
         medicationSchedule.setMedSchedule_id(rs.getInt("medSchedule_id"));
-        medicationSchedule.getCustomer().setCustomer_id(rs.getInt("customer_id"));
-        medicationSchedule.setStartDate(rs.getDate("startDate").toLocalDate());
-        medicationSchedule.setEndDate(rs.getDate("endDate").toLocalDate());
+        medicationSchedule.setCustomer_id(rs.getInt("customer_id"));
         medicationSchedule.setPillName(rs.getString("pillName"));
-        medicationSchedule.setQuantity(rs.getInt("quantity"));
         medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
         medicationSchedule.setRepeatIn(rs.getInt("repeatIn"));
         medicationSchedule.setNrOfPillsPlaced(rs.getInt("nrOfPillsPlaced"));
@@ -77,14 +74,11 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
     @Override
     public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
         logger.info("Creating medschedule");
-        jdbcTemplate.update("INSERT INTO MedicationSchedule(customer_id,startDate,endDate,pillName," +
-                        "quantity,timeTakePill,nrOfPillsPlaced, weightOfSinglePill, nrOfPillsTaken, isStopped, message) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO MedicationSchedule(customer_id,pillName," +
+                        "timeTakePill,nrOfPillsPlaced, weightOfSinglePill, nrOfPillsTaken, isStopped, message) " +
+                        "VALUES (?,?,?,?,?,?,?,?)",
                 medSchedule.getCustomer().getCustomer_id(),
-                medSchedule.getStartDate(),
-                medSchedule.getEndDate(),
                 medSchedule.getPillName(),
-                medSchedule.getQuantity(),
                 medSchedule.getTimeTakePill(),
                 medSchedule.getNrOfPillsPlaced(),
                 medSchedule.getWeightOfSinglePill(),
@@ -98,11 +92,9 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
     public MedicationSchedule updateMedSchedule(MedicationSchedule medicationSchedule) {
         logger.info("Updating medschedule...");
         jdbcTemplate.update(
-                "UPDATE MedicationSchedule SET startDate=?, endDate=?, pillName=?, quantity=?, timeTakePill=? WHERE medSchedule_id=?",
-                medicationSchedule.getStartDate(),
-                medicationSchedule.getEndDate(),
+                "UPDATE MedicationSchedule SET pillName=?, nrOfPillsPlaced=?, timeTakePill=? WHERE medSchedule_id=?",
                 medicationSchedule.getPillName(),
-                medicationSchedule.getQuantity(),
+                medicationSchedule.getNrOfPillsPlaced(),
                 medicationSchedule.getTimeTakePill(),
                 medicationSchedule.getMedSchedule_id()
         );

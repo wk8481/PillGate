@@ -7,6 +7,7 @@ import be.kdg.programming3.pillgate.repo.customerRepo.UserRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.service.ReminderService;
 import be.kdg.programming3.pillgate.service.ReminderServiceImpl;
+import be.kdg.programming3.pillgate.service.SerialReader;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

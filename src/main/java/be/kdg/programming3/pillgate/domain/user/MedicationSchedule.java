@@ -15,10 +15,7 @@ public class MedicationSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int medSchedule_id;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
     private String pillName;
-    private int quantity;
     private LocalDateTime timeTakePill;
     private int repeatIn;
 
@@ -39,14 +36,11 @@ public class MedicationSchedule {
 
 
 
-    public MedicationSchedule(Customer customer, LocalDate startDate,
-                              LocalDate endDate, String pillName,
-                              int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced, double weightOfSinglePill, int nrOfPillsTaken) {
+    public MedicationSchedule(Customer customer, String pillName,
+                              LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced,
+                              double weightOfSinglePill, int nrOfPillsTaken) {
         this.customer = customer;
-        this.startDate = startDate;
-        this.endDate = endDate;
         this.pillName = pillName;
-        this.quantity = quantity;
         this.timeTakePill = timeTakePill;
         this.repeatIn = repeatIn;
         this.nrOfPillsPlaced = nrOfPillsPlaced;
@@ -54,12 +48,9 @@ public class MedicationSchedule {
         this.nrOfPillsTaken = nrOfPillsTaken;
     }
 
-    public MedicationSchedule(int medSchedule_id, LocalDate startDate, LocalDate endDate, String pillName, int quantity, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced, boolean isStopped, String message, Customer customer, Dashboard dashboard) {
+    public MedicationSchedule(int medSchedule_id, String pillName, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced, boolean isStopped, String message, Customer customer, Dashboard dashboard) {
         this.medSchedule_id = medSchedule_id;
-        this.startDate = startDate;
-        this.endDate = endDate;
         this.pillName = pillName;
-        this.quantity = quantity;
         this.timeTakePill = timeTakePill;
         this.repeatIn = repeatIn;
         this.isStopped = isStopped;
@@ -88,20 +79,9 @@ public class MedicationSchedule {
         return customer_id;
     }*/
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
 
     public String getPillName() {
         return pillName;
-    }
-
-    public int getQuantity() {
-        return quantity;
     }
 
     public LocalDateTime getTimeTakePill() {
@@ -122,20 +102,8 @@ public class MedicationSchedule {
         return nrOfPillsTaken;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
     public void setPillName(String pillName) {
         this.pillName = pillName;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public void setTimeTakePill(LocalDateTime timeTakePill) {
@@ -167,10 +135,9 @@ public class MedicationSchedule {
         return customer != null ? customer.getCustomer_id() : null;
     }
 
-
-
-
-
+    public void setCustomer_id(int customer_id) {
+        this.customer = new Customer(customer_id);
+    }
 
     public boolean isStopped() {return isStopped;}
 
@@ -197,17 +164,12 @@ public class MedicationSchedule {
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String formattedDate = dtf.format(startDate);
-        String formattedDate2 = dtf.format(endDate);
         String formattedDate3 = dtf.format(timeTakePill);
 
         return "MedicationSchedule{" +
                 "medSchedule_id=" + medSchedule_id +
                 ", customer_id=" + customer.getCustomer_id() +
-                ", startDate=" + formattedDate +
-                ", endDate=" + formattedDate2 +
                 ", pillName='" + pillName + '\'' +
-                ", quantity=" + quantity +
                 ", timeTakePill=" + formattedDate3 +
                 ", repeatIn=" + repeatIn +
                 ", nrOfPillsPlaced=" + nrOfPillsPlaced +

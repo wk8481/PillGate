@@ -74,20 +74,16 @@
 
 <main class="container mt-5">
     <h1 class="text-center">Dashboard</h1>
-
-
-    <!--
-        <a href="/readArduino" class="btn btn-primary">Read ArduinoData</a>
-    -->
-
     <!-- Sensor Table -->
     <table class="table table-bordered">
         <thead>
         <tr>
             <th>Sensor ID</th>
             <th>Weight</th>
-            <th>Calibration Date</th>
             <th>Number of pills taken</th>
+            <th>Number of pills placed</th>
+            <th>Weight of single pill</th>
+            <th>Calibration Date</th>
         </tr>
         </thead>
         <tbody>
@@ -95,8 +91,10 @@
         <tr th:each="sensor : ${sensors}">
             <td th:text="${sensor.sensor_ID}"></td>
             <td th:text="${sensor.weight}"></td>
-            <td th:text="${sensor.calibrationDate}"></td>
             <td th:text="${nrOfPillsTaken}"></td>
+            <td th:text="${nrOfPillsPlaced}"></td>
+            <td th:text="${weightOfSinglePill}"></td>
+            <td th:text="${sensor.calibrationDate}"></td>
         </tr>
 
         </tbody>
@@ -107,5 +105,3 @@
 <footer> PillGate &#169; 2023 All rights reserved</footer>
 </body>
 </html>
-
-<!--customers, caregivers, medicine-->

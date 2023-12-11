@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Profile("dev")
-public class JdbcDatasourceConfig {
+public class H2DBConfig {
 
     @Bean
     public DataSource dataSource(){

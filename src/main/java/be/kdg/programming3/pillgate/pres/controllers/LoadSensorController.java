@@ -47,13 +47,19 @@ public class LoadSensorController {
     }
 
 
+    @GetMapping("/readArduino/showPillsTaken")
     public String showNumberOfPillsTaken(Model model) {
         // Assuming you have a method in the service to get the latest medication schedule
         //MedicationSchedule latestMedSchedule = medicationScheduleService.getLatestMedicationSchedule();
+
+        //I NEED TO CHANGE THAT LINE AND GET IT FROM MED SCHEDULE SERVICE
+
         MedicationSchedule latestMedSchedule = medscheduleRepository.findAllMedSchedules().stream().findFirst().orElse(null);
 
         if (latestMedSchedule != null) {
             model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
+            model.addAttribute("weightOfSinglePill", latestMedSchedule.getWeightOfSinglePill());
+            model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
         }
 
         return "dashboard";

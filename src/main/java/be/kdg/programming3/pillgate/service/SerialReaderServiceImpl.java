@@ -148,13 +148,17 @@ public class SerialReaderServiceImpl implements SerialReader{
 
                     // Set the calculated weightOfSinglePill in the MedicationSchedule
                     latestMedSchedule.setWeightOfSinglePill(weightOfSinglePill);
+                    logger.info("Weight of single pill: {}", weightOfSinglePill);
 
                     // Update the number of pills taken
                     int pillsTakenUpdated = latestMedSchedule.getNrOfPillsPlaced() - (int) (totalWeightWithPills / weightOfSinglePill);
                     latestMedSchedule.setNrOfPillsTaken(pillsTakenUpdated);
+                     logger.info("Number of pills taken: {}", pillsTakenUpdated);
 
                     // Save the updated MedicationSchedule back to the repository
                     medScheduleRepository.updateMedSchedule(latestMedSchedule);
+                    logger.info("Updated MedicationSchedule: {}", latestMedSchedule);
+
                     } else {
                         logger.error("Invalid MedicationSchedule or WeightSensor: latestMedSchedule={}, latestSensor={}", latestMedSchedule, latestSensor);
                     }

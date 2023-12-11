@@ -58,10 +58,7 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   medSchedule_id INT AUTO_INCREMENT PRIMARY KEY,
                                                   customer_id INT,
                                                   FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-                                                  startDate DATE,
-                                                  endDate DATE,
                                                   pillName VARCHAR(255),
-                                                  quantity INT,
                                                   timeTakePill DATE,
                                                   repeatIn INT,
                                                   nrOfPillsPlaced INT,
@@ -86,7 +83,7 @@ CREATE TABLE IF NOT EXISTS CustomerCareGiver (
 );
 
 select * from CUSTOMER;
-
+select * from MEDICATIONSCHEDULE;
 
 
 
