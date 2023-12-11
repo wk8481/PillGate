@@ -4,6 +4,7 @@ import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.Dashboard;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
+import be.kdg.programming3.pillgate.repo.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
