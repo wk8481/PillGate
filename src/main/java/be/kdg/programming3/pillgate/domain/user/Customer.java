@@ -30,13 +30,7 @@ public class Customer {
     private boolean hasCareGiver;
     private String password;
 
-//    @ManyToMany(mappedBy = "customers")
 
-//    @JoinTable(
-//            name = "CustomerCareGiver",
-//            joinColumns = @JoinColumn(name = "customer_id"),
-//            inverseJoinColumns = @JoinColumn(name = "caregiver_id")
-//    )
 
 
 
@@ -163,7 +157,7 @@ public class Customer {
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String formattedDate = dtf.format(birthDate);
+        String formattedDate = (birthDate != null) ? dtf.format(birthDate) : "null";
 
         return "Customer{" +
                 "customer_id=" + customer_id +
@@ -173,6 +167,7 @@ public class Customer {
                 ", hasCareGiver=" + hasCareGiver +
                 '}';
     }
+
 
 
 

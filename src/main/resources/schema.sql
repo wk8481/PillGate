@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Customer (
                                         birthDate DATE,
                                         email VARCHAR(255),
                                         hasCareGiver BOOLEAN,
-                                        password VARCHAR(255) -- Adjust the size of the VARCHAR to match your password hashing format
+                                        password VARCHAR(512) -- Adjust the size of the VARCHAR to match your password hashing format
                                         );
 
 

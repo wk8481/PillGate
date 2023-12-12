@@ -23,6 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
+
     @Autowired
     private HttpServletRequest request;
 
@@ -81,12 +82,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     public Customer registerNewCustomer(CustomerRegistrationDto registrationDto, HttpSession session) {
         // Hash the password
-        String hashedPassword = passwordEncoder.encode(registrationDto.getPassword());
-
-        // Create a new Customer object
+       // String hashedPassword = passwordEncoder.encode(registrationDto.getPassword());
         Customer newCustomer = new Customer();
-        // Set other customer properties from the DTO
-        newCustomer.setPassword(hashedPassword);
+
+        String fullName = registrationDto.getFirstName() + " " + registrationDto.getLastName();
+        newCustomer.setCustomer_name(fullName);
+        newCustomer.setPassword(registrationDto.getPassword());
+        newCustomer.setBirthDate(registrationDto.getBirthDate());
+        newCustomer.setEmail(registrationDto.getEmail());
+        newCustomer.setHasCareGiver(registrationDto.getHasCareGiver());
 
         // Save the new customer
         Customer savedCustomer = customerRepository.createCustomer(newCustomer);
@@ -105,7 +109,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer authenticatedCustomer = customerRepository.findCustomerByEmail(email);
 
-        if (authenticatedCustomer != null && passwordEncoder.matches(password, authenticatedCustomer.getPassword())) {
+        if (authenticatedCustomer != null && authenticatedCustomer.getPassword().equals(password)) {
             logger.info("User authenticated successfully.");
 
             // Add customer to the session

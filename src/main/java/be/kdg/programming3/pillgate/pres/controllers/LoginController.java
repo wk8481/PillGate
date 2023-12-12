@@ -2,7 +2,6 @@ package be.kdg.programming3.pillgate.pres.controllers;
 
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerLoginDto;
-import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
 import be.kdg.programming3.pillgate.service.CustomerService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -21,6 +20,8 @@ public class LoginController {
 
     Logger logger = LoggerFactory.getLogger(LoginController.class);
     private final CustomerService customerService;
+
+
 
     @Autowired
     public LoginController(CustomerService customerService) {
@@ -42,7 +43,7 @@ public class LoginController {
             return "redirect:/dashboard";
         }
         Customer authenticatedCustomer = customerService.loginCustomer(loginDto);
-        if (authenticatedCustomer != null) {
+        if (authenticatedCustomer != null && authenticatedCustomer.getPassword() != null && authenticatedCustomer.getPassword().equals(loginDto.getPassword())) {
             // Store customer_id in the session
             logger.info("Customer id setting as attribute");
 
@@ -52,7 +53,7 @@ public class LoginController {
 
             session.setAttribute("authenticatedUser", authenticatedCustomer);
 
-            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer); 
+            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer);
             return "redirect:/reminder";
         } else {
             model.addAttribute("error", "Invalid username or password");

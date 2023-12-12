@@ -54,7 +54,7 @@ public class JDBCCustomerRepository implements CustomerRepository {
         parameters.put("customer_name", customer.getCustomer_name());
         parameters.put("birthDate", customer.getBirthDate());
         parameters.put("email", customer.getEmail());
-        parameters.put("hasCareGiver", customer.getCareGivers());
+        parameters.put("hasCareGiver", customer.isHasCareGiver());
         customer.setCustomer_id(customerInserter.executeAndReturnKey(parameters).intValue());
         logger.info("Creating customer {}", customer);
 
@@ -67,12 +67,6 @@ public class JDBCCustomerRepository implements CustomerRepository {
         return jdbcTemplate.query("SELECT * FROM Customer", customerRowMapper());
     }
 
- /*   @Override
-    public Customer findCustomerById(int customer_id) {
-        logger.info("Finding customer by id {} ", customer_id);
-        return (Customer) jdbcTemplate.query("SELECT * FROM Customer where customer_id = ? ",
-                customerRowMapper(), customer_id);
-    }*/
 
     public Customer findCustomerById(int customer_id) {
         logger.info("Finding customer by id {} ", customer_id);

@@ -117,8 +117,4 @@ public class CustomerViewModel {
         this.medicationSchedule = medicationSchedule;
     }
 
-//    public void addMedicine(Medicine medicine) {
-//        if (medicines == null) medicines = new ArrayList<>();
-//        medicines.add(medicine);
-//    }
 }
