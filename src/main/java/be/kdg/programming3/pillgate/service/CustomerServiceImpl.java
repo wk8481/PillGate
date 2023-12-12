@@ -2,6 +2,7 @@ package be.kdg.programming3.pillgate.service;
 
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerLoginDto;
+import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
 import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +20,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
     CustomerRepository customerRepository;
+
+
 
     @Autowired
     private HttpServletRequest request;
@@ -75,4 +78,46 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalStateException("User not authenticated");
         }
     }
+
+    public Customer registerNewCustomer(CustomerRegistrationDto registrationDto, HttpSession session) {
+        // Hash the password
+        String hashedPassword = passwordEncoder.encode(registrationDto.getPassword());
+
+        // Create a new Customer object
+        Customer newCustomer = new Customer();
+        // Set other customer properties from the DTO
+        newCustomer.setPassword(hashedPassword);
+
+        // Save the new customer
+        Customer savedCustomer = customerRepository.createCustomer(newCustomer);
+
+        // Add customer information to the session
+        if (savedCustomer != null) {
+            session.setAttribute("authenticatedUser", savedCustomer);
+        }
+
+        return savedCustomer;
+    }
+
+    public Customer loginCustomer(CustomerLoginDto login, HttpSession session) {
+        String email = login.getEmail();
+        String password = login.getPassword();
+
+        Customer authenticatedCustomer = customerRepository.findCustomerByEmail(email);
+
+        if (authenticatedCustomer != null && passwordEncoder.matches(password, authenticatedCustomer.getPassword())) {
+            logger.info("User authenticated successfully.");
+
+            // Add customer to the session
+            session.setAttribute("authenticatedUser", authenticatedCustomer);
+
+            return authenticatedCustomer;
+        } else {
+            logger.info("Authentication failed.");
+            return null;
+        }
+    }
+
+
+
 }

@@ -1,6 +1,7 @@
-/*
 package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
+import be.kdg.programming3.pillgate.service.CustomerService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.slf4j.Logger;
@@ -17,6 +18,10 @@ public class RegistrationController {
     private final CustomerService customerService;
 
     @Autowired
+    private HttpSession session;
+
+
+    @Autowired
     public RegistrationController(CustomerService customerService) {
         this.customerService = customerService;
     }
@@ -27,7 +32,7 @@ public class RegistrationController {
 
         return "home";
     }
-}
+
 
     @GetMapping("/registration")
     public String showRegistration(Model model) {
@@ -44,4 +49,3 @@ public class RegistrationController {
         return "redirect:/registration";
     }
 }
-*/
