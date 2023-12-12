@@ -63,6 +63,7 @@ setInterval(repeatedFunction, 5000);//check every 5 seconds if there is an alarm
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -70,6 +71,8 @@ setInterval(repeatedFunction, 5000);//check every 5 seconds if there is an alarm
 
 
 
+=======
+>>>>>>> 9022180 (added html file)
 
 
 
