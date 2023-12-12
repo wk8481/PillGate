@@ -1,4 +1,5 @@
-package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
+
+package be.kdg.programming3.pillgate.pres.controllers;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
 import be.kdg.programming3.pillgate.service.CustomerService;
 import jakarta.servlet.http.HttpSession;
@@ -10,29 +11,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 @RequestMapping("/")
 @Controller
 public class RegistrationController {
-    Logger logger = org.slf4j.LoggerFactory.getLogger(RegistrationController.class);
+    private final Logger logger = org.slf4j.LoggerFactory.getLogger(RegistrationController.class);
 
     private final CustomerService customerService;
 
     @Autowired
-    private HttpSession session;
-
+    private HttpSession session; // Autowire HttpSession
 
     @Autowired
     public RegistrationController(CustomerService customerService) {
         this.customerService = customerService;
     }
-
-    @GetMapping
-    public String showHomeView() {
-        logger.info("Request for home view!");
-
-        return "home";
-    }
-
 
     @GetMapping("/registration")
     public String showRegistration(Model model) {
@@ -42,10 +35,17 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registerCustomer(@ModelAttribute CustomerRegistrationDto registrationDto) {
+    public String registerCustomer(@ModelAttribute("customerDTO") CustomerRegistrationDto registrationDto) {
         logger.info("Registering customer: " + registrationDto.toString());
-        userService.registerNewCustomer(registrationDto);
+        customerService.registerNewCustomer(registrationDto, session); // Use the method with HttpSession
 
-        return "redirect:/registration";
+        return "registration"; // Redirect to a success or confirmation page
+    }
+
+    @GetMapping
+    public String showHomeView() {
+        logger.info("Request for home view!");
+        return "home";
     }
 }
+

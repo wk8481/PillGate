@@ -37,7 +37,7 @@ public class LoadSensorController {
         return "dashboard";
     }
 
-   // @GetMapping("/readArduino")
+    @GetMapping("/readArduino")
     public String readArduino(Model model) {
         try {
             serialReader.readArduinoData("COM5");
