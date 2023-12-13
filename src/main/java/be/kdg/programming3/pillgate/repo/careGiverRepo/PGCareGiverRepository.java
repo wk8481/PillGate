@@ -1,23 +1,19 @@
-
-
 package be.kdg.programming3.pillgate.repo.careGiverRepo;
+
 
 import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-
 import java.util.List;
 
 @Repository
 @Profile("postgres")
-@Primary
 public class PGCareGiverRepository implements CareGiverRepository {
 
     private final Logger logger = LoggerFactory.getLogger(PGCareGiverRepository.class);
@@ -99,4 +95,3 @@ public class PGCareGiverRepository implements CareGiverRepository {
         }
     }
 }
-
