@@ -15,7 +15,5 @@ public interface CustomerService {
     Customer loginCustomer(CustomerLoginDto login);
     String extractEmailFromSession();
 
-    Customer loginCustomer(CustomerLoginDto login, HttpSession session);
-
     Customer registerNewCustomer(CustomerRegistrationDto registrationDto, HttpSession session);
 }

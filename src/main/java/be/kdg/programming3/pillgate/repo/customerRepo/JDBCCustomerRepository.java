@@ -9,7 +9,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -54,12 +57,14 @@ public class JDBCCustomerRepository implements CustomerRepository {
         parameters.put("customer_name", customer.getCustomer_name());
         parameters.put("birthDate", customer.getBirthDate());
         parameters.put("email", customer.getEmail());
-        parameters.put("hasCareGiver", customer.getCareGivers());
+        parameters.put("password", customer.getPassword());
+        parameters.put("hasCareGiver", customer.isHasCareGiver());
         customer.setCustomer_id(customerInserter.executeAndReturnKey(parameters).intValue());
         logger.info("Creating customer {}", customer);
 
         return customer;
     }
+
 
     @Override
     public List<Customer> findAllCustomers() {
@@ -88,12 +93,12 @@ public class JDBCCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer findCustomerByEmail(String email) {
+    public Customer findCustomerByEmail(String email, String password) {
         logger.info("Finding customers by email: {}", email);
         try {
             return jdbcTemplate.queryForObject(
-                    "SELECT * FROM Customer WHERE email = ?",
-                    new Object[]{email},
+                    "SELECT * FROM Customer WHERE email = ? and password = ?",
+                    new Object[]{email, password},
                     customerRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {

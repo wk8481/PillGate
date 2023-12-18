@@ -11,7 +11,7 @@ public interface CustomerRepository {
     List<Customer> findAllCustomers();
     Customer findCustomerById(int customer_id);
     Customer findCustomerByUsername(String username);
-    Customer findCustomerByEmail(String email);
+    Customer findCustomerByEmail(String email, String password);
     Customer updateCustomer(Customer existingCustomer);
     Customer deleteCustomer(Customer customer);
 }

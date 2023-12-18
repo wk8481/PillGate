@@ -11,6 +11,8 @@ public class CustomerRegistrationDto {
     private String lastName;
     private String username;
     private LocalDate birthDate;
+
+
     private String password;
     private String email;
     private boolean hasCareGiver;
@@ -82,5 +84,18 @@ public class CustomerRegistrationDto {
 
     public void setHasCareGiver(boolean hasCareGiver) {
         this.hasCareGiver = hasCareGiver;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerRegistrationDto{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", birthDate=" + birthDate +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", hasCareGiver=" + hasCareGiver +
+                '}';
     }
 }

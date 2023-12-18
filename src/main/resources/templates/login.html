@@ -63,7 +63,7 @@
 
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><!--class="nav-item"-->
-                            <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
+                            <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
                         </li>
                         <li class="nav-item"><!--class="nav-item"-->
                             <a class="btn btn-primary" th:href="@{/login}">Log In</a>
@@ -74,18 +74,18 @@
         </div>
     </nav>
 </header>
-    <main>
-        <div id="register-login-main">
-            <h1 id="login-header">Login</h1>
-            <form id="login-form" th:action="@{/login}" method="post">
-                <input type="text" name="email" id="email-field"  class="login-form-field" placeholder="Email">
-                <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
-                <input type="submit" value="login" id="login-btn">
-            </form>
-        </div>
-    </main>
+<main>
+    <div id="register-login-main">
+        <h1 id="login-header">Login</h1>
+        <form id="login-form" th:action="@{/login}" method="post">
+            <input type="text" name="email" id="email-field"  class="login-form-field" placeholder="Email">
+            <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+            <input type="submit" value="login" id="login-btn">
+        </form>
+    </div>
+</main>
 
 </body>
-    <footer> PillGate &#169; 2023 All rights reserved</footer>
+<footer> PillGate &#169; 2023 All rights reserved</footer>
 
 </html>

@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findAllCustomers();
     }
 
-    @Override
+   /* @Override
     public Customer loginCustomer(CustomerLoginDto login) {
         String email= login.getEmail();
         String password = login.getPassword();
@@ -65,7 +65,38 @@ public class CustomerServiceImpl implements CustomerService {
         logger.info("Logging failed. {} does not exist.", email);
 
         return null;
+    }*/
+
+   @Override
+    public Customer loginCustomer(CustomerLoginDto login) {
+        String email = login.getEmail();
+        String password = login.getPassword();
+
+        Customer authenticatedCustomer = customerRepository.findCustomerByEmail(email, password);
+
+        if (authenticatedCustomer != null) {
+            logger.info("Retrieved username from the database: {}", authenticatedCustomer.getCustomer_name());
+
+            String customerPassword = authenticatedCustomer.getPassword();
+
+            if (customerPassword != null && customerPassword.equals(password)) {
+                logger.info("Password correctly inputted: {}", password);
+                return authenticatedCustomer;
+            } else {
+                logger.info("Incorrect password inputted: {}", password);
+                // Handle incorrect password scenario, e.g., set a session attribute
+                HttpSession session = request.getSession(true);
+                session.setAttribute("customer", authenticatedCustomer);
+                return authenticatedCustomer;
+            }
+        }
+        logger.info("Logging failed. {} does not exist.", email);
+        // Handle the case when authenticatedCustomer is null (customer not found)
+        return null;
     }
+
+
+
 
     @Override
     public String extractEmailFromSession() {
@@ -78,15 +109,17 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalStateException("User not authenticated");
         }
     }
-
+    @Override
     public Customer registerNewCustomer(CustomerRegistrationDto registrationDto, HttpSession session) {
-        // Hash the password
-        String hashedPassword = passwordEncoder.encode(registrationDto.getPassword());
 
-        // Create a new Customer object
         Customer newCustomer = new Customer();
-        // Set other customer properties from the DTO
-        newCustomer.setPassword(hashedPassword);
+
+        String fullName = registrationDto.getFirstName() + " " + registrationDto.getLastName();
+        newCustomer.setCustomer_name(fullName);
+        newCustomer.setPassword(registrationDto.getPassword());
+        newCustomer.setBirthDate(registrationDto.getBirthDate());
+        newCustomer.setEmail(registrationDto.getEmail());
+        newCustomer.setHasCareGiver(registrationDto.getHasCareGiver());
 
         // Save the new customer
         Customer savedCustomer = customerRepository.createCustomer(newCustomer);
@@ -97,25 +130,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         return savedCustomer;
-    }
-
-    public Customer loginCustomer(CustomerLoginDto login, HttpSession session) {
-        String email = login.getEmail();
-        String password = login.getPassword();
-
-        Customer authenticatedCustomer = customerRepository.findCustomerByEmail(email);
-
-        if (authenticatedCustomer != null && passwordEncoder.matches(password, authenticatedCustomer.getPassword())) {
-            logger.info("User authenticated successfully.");
-
-            // Add customer to the session
-            session.setAttribute("authenticatedUser", authenticatedCustomer);
-
-            return authenticatedCustomer;
-        } else {
-            logger.info("Authentication failed.");
-            return null;
-        }
     }
 
 
