@@ -5,11 +5,13 @@ import be.kdg.programming3.pillgate.service.CustomerService;
 import be.kdg.programming3.pillgate.service.ReminderService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -51,7 +53,13 @@ public class PillController {
 
 
     @PostMapping("/reminder")
-    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
+    public String submitForm(@ModelAttribute("pillForm") @Valid MedicationScheduleViewModel pillForm,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "reminder";
+        }
+
+
         reminderService.saveMedicationSchedule(pillForm);
         logger.info("Processing " + pillForm.toString());
         return "redirect:reminder";

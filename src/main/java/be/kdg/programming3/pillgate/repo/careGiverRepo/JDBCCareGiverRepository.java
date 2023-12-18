@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 @Profile("jdbctemplate")
-@Primary
+//@Primary
 public class JDBCCareGiverRepository implements CareGiverRepository{
 
     private final Logger logger = LoggerFactory.getLogger(JDBCCareGiverRepository.class);

@@ -1,19 +1,40 @@
-package be.kdg.programming3.pillgate.pres.controllers.viewmodels;//package be.kdg.programming3.oldproj.controllers.viewmodels;
+package be.kdg.programming3.pillgate.pres.controllers.viewmodels;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @Component
 public class CustomerRegistrationDto {
 
+    @NotBlank(message = "First name cannot be blank")
     private String firstName;
+
+    @NotBlank(message = "Last name cannot be blank")
     private String lastName;
+
+    @NotBlank(message = "Username cannot be blank")
+    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
     private String username;
+
+    @Past(message = "Birth date must be in the past")
     private LocalDate birthDate;
+
+    @NotBlank(message = "Password cannot be blank")
+    @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
     private String password;
+
+    @NotBlank(message = "Email cannot be blank")
+    @Email(message = "Invalid email format")
     private String email;
-    private boolean hasCareGiver;
+
+    @NotNull(message = "hasCareGiver cannot be null")
+    private Boolean hasCareGiver;
 
     public CustomerRegistrationDto() {
     }

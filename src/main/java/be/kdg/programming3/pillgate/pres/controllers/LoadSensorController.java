@@ -2,7 +2,7 @@ package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programmi
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
-import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedscheduleRepository;
+//import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedscheduleRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import be.kdg.programming3.pillgate.service.SerialReader;

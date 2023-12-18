@@ -21,7 +21,7 @@ import static be.kdg.programming3.pillgate.repo.sensorRepo.PGSensorRepository.ge
 
 @Profile("jdbctemplate")
 @Repository
-@Primary
+//@Primary
 public class JDBCSensorRepository implements SensorRepository {
     private Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
     private static List<WeightSensor> weightSensors = new ArrayList<>();

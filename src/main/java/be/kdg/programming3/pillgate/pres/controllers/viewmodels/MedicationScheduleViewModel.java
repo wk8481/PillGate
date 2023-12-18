@@ -2,6 +2,9 @@ package be.kdg.programming3.pillgate.pres.controllers.viewmodels;
 
 
 import be.kdg.programming3.pillgate.domain.user.Customer;
+
+import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,13 +17,32 @@ import java.time.format.DateTimeFormatter;
 public class MedicationScheduleViewModel {
 
     private int medSchedule_id;
+
+    @Positive(message = "customer_id must be a positive number")
     private int customer_id;
+
+    @NotNull(message = "startDate cannot be null")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+
+    @NotNull(message = "endDate cannot be null")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+
+    @NotBlank(message = "pillName should not be empty")
     private String pillName;
+
+    @Positive(message = "quantity must be a positive number")
     private int quantity;
+
+    @NotNull(message = "timeTakePill cannot be null")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timeTakePill;
+
+    @PositiveOrZero(message = "repeatIn must be a positive number or zero")
     private int repeatIn;
+
+    @PositiveOrZero(message = "nrOfPillsPlaced must be a positive number or zero")
     private int nrOfPillsPlaced;
 
 //    private transient Customer customer;

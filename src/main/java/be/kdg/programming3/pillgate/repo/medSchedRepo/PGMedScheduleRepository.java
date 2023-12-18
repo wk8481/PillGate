@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Repository
 @Profile("postgres")
+@Primary
 public class PGMedScheduleRepository implements MedScheduleRepository {
 
     private static Logger logger = LoggerFactory.getLogger(PGMedScheduleRepository.class);

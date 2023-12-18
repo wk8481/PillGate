@@ -5,7 +5,7 @@ import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
 //import be.kdg.programming3.pillgate.repo.userRepo.JPAUserRepository;
 import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
-import be.kdg.programming3.pillgate.repo.customerRepo.JDBCCustomerRepository;
+//import be.kdg.programming3.pillgate.repo.customerRepo.JDBCCustomerRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,10 +33,18 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
     private Logger logger = LoggerFactory.getLogger(ReminderServiceImpl.class);
 
     @Autowired
-    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, JDBCCustomerRepository customerRepository){
+    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, CustomerRepository customerRepository){
         this.medScheduleRepository = medscheduleRepository;
         this.customerRepository = customerRepository;
     }
+
+
+//    PREVIOUS CONSTRUCTOR USING JDBC CUSTOMER REPOSITORY
+//    @Autowired
+//    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, JDBCCustomerRepository customerRepository){
+//        this.medScheduleRepository = medscheduleRepository;
+//        this.customerRepository = customerRepository;
+//    }
 
 
     @Override

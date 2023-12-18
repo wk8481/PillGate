@@ -24,6 +24,7 @@ import java.util.Map;
 
 @Repository
 @Profile("postgres")
+@Primary
 public class PGSensorRepository implements SensorRepository {
 
     private final Logger logger = LoggerFactory.getLogger(PGSensorRepository.class);

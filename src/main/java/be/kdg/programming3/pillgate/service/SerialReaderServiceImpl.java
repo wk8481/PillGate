@@ -18,19 +18,29 @@ import java.io.InputStreamReader;
 
 
 @Service
-@Qualifier
+//@Qualifier
 public class SerialReaderServiceImpl implements SerialReader{
     private BufferedReader input;
     private final SensorRepository sensorRepository;
     private final MedScheduleRepository medScheduleRepository;
     private Logger logger = LoggerFactory.getLogger(SerialReaderServiceImpl.class);
 
-
     @Autowired
-    public SerialReaderServiceImpl(@Qualifier("JDBCSensorRepository") SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
+    public SerialReaderServiceImpl(SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
         this.sensorRepository = sensorRepository;
         this.medScheduleRepository=medScheduleRepository;
     }
+
+
+//    PREVIOUS CONSTRUCTOR USING JDBC SENSOR REPOSITORY
+//    @Autowired
+//    public SerialReaderServiceImpl(@Qualifier("JDBCSensorRepository") SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
+//        this.sensorRepository = sensorRepository;
+//        this.medScheduleRepository=medScheduleRepository;
+//    }
+
+
+
 //    public SerialReaderServiceImpl(SensorRepository sensorRepository) {
 //        this.sensorRepository = sensorRepository;
 //    }

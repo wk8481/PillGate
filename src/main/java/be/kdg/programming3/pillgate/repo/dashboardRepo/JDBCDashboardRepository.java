@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Repository
 @Profile("jdbctemplate")
-@Primary
+//@Primary
 
 public class JDBCDashboardRepository implements DashboardRepository{
 

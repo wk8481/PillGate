@@ -1,8 +1,10 @@
 package be.kdg.programming3.pillgate.repo.customerRepo;
 
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import be.kdg.programming3.pillgate.domain.user.Customer;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 @Repository
 @Profile("postgres")
+@Primary
 public class PGCustomerRepository implements CustomerRepository {
 
     private static Logger logger = LoggerFactory.getLogger(PGCustomerRepository.class);
@@ -25,6 +28,7 @@ public class PGCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Transactional
     @Override
     public Customer createCustomer(Customer customer) {
         logger.info("Creating customer {}", customer);

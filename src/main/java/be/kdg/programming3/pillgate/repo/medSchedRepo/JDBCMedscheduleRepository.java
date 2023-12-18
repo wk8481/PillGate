@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 @Profile("jdbctemplate")
-@Primary
+//@Primary
 public class JDBCMedscheduleRepository implements MedScheduleRepository{
     private static List<MedicationSchedule> medSchedules = new ArrayList<>();
 
