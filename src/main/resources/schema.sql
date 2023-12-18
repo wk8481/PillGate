@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   customer_id INT,
                                                   FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
                                                   pillName VARCHAR(255),
-                                                  timeTakePill DATE,
+                                                  timeTakePill TIMESTAMP,
                                                   repeatIn INT,
                                                   nrOfPillsPlaced INT,
                                                   weightOfSinglePill DOUBLE,

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -17,8 +18,10 @@ public class MedicationSchedule {
 
     private String pillName;
     private LocalDateTime timeTakePill;
-    private int repeatIn;
 
+// We can use this instead of localdatetime to only show the time not the date
+  //  private LocalTime timeTakePill;
+    private int repeatIn;
     private int nrOfPillsPlaced;
     private double weightOfSinglePill;
     private int nrOfPillsTaken;

@@ -11,9 +11,7 @@ public interface ReminderService {
     MedicationSchedule getLatestMedicationSchedule();
 
     void saveMedicationSchedule(MedicationScheduleViewModel pillForm);
-
-    // this method to check if it is time for a reminder
-    boolean isTimeForReminder();
-
     String getMedScheduleAlert();
+
+    String getAlertForRepeatIn();
 }

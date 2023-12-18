@@ -21,8 +21,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 @Primary
 public class JDBCSensorRepository implements SensorRepository {
-    private Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
-    private static List<WeightSensor> weightSensors = new ArrayList<>();
+    private final Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
+    private static final List<WeightSensor> weightSensors = new ArrayList<>();
     private static AtomicInteger nextId = new AtomicInteger(1);
 
 

@@ -1,5 +1,6 @@
 package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.pillgate.controllers;
 
+import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
 import be.kdg.programming3.pillgate.service.CustomerService;
 import be.kdg.programming3.pillgate.service.ReminderService;
@@ -20,12 +21,8 @@ import java.security.Principal;
 public class PillController {
 
     Logger logger = LoggerFactory.getLogger(PillController.class);
-
     private final ReminderService reminderService;
-
     private final CustomerService customerService;
-
-
     @Autowired
     public PillController(ReminderService reminderService, CustomerService customerService) {
         this.reminderService = reminderService;
@@ -35,16 +32,6 @@ public class PillController {
     @GetMapping("/reminder")
     public String showForm(Model model, HttpSession session) {
         logger.info("Showing reminder form");
-
-        if (session != null) {
-            String username = session.getClass().getSimpleName();
-            // Now you have the authenticated username, you can retrieve the user details as needed
-            // Example: Customer customer = userService.findCustomerByUsername(username);
-        } else {
-            logger.info("session is null");
-            // Handle the case where the principal is null
-        }
-
         model.addAttribute("pillForm", new MedicationScheduleViewModel());
         return "reminder";
     }
@@ -61,32 +48,6 @@ public class PillController {
         return "redirect:reminder";
     }
 
-
-
-
-    @GetMapping("/reminder2")
-    public String showReminder2() {
-        logger.info("Showing reminder2");
-        return "reminder2";
-    }
-
-
-    @PostMapping("/reminder2")
-    public String processReminder2(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
-        // Logic to process the POST request for /reminder2
-        logger.info("Processing " + pillForm.toString());
-
-        // Additional logic if needed
-
-        return "redirect:/reminder2";  // Redirect to the /reminder2 page or another appropriate page
-    }
-
-    @PostMapping("/dismissReminder")
-    public String dismissReminder() {
-        // Perform any necessary actions for dismissal
-        logger.info("Reminder dismissed");
-        return "redirect:/reminder";  // Redirect back to the reminder page
-    }
 
 
 }

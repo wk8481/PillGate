@@ -22,12 +22,8 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 
     private final MedScheduleRepository medScheduleRepository;
     private final CustomerRepository customerRepository;
-
-
-
     @Autowired
     private HttpServletRequest request;
-
 
     private Logger logger = LoggerFactory.getLogger(ReminderServiceImpl.class);
 
@@ -43,18 +39,22 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         MedicationSchedule medicationSchedule = new MedicationSchedule();
 
         int customerId = extractCustomerIdFromSession();
+        logger.info("Customer_id: {} retrieved from session", customerId);
         Customer customer = customerRepository.findCustomerById(customerId);
         medicationSchedule.setCustomer(customer);
+        logger.info("setting customer to medicationSchedule"+customer);
         medicationSchedule.setPillName(pillForm.getPillName());
         medicationSchedule.setTimeTakePill(pillForm.getTimeTakePill());
         medicationSchedule.setRepeatIn(pillForm.getRepeatIn());
         medicationSchedule.setNrOfPillsPlaced(pillForm.getNrOfPillsPlaced());
+        logger.info("Converted medschedule {}", medicationSchedule);
         return medicationSchedule;
     }
 
     @Override
     public void getMedicationScheduleForm(MedicationScheduleViewModel model){
         medScheduleRepository.createMedSchedule(convertToMedicationSchedule(model));
+        logger.info("Created medication schedule {}", model);
     }
 
     @Override
@@ -98,20 +98,6 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 
 
 
-    @Override
-    public boolean isTimeForReminder(){
-        List<MedicationSchedule> upcomingSchedules = medScheduleRepository.findAllMedSchedules();
-
-        for(MedicationSchedule medicationSchedule: upcomingSchedules){
-            LocalDateTime currentTime = LocalDateTime.now();
-            LocalDateTime scheduledTime = medicationSchedule.getTimeTakePill();
-
-            if(currentTime.isEqual(scheduledTime)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     // Method to extract username from the session
     private String extractUsernameFromSession() {
@@ -134,12 +120,33 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
             && medicationSchedule.getTimeTakePill().getMinute() == currentDateTime.getMinute()
             && !medicationSchedule.isStopped()) {
                 medicationSchedule.setStopped(true);
+                logger.info("It is time to take your {}", medicationSchedule.getPillName());
                 medScheduleRepository.createMedSchedule(medicationSchedule);
                 return medicationSchedule.getMessage();
             }
         }
         return null;
     }
+
+
+    public String getAlertForRepeatIn(){
+        logger.info("Getting medication schedule message to repeat");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        for (MedicationSchedule medicationSchedule : medScheduleRepository.findAllMedSchedules()) {
+            if (medicationSchedule.getTimeTakePill().plusHours(medicationSchedule.getRepeatIn()).getHour() == currentDateTime.getHour()
+                    && medicationSchedule.getTimeTakePill().getMinute() == currentDateTime.getMinute()
+                    && !medicationSchedule.isStopped()) {
+                medicationSchedule.setStopped(true);
+                logger.info("It is time to take your {}", medicationSchedule.getPillName());
+                medScheduleRepository.createMedSchedule(medicationSchedule);
+                return medicationSchedule.getMessage();
+            }
+        }
+
+        return null;
+    }
+
 
 
 }
