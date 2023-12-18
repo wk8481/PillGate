@@ -15,7 +15,7 @@ import java.util.Properties;
 
 
 @Configuration
-@Profile("prod")
+@Profile("postgres")
 public class P2DConfig {
     @Bean
     public DataSource dataSource() {
@@ -23,10 +23,32 @@ public class P2DConfig {
                 .create()
 
                 .driverClassName("org.postgresql.Driver")
-                .url("jdbc:postgresql:pro3_db")
+                .url("jdbc:postgresql://localhost:5432/PillGatePG")
                 .username("postgres")
-                .password("student_1234")
+                .password("student")
                 .build();
         return dataSource;
     }
 }
+
+/*private final Environment environment;
+
+    @Autowired
+    public PostgresJdbcConfig(Environment environment) {
+        this.environment = environment;
+    }
+
+    @Bean
+    public DataSource getDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+        dataSource.setUrl(environment.getProperty("spring.datasource.url"));
+        dataSource.setUsername(environment.getProperty("spring.datasource.username"));
+        dataSource.setPassword(environment.getProperty("spring.datasource.password"));
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate getJdbcTemplate() {
+        return new JdbcTemplate(getDataSource());
+    }*/

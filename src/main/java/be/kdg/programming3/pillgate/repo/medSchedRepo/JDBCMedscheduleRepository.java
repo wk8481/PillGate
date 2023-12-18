@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 @Profile("jdbctemplate")
-@Primary
+//@Primary
 public class JDBCMedscheduleRepository implements MedScheduleRepository{
     private static List<MedicationSchedule> medSchedules = new ArrayList<>();
 
@@ -38,6 +38,8 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
         MedicationSchedule medicationSchedule = new MedicationSchedule();
         medicationSchedule.setMedSchedule_id(rs.getInt("medSchedule_id"));
         medicationSchedule.setCustomer_id(rs.getInt("customer_id"));
+        medicationSchedule.getCustomer().setCustomer_id(rs.getInt("customer_id"));
+       // medicationSchedule.setC
         medicationSchedule.setPillName(rs.getString("pillName"));
         medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
         medicationSchedule.setRepeatIn(rs.getInt("repeatIn"));

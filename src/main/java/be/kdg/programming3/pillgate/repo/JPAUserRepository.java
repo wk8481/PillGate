@@ -4,7 +4,7 @@ import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.Dashboard;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
-import be.kdg.programming3.pillgate.repo.customerRepo.UserRepository;
+//import be.kdg.programming3.pillgate.repo.customerRepo.UserRepository;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.context.annotation.Profile;

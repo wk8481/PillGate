@@ -34,6 +34,14 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
     }
 
 
+//    PREVIOUS CONSTRUCTOR USING JDBC CUSTOMER REPOSITORY
+//    @Autowired
+//    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, JDBCCustomerRepository customerRepository){
+//        this.medScheduleRepository = medscheduleRepository;
+//        this.customerRepository = customerRepository;
+//    }
+
+
     @Override
     public MedicationSchedule convertToMedicationSchedule(MedicationScheduleViewModel pillForm){
         MedicationSchedule medicationSchedule = new MedicationSchedule();

@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 @Profile("jdbctemplate")
-@Primary
+//@Primary
 public class JDBCCustomerRepository implements CustomerRepository {
 
     private static Logger logger = LoggerFactory.getLogger(JDBCCustomerRepository.class);

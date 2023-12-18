@@ -1,4 +1,4 @@
-package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.pillgate.controllers;
+package be.kdg.programming3.pillgate.pres.controllers;
 
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
@@ -6,14 +6,16 @@ import be.kdg.programming3.pillgate.service.CustomerService;
 import be.kdg.programming3.pillgate.service.ReminderService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+
 
 
 @Controller
@@ -41,11 +43,35 @@ public class PillController {
     public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
         logger.info("Processing " + pillForm.toString());
 
-        logger.info("saving medicationSchedule....");
+        return pillForm.getPillName();  //TODO: CHANGE THE RETURN STATEMENT TO THE APPROPRIATE STATEMENT
+    }
+
+    public String submitForm(@ModelAttribute("pillForm") @Valid MedicationScheduleViewModel pillForm,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "reminder";
+        }
+
 
         reminderService.saveMedicationSchedule(pillForm);
-
+        logger.info("Processing " + pillForm.toString());
         return "redirect:reminder";
+    }
+
+
+
+    @GetMapping(path = "/now", produces = "application/json")
+    public @ResponseBody ReminderController.AlarmResponse getCurrentAlarm() {
+        String message = reminderService.getMedScheduleAlert();
+        return new ReminderController.AlarmResponse(message);
+
+
+//        logger.info("saving medicationSchedule....");
+
+//        reminderService.saveMedicationSchedule(pillForm);
+
+//        return "redirect:reminder";
+        //TODO: FIX THE COMMENTED LINES
     }
 
 

@@ -5,11 +5,13 @@ import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerLoginDto
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
 import be.kdg.programming3.pillgate.service.CustomerService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,11 +38,17 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public String loginCustomer(@ModelAttribute CustomerLoginDto loginDto, Model model, HttpSession session) {
+    public String loginCustomer(@ModelAttribute("customerDTO") @Valid CustomerLoginDto loginDto, BindingResult bindingResult, Model model, HttpSession session) {
         if (session.getAttribute("authenticatedCustomer") != null) {
             // User already logged in
             return "redirect:/dashboard";
         }
+
+        if (bindingResult.hasErrors()){
+            // Handle validation errors, e.g, return to the frm with error messages
+            return "login";
+        }
+
         Customer authenticatedCustomer = customerService.loginCustomer(loginDto);
         if (authenticatedCustomer != null) {
             // Store customer_id in the session

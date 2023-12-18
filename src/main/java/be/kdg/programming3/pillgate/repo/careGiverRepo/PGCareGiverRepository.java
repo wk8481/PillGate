@@ -1,39 +1,32 @@
 package be.kdg.programming3.pillgate.repo.careGiverRepo;
 
+
 import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Profile("jdbctemplate")
-//@Primary
-public class JDBCCareGiverRepository implements CareGiverRepository{
+@Profile("postgres")
+@Primary
+public class PGCareGiverRepository implements CareGiverRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(JDBCCareGiverRepository.class);
-    private static List<CareGiver> careGivers = new ArrayList<>();
+    private final Logger logger = LoggerFactory.getLogger(PGCareGiverRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
 
-    private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert careGiverInserter;
-
-    public JDBCCareGiverRepository(JdbcTemplate jdbcTemplate) {
-        logger.info("Setting up the caregiver repository...");
+    @Autowired
+    public PGCareGiverRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.careGiverInserter = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("CareGiver")
-                .usingGeneratedKeyColumns("caregiver_id");
     }
-
-
 
 
     private static final RowMapper<CareGiver> CAREGIVER_ROW_MAPPER = (rs, rowNum) -> {
@@ -44,13 +37,12 @@ public class JDBCCareGiverRepository implements CareGiverRepository{
         return careGiver;
     };
 
-
     @Override
     public CareGiver createCareGiver(CareGiver careGiver) {
         logger.info("Creating caregiver {}", careGiver);
         jdbcTemplate.update("INSERT INTO CareGiver (caregiver_name, email) VALUES (?, ?)",
                 careGiver.getCaregiver_name(),
-                careGiver.getEmail(), careGiver.getCaregiver_id());
+                careGiver.getEmail());
         return careGiver;
     }
 
@@ -106,5 +98,4 @@ public class JDBCCareGiverRepository implements CareGiverRepository{
             return null;
         }
     }
-
 }

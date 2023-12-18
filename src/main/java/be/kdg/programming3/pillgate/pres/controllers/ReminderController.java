@@ -3,9 +3,19 @@ import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.service.ReminderService;
 import be.kdg.programming3.pillgate.service.SerialReader;
+import be.kdg.programming3.pillgate.domain.user.Customer;
+import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
+
+import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
+import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
+import be.kdg.programming3.pillgate.service.ReminderService;
+
+import be.kdg.programming3.pillgate.service.SerialReader;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -41,6 +51,14 @@ public class ReminderController {
         return new AlarmResponse(message);
     }
 
+    @GetMapping("/reminder")
+    public String showMedicationSchedule(Model model, HttpSession session) {
+        // Retrieve the logged-in user (customer)
+        //Customer customer = customerRepository.findCustomerByEmail(session.getId());
+        return null;
+        //TODO FIX THIS METHOD
+
+    }
 
     public static class AlarmResponse {
         private String message;

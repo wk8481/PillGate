@@ -145,6 +145,8 @@ public class MedicationSchedule {
         this.customer = new Customer(customer_id);
     }
 
+
+
     public boolean isStopped() {return isStopped;}
 
     public void setStopped(boolean stopped) {isStopped = stopped;}
