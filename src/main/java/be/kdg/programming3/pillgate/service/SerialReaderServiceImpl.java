@@ -37,7 +37,6 @@ public class SerialReaderServiceImpl implements SerialReader{
 
     public void readArduinoData(String portName) {
         SerialPort[] serialPorts = SerialPort.getCommPorts();
-
         SerialPort serialPort = null;
 
         for (SerialPort port : serialPorts) {
