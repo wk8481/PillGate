@@ -4,6 +4,8 @@ import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortTimeoutException;
 import org.slf4j.Logger;
@@ -12,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 
 @Service
@@ -30,6 +30,9 @@ public class SerialReaderServiceImpl implements SerialReader{
         this.sensorRepository = sensorRepository;
         this.medScheduleRepository=medScheduleRepository;
     }
+
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+    private final String jsonFilePath = "weight_sensor_data.json";
 
 
 //    PREVIOUS CONSTRUCTOR USING JDBC SENSOR REPOSITORY
@@ -118,6 +121,7 @@ public class SerialReaderServiceImpl implements SerialReader{
                 if (latestSensor != null) {
                     latestSensor.updateValues(weight, calibrationFactor);
                     // Save the updated sensor back to the repository
+                    saveWeightSensorDataToJson(latestSensor);
                     sensorRepository.updateSensor(latestSensor);
 
                     // Retrieve the latest MedicationSchedule from the repository
@@ -174,6 +178,43 @@ public class SerialReaderServiceImpl implements SerialReader{
                 }
             }
         }
+
+        @Override
+    public void saveWeightSensorDataToJson(WeightSensor weightSensor) {
+        try {
+            // Check if the JSON file exists
+            File file = new File(jsonFilePath);
+            boolean fileExists = file.exists();
+
+            // Append or create a new JSON file
+            try (FileWriter fileWriter = new FileWriter(file, true)) {
+                if (!fileExists) {
+                    // If the file doesn't exist, add the opening bracket for JSON array
+                    fileWriter.write("[\n");
+                } else {
+                    // If the file exists, add a comma to separate objects in the array
+                    fileWriter.write(",\n");
+                }
+
+                // Convert WeightSensor object to JSON
+                String json = objectMapper.writeValueAsString(weightSensor);
+
+                // Write JSON to file
+                fileWriter.write(json);
+
+                // Close the array if it's the last object
+                if (!fileExists) {
+                    fileWriter.write("\n]");
+                }
+            }
+
+            logger.info("Weight sensor data appended to JSON file: {}", jsonFilePath);
+
+        } catch (IOException e) {
+            logger.error("Error appending weight sensor data to JSON", e);
+            throw new RuntimeException("Error appending weight sensor data to JSON", e);
+        }
+    }
 
     public void disconnect() throws IOException {
         if (input != null) {

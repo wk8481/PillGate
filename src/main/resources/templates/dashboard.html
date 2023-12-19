@@ -74,47 +74,13 @@
 
 <main class="container mt-5">
     <h1 class="text-center">Dashboard</h1>
-    <!-- Sensor Table -->
-<!--
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Sensor ID</th>
-            <th>Weight</th>
-            <th>Number of pills taken</th>
-            <th>Number of pills placed</th>
-            <th>Weight of single pill</th>
-            <th>Calibration Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        &lt;!&ndash; Iterate over sensors and populate the table rows &ndash;&gt;
-        <tr th:each="sensor : ${sensors}">
-            <td th:utext="${sensor.sensor_ID}"></td>
-            <td th:utext="${sensor.weight}"></td>
-            <td th:utext="${nrOfPillsTaken}"></td>
-            <td th:utext="${nrOfPillsPlaced}"></td>
-            <td th:utext="${weightOfSinglePill}"></td>
-            <td th:utext="${sensor.calibrationDate}"></td>
-        </tr>
-
-        <tr>
-            <td th:utext="${nrOfPillsTaken}"></td>
-            <td th:utext="${nrOfPillsPlaced}"></td>
-            <td th:utext="${weightOfSinglePill}"></td>
-        </tr>
-
-        </tbody>
-    </table>
--->
-
 
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Sensor ID</th>
-            <th>Weight</th>
-            <th>Calibration Date</th>
+            <th>SensorId</th>
+            <th>Weight: </th>
+            <th>Calibration Date: </th>
         </tr>
         </thead>
         <tbody>
@@ -132,6 +98,7 @@
         </tr>
         </tbody>
     </table>
+
 
 </main>
 

@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
+
 @Controller
 @RequestMapping("/loadSensor")
 public class LoadSensorController {
@@ -49,9 +51,8 @@ public class LoadSensorController {
     }
 
 
+    @GetMapping("/readArduino/showPillsTaken")
     public String showNumberOfPillsTaken(Model model) {
-        // Assuming you have a method in the service to get the latest medication schedule
-        //I NEED TO CHANGE THAT LINE AND GET IT FROM MED SCHEDULE SERVICE
         MedicationSchedule latestMedSchedule = reminderService.getLatestMedicationSchedule();
         logger.info("Getting latest medication schedule {}", latestMedSchedule);
 
@@ -64,7 +65,6 @@ public class LoadSensorController {
 
             model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
             logger.info("Number of Pills Placed: {}", latestMedSchedule.getNrOfPillsPlaced());
-
         }
 
         return "dashboard";

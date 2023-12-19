@@ -76,13 +76,6 @@ public class MedicationSchedule {
         this.medSchedule_id = medSchedule_id;
     }
 
-
-
-/*    public int getCustomer_id() {
-        return customer_id;
-    }*/
-
-
     public String getPillName() {
         return pillName;
     }

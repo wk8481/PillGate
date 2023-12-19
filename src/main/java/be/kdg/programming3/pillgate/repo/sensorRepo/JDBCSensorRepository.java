@@ -26,8 +26,6 @@ public class JDBCSensorRepository implements SensorRepository {
     private final Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
     private static final List<WeightSensor> weightSensors = new ArrayList<>();
     private static AtomicInteger nextId = new AtomicInteger(1);
-
-
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert sensorInserter;
 

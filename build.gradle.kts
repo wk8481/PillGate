@@ -33,6 +33,7 @@ dependencies{
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
 
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.0") // Use the latest version available
 
 
 }
