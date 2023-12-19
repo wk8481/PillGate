@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS Customer (
 );
 
 
-ALTER TABLE IF EXISTS Customer
-    ADD CONSTRAINT unique_email UNIQUE (email);
+-- ALTER TABLE IF EXISTS Customer
+--     ADD CONSTRAINT unique_email UNIQUE (email);
 
 SELECT constraint_name, column_name
 FROM information_schema.constraint_column_usage

@@ -71,8 +71,6 @@ public class Customer {
         this.customer_id = customer_id;
     }
 
-    //security
-
 
     public Customer(String customer_name, LocalDate birthDate, String email, String password) {
         this.customer_name = customer_name;
@@ -85,54 +83,44 @@ public class Customer {
 
     }
 
-
+    public int getCustomer_id() {
+        return customer_id;
+    }
 
     public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
-    }
-
-    public int getCustomer_id() {
-        return customer_id;
     }
 
     public String getCustomer_name() {
         return customer_name;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public boolean isHasCareGiver() {
-        return hasCareGiver;
-    }
-
-    public List<CareGiver> getCareGivers() {
-        return careGivers;
-    }
-
     public void setCustomer_name(String customer_name) {
         this.customer_name = customer_name;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setHasCareGiver(boolean hasCareGiver) {
-        this.hasCareGiver = hasCareGiver;
+    public boolean isHasCareGiver() {
+        return hasCareGiver;
     }
 
-    public void setCareGiver(CareGiver careGiver) {
-        this.careGivers = careGivers;
+    public void setHasCareGiver(boolean hasCareGiver) {
+        this.hasCareGiver = hasCareGiver;
     }
 
     public String getPassword() {
@@ -141,6 +129,10 @@ public class Customer {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<CareGiver> getCareGivers() {
+        return careGivers;
     }
 
     public void setCareGivers(List<CareGiver> careGivers) {
@@ -152,7 +144,7 @@ public class Customer {
     }
 
     public void setMedicationSchedules(List<MedicationSchedule> medicationSchedules) {
-        this.medicationSchedules=medicationSchedules;
+        this.medicationSchedules = medicationSchedules;
     }
 
     public WeightSensor getWeightSensor() {

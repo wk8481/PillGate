@@ -36,7 +36,7 @@ public class CustomerRegistrationDto {
     private String email;
 
     @NotNull(message = "hasCareGiver cannot be null")
-    private Boolean hasCareGiver;
+    private boolean hasCareGiver;
 
     public CustomerRegistrationDto() {
     }

@@ -39,7 +39,7 @@ public class PGCustomerRepository implements CustomerRepository {
         parameters.put("customer_name", customer.getCustomer_name());
         parameters.put("birthDate", customer.getBirthDate());
         parameters.put("email", customer.getEmail());
-        parameters.put("hasCareGiver", customer.getCareGivers());
+        parameters.put("hasCareGiver", customer.isHasCareGiver());
         parameters.put("password", customer.getPassword());
 
         int customerId = jdbcTemplate.update(insertQuery, parameters);

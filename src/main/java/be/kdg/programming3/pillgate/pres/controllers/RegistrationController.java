@@ -37,7 +37,7 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String registerCustomer(@ModelAttribute("customerDTO") CustomerRegistrationDto registrationDto) {
         logger.info("Registering customer: " + registrationDto.toString());
-        customerService.registerNewCustomer(registrationDto, session); // Use the method with HttpSession
+        customerService.registerNewCustomer(registrationDto, session);
 
         return "registration"; // Redirect to a success or confirmation page
     }
