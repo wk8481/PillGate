@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/alarm")
@@ -53,10 +55,17 @@ public class ReminderController {
 
     @GetMapping("/reminder")
     public String showMedicationSchedule(Model model, HttpSession session) {
-        // Retrieve the logged-in user (customer)
-        //Customer customer = customerRepository.findCustomerByEmail(session.getId());
-        return null;
-        //TODO FIX THIS METHOD
+                // Retrieve the logged-in user (customer)
+        Customer customer = customerRepository.findCustomerByEmail(session.getId() ,session.getAttribute("password").toString());
+
+        // Retrieve the customer's medication schedule
+        List<MedicationSchedule> medicationSchedule = customer.getDashboard().getMedicationSchedules();
+
+        // Pass the medication schedule to the template
+        model.addAttribute("medicationSchedule", medicationSchedule);
+
+        return "reminder";
+
 
     }
 

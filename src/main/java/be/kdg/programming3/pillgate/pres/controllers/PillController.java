@@ -41,9 +41,9 @@ public class PillController {
 
     @PostMapping("/reminder")
     public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
+        reminderService.saveMedicationSchedule(pillForm);
         logger.info("Processing " + pillForm.toString());
-
-        return pillForm.getPillName();  //TODO: CHANGE THE RETURN STATEMENT TO THE APPROPRIATE STATEMENT
+        return "redirect:reminder";
     }
 
     public String submitForm(@ModelAttribute("pillForm") @Valid MedicationScheduleViewModel pillForm,
