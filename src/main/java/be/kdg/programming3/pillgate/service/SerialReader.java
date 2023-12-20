@@ -7,7 +7,7 @@ import java.io.IOException;
 public interface SerialReader {
     void readArduinoData(String portName);
 
-    void saveWeightSensorDataToJson(WeightSensor weightSensor);
+//    void saveWeightSensorDataToJson(WeightSensor weightSensor);
 
     void disconnect()throws IOException;
 }

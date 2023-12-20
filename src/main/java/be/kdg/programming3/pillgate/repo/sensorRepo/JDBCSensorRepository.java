@@ -17,16 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static be.kdg.programming3.pillgate.repo.sensorRepo.PGSensorRepository.getWeightSensor;
 
 @Profile("jdbctemplate")
 @Repository
 //@Primary
 public class JDBCSensorRepository implements SensorRepository {
     private final Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
-    private static final List<WeightSensor> weightSensors = new ArrayList<>();
     private static AtomicInteger nextId = new AtomicInteger(1);
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert sensorInserter;
 
     public JDBCSensorRepository(JdbcTemplate jdbcTemplate) {
@@ -46,12 +44,30 @@ public class JDBCSensorRepository implements SensorRepository {
                 rs.getDouble("weight"));
     }
 
-    @Override
+/*    @Override
     public WeightSensor createSensor(WeightSensor weightSensor) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("sensorID", weightSensor.getSensor_ID());
         return getWeightSensor(weightSensor, parameters, sensorInserter, logger);
+    }*/
+
+    @Override
+    public WeightSensor createSensor(WeightSensor weightSensor) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("sensorID", weightSensor.getSensor_ID());
+        parameters.put("customer_id", weightSensor.getCustomer().getCustomer_id());
+        parameters.put("WEIGHT_CAPACITY_GRAMS", weightSensor.getWEIGHT_CAPACITY_GRAMS());
+        parameters.put("calibrationDate", weightSensor.getCalibrationDate());
+        parameters.put("weight", weightSensor.getWeight());
+
+        // Execute the insert and get the auto-generated key
+        Number newId = sensorInserter.executeAndReturnKey(parameters);
+        weightSensor.setSensor_ID(newId.intValue());
+
+        logger.info("Creating weight sensor {}", weightSensor);
+        return weightSensor;
     }
+
 
     @Override
     public List<WeightSensor> findAllWSensors() {

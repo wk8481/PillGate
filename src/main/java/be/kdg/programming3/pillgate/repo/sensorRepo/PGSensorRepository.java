@@ -49,14 +49,30 @@ public class PGSensorRepository implements SensorRepository {
             rs.getDouble("weight")
     );
 
-    @Override
+/*    @Override
     public WeightSensor createSensor(WeightSensor weightSensor) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("sensor_ID", weightSensor.getSensor_ID());
         return getWeightSensor(weightSensor, parameters, sensorInserter, logger);
+    }*/
+    @Override
+    public WeightSensor createSensor(WeightSensor weightSensor) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("sensorID", weightSensor.getSensor_ID());
+        parameters.put("customer_id", weightSensor.getCustomer().getCustomer_id());
+        parameters.put("WEIGHT_CAPACITY_GRAMS", weightSensor.getWEIGHT_CAPACITY_GRAMS());
+        parameters.put("calibrationDate", weightSensor.getCalibrationDate());
+        parameters.put("weight", weightSensor.getWeight());
+
+        // Execute the insert and get the auto-generated key
+        Number newId = sensorInserter.executeAndReturnKey(parameters);
+        weightSensor.setSensor_ID(newId.intValue());
+
+        logger.info("Creating weight sensor {}", weightSensor);
+        return weightSensor;
     }
 
-    @NotNull
+/*    @NotNull
     static WeightSensor getWeightSensor(WeightSensor weightSensor, Map<String, Object> parameters, SimpleJdbcInsert sensorInserter, Logger logger) {
         parameters.put("customer_id", weightSensor.getCustomer().getCustomer_id());
         parameters.put("WEIGHT_CAPACITY_GRAMS", weightSensor.getWEIGHT_CAPACITY_GRAMS());
@@ -68,7 +84,7 @@ public class PGSensorRepository implements SensorRepository {
 
         logger.info("Creating weight sensor {}", weightSensor);
         return weightSensor;
-    }
+    }*/
 
     @Override
     public List<WeightSensor> findAllWSensors() {

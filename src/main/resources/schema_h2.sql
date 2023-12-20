@@ -62,7 +62,6 @@
 --                                                   startDate DATE,
 --                                                   endDate DATE,
 --                                                   pillName VARCHAR(255),
---                                                   quantity INT,
 --                                                   timeTakePill DATE,
 --                                                   repeatIn INT,
 --                                                   nrOfPillsPlaced INT,

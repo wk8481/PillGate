@@ -102,25 +102,9 @@ public class WeightSensor {
 
     public void setCustomer(Customer customer) {this.customer = customer;}
 
-
-//    public void addPillbox(PillBox pillBox) {
-//        this.pillBox = pillBox;
-//    }
-
-
-
-
     public void setCalibrationDate(LocalDate calibrationDate) {
         this.calibrationDate = calibrationDate;
     }
-
-//    public PillBox getPillBox() {
-//        return pillBox;
-//    }
-//
-//    public void setPillBox(PillBox pillBox) {
-//        this.pillBox = pillBox;
-//    }
 
     @Override
     public boolean equals(Object obj) {

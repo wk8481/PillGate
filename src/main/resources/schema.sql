@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS WeightSensor (
                                             sensor_ID SERIAL PRIMARY KEY,
                                             customer_id INT,
                                             WEIGHT_CAPACITY_GRAMS INT DEFAULT 1000,
-                                            calibrationDate DATE,
+                                            calibrationDate DATE, -- change this to timestamp
                                             weight DOUBLE PRECISION, -- Change here
                                             FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
 );
@@ -66,10 +66,8 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   customer_id INT,
                                                   FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
                                                   pillName VARCHAR(255),
-                                                  timeTakePill TIMESTAMP,
                                                   repeatIn INT,
-                                                  quantity INT,
-                                                  timeTakePill DATE,
+                                                  timeTakePill TIMESTAMP,
                                                   nrOfPillsPlaced INT,
                                                   weightOfSinglePill DOUBLE PRECISION, -- Change here
                                                   nrOfPillsTaken INT,

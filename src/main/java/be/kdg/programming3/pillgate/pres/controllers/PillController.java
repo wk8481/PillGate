@@ -52,7 +52,6 @@ public class PillController {
             return "reminder";
         }
 
-
         reminderService.saveMedicationSchedule(pillForm);
         logger.info("Processing " + pillForm.toString());
         return "redirect:reminder";

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,9 +52,9 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
     public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
         logger.info("Creating med schedule: {}", medSchedule);
         String insertQuery = "INSERT INTO MedicationSchedule(customer_id, pillName, " +
-                "timeTakePill, nrOfPillsPlaced, weightOfSinglePill, nrOfPillsTaken, isStopped) " +
-                "VALUES (:customer_id, :pillName, :quantity, :timeTakePill, " +
-                ":nrOfPillsPlaced, :weightOfSinglePill, :nrOfPillsTaken, :isStopped)";
+                "timeTakePill, nrOfPillsPlaced, weightOfSinglePill, nrOfPillsTaken, isStopped, message) " +
+                "VALUES (:customer_id, :pillName, :timeTakePill, " +
+                ":nrOfPillsPlaced, :weightOfSinglePill, :nrOfPillsTaken, :isStopped, :message)";
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("customer_id", medSchedule.getCustomer().getCustomer_id());
@@ -62,6 +63,8 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
         parameters.put("nrOfPillsPlaced", medSchedule.getNrOfPillsPlaced());
         parameters.put("weightOfSinglePill", medSchedule.getWeightOfSinglePill());
         parameters.put("nrOfPillsTaken", medSchedule.getNrOfPillsTaken());
+        parameters.put("isStopped", medSchedule.isStopped());
+        parameters.put("message", medSchedule.getMessage());
 
         int medScheduleId = jdbcTemplate.update(insertQuery, parameters);
         medSchedule.setMedSchedule_id(medScheduleId);
@@ -109,9 +112,10 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
     // Inner class to map rows to MedicationSchedule objects
     private static class MedScheduleRowMapper implements org.springframework.jdbc.core.RowMapper<MedicationSchedule> {
         @Override
-        public MedicationSchedule mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+        public MedicationSchedule mapRow(ResultSet rs, int rowNum) throws java.sql.SQLException {
             MedicationSchedule medicationSchedule = new MedicationSchedule();
             medicationSchedule.setMedSchedule_id(rs.getInt("medSchedule_id"));
+            medicationSchedule.setCustomer_id(rs.getInt("customer_id"));
             medicationSchedule.getCustomer().setCustomer_id(rs.getInt("customer_id"));
             medicationSchedule.setPillName(rs.getString("pillName"));
             medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
