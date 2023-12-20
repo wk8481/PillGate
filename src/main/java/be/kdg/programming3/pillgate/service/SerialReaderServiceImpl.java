@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -103,14 +106,14 @@ public class SerialReaderServiceImpl implements SerialReader{
 
     private void processArduinoData(String inputLine) {
         inputLine = inputLine.replaceAll("[^\\x20-\\x7E]", "").trim();
-        logger.info("Received Arduino data: {}", inputLine);
+        //logger.info("Received Arduino data: {}", inputLine);
         // Assuming inputLine is in the format: "Reading: X.XX grams calibration factor: YYY.ZZZ"
 
         String[] parts = inputLine.split("\\s+|:");
         if (parts.length >= 7 && parts[0].trim().equals("Reading") && parts[1].trim().equals("")) {
             try {
-                logger.info("Parsing weight value: {}", parts[2]);
-                logger.info("Parsing calibration factor: {}", parts[6]);
+                logger.info("Parsing weight value total weight: {}", parts[2]);
+                //logger.info("Parsing calibration factor: {}", parts[6]);
                 double weight = Double.parseDouble(parts[2]);
                 double calibrationFactor = Double.parseDouble(parts[6]);
 
@@ -118,7 +121,7 @@ public class SerialReaderServiceImpl implements SerialReader{
                 WeightSensor latestSensor = sensorRepository.findAllWSensors().stream().findFirst().orElse(null);
 
                 sensorRepository.createSensor(latestSensor);
-                logger.info("Latest weight sensor: {}", latestSensor);
+                //logger.info("Latest weight sensor: {}", latestSensor);
 
                 // Update the values in the latest WeightSensor
                 if (latestSensor != null) {
@@ -165,68 +168,77 @@ public class SerialReaderServiceImpl implements SerialReader{
                 // Update the MedicationSchedule fields
                 medicationSchedule.setWeightOfSinglePill(weightOfSinglePill);
                 logger.info("Weight of single pill: {}", weightOfSinglePill);
-
                 // Perform additional logic if needed, e.g., check if weight reduction indicates pill taken
                 // For example, if the weight decreases by the weight of a single pill, increment nrOfPillsTaken
                 if (weightReductionIndicatesPillTaken(weightSensor, medicationSchedule)) {
-                    int nrOfPillsTaken = medicationSchedule.getNrOfPillsTaken() + 1;
+                    int nrOfPillsTaken = medicationSchedule.getNrOfPillsTaken() /*+ 1*/;
+                    int nrOfPillsPlacedUpdated = medicationSchedule.getNrOfPillsPlaced() /*- 1*/;
                     medicationSchedule.setNrOfPillsTaken(nrOfPillsTaken);
+                    medicationSchedule.setNrOfPillsPlaced(nrOfPillsPlacedUpdated);
                     logger.info("Number of pills taken increased: {}", nrOfPillsTaken);
-                    // You might want to add additional logic or notifications here
+                    logger.info("Number of pills placed decreased: {}", nrOfPillsPlacedUpdated);
+
                 }
 
                 // Save or update the MedicationSchedule in the repository or database
                 medScheduleRepository.updateMedSchedule(medicationSchedule);
                 logger.info("Updated MedicationSchedule: {}", medicationSchedule);
+
     }
 
-            // Example method to check if weight reduction indicates a pill taken
-    private boolean weightReductionIndicatesPillTaken(WeightSensor weightSensor, MedicationSchedule medicationSchedule) {
-                double weightReductionThreshold = medicationSchedule.getWeightOfSinglePill();
-                return (weightSensor.getWeight() - BOX_WEIGHT) <= weightReductionThreshold;
-    }
+            // Method to check if weight reduction indicates a pill taken
+            private boolean weightReductionIndicatesPillTaken(WeightSensor weightSensor, MedicationSchedule medicationSchedule) {
+                // Get the latest weight sensor from the repository
+                List<WeightSensor> weightSensors = sensorRepository.findAllWSensors();
 
-
-
-
-
-/*        private void calculateWeightOfSinglePill(MedicationSchedule latestMedSchedule, WeightSensor latestSensor) {
-            if (latestMedSchedule != null) {
-                // Add logic to check if the weight is reduced from the total weight of the box and pills
-                double weightReduction = latestMedSchedule.getNrOfPillsPlaced() * latestMedSchedule.getWeightOfSinglePill();
-
-                // Check if the actual weight reduction is below the expected
-                if (latestSensor.getWeight() < weightReduction) {
-
-                int pillsTaken = (int) ((weightReduction - latestSensor.getWeight()) / latestMedSchedule.getWeightOfSinglePill());
-
-                // Update the number of pills placed in the MedicationSchedule
-                latestMedSchedule.setNrOfPillsPlaced(latestMedSchedule.getNrOfPillsPlaced() + pillsTaken);
-
-                // Calculate the weight of a single pill
-                if (latestMedSchedule.getNrOfPillsPlaced() > 0) {
-                    double totalWeightWithPills = latestSensor.getWeight() + weightReduction;
-                    double weightOfSinglePill = weightReduction / latestMedSchedule.getNrOfPillsPlaced();
-
-                    // Set the calculated weightOfSinglePill in the MedicationSchedule
-                    latestMedSchedule.setWeightOfSinglePill(weightOfSinglePill);
-                    logger.info("Weight of single pill: {}", weightOfSinglePill);
-
-                    // Update the number of pills taken
-                    int pillsTakenUpdated = latestMedSchedule.getNrOfPillsPlaced() - (int) (totalWeightWithPills / weightOfSinglePill);
-                    latestMedSchedule.setNrOfPillsTaken(pillsTakenUpdated);
-                     logger.info("Number of pills taken: {}", pillsTakenUpdated);
-
-                    // Save the updated MedicationSchedule back to the repository
-                    medScheduleRepository.updateMedSchedule(latestMedSchedule);
-                    logger.info("Updated MedicationSchedule: {}", latestMedSchedule);
-
-                    } else {
-                        logger.error("Invalid MedicationSchedule or WeightSensor: latestMedSchedule={}, latestSensor={}", latestMedSchedule, latestSensor);
-                    }
+                if (weightSensors.size() < 2) {
+                    logger.warn("Not enough weight sensor data found.");
+                    return false;
                 }
+
+                weightSensors.get()
+
+                logger.info("Weight sensor data: {}", weightSensors);
+
+                // Compare current total weight with the previous total weight
+                double currentTotalWeight = weightSensors.get(0).getWeight();
+                double previousTotalWeight = weightSensors.get(1).getWeight();
+                logger.info("Previous total weight: {}", previousTotalWeight);
+
+
+                // Round the weights to a specific number of decimal places
+                int decimalPlaces = 2; // Adjust this based on your requirements
+                double roundedCurrentWeight = round(currentTotalWeight, decimalPlaces);
+                logger.info("Rounded current weight: {}", roundedCurrentWeight);
+                double roundedPreviousWeight = round(previousTotalWeight, decimalPlaces);
+                logger.info("Rounded previous weight: {}", roundedPreviousWeight);
+
+                int weightOfSinglePill = (int) medicationSchedule.getWeightOfSinglePill();
+
+                // If the rounded difference is equal to the weight of a single pill, consider it a pill taken
+                if (roundedPreviousWeight - roundedCurrentWeight == weightOfSinglePill) {
+                    // Increment nrOfPillsTaken
+                    int nrOfPillsTaken = medicationSchedule.getNrOfPillsTaken() + 1;
+                    medicationSchedule.setNrOfPillsTaken(nrOfPillsTaken);
+
+                    // Decrement nrOfPillsPlaced
+                    int nrOfPillsPlacedUpdated = medicationSchedule.getNrOfPillsPlaced() - 1;
+                    medicationSchedule.setNrOfPillsPlaced(nrOfPillsPlacedUpdated);
+
+                    logger.info("Number of pills taken increased: {}", nrOfPillsTaken);
+                    logger.info("Number of pills placed decreased: {}", nrOfPillsPlacedUpdated);
+
+                    return true;
+                }
+
+                return false;
             }
-        }*/
+
+    // Helper method to round a double value to a specific number of decimal places
+    private double round(double value, int decimalPlaces) {
+        double scale = Math.pow(10, decimalPlaces);
+        return Math.round(value * scale) / scale;
+    }
 
 
         // there is no need to save the weight sensor data to the json file

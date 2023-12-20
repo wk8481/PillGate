@@ -6,6 +6,7 @@ import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import be.kdg.programming3.pillgate.service.ReminderService;
 import be.kdg.programming3.pillgate.service.SerialReader;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,50 +22,63 @@ public class LoadSensorController {
 
     private final SerialReader serialReader;
     private final SensorRepository sensorRepository;
-    private final MedScheduleRepository medscheduleRepository;
     private final ReminderService reminderService;
-    private Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
+    private final Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
 
-    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository, ReminderService reminderService) {
+    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, ReminderService reminderService) {
         this.serialReader = serialReader;
         this.sensorRepository = sensorRepository;
-        this.medscheduleRepository = medScheduleRepository;
         this.reminderService = reminderService;
     }
 
     @GetMapping()
-    public String showSensor(Model model) {
-        logger.info("Showing load sensor data ..");
-        model.addAttribute("sensors", sensorRepository.findAllWSensors());
+    public String showSensor(Model model, HttpSession session) {
+        if (session.getAttribute("authenticatedUser") != null) {
+            logger.info("Showing load sensor data ..");
+            model.addAttribute("sensors", sensorRepository.findAllWSensors());
+        return "dashboard";
+        } else {
+            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
+        }
         return "dashboard";
     }
 
     @GetMapping("/readArduino")
-    public String readArduino(Model model) {
-        try {
-            serialReader.readArduinoData("COM5");
-            model.addAttribute("sensors", sensorRepository.findAllWSensors());
-        } catch (Exception e) {
-            logger.info("Error reading Arduino data", e);
+    public String readArduino(Model model, HttpSession session) {
+        if (session.getAttribute("authenticatedUser") != null) {
+
+            try {
+                serialReader.readArduinoData("COM5");
+                model.addAttribute("sensors", sensorRepository.findAllWSensors());
+            } catch (Exception e) {
+                logger.info("Error reading Arduino data", e);
+            }
+            return "dashboard";
+        } else {
+            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
         }
         return "dashboard";
     }
 
 
     @GetMapping("/readArduino/showPillsTaken")
-    public String showNumberOfPillsTaken(Model model) {
-        MedicationSchedule latestMedSchedule = reminderService.getLatestMedicationSchedule();
-        logger.info("Getting latest medication schedule {}", latestMedSchedule);
+    public String showNumberOfPillsTaken(Model model, HttpSession session) {
+        if (session.getAttribute("authenticatedUser") != null) {
+            MedicationSchedule latestMedSchedule = reminderService.getLatestMedicationSchedule();
+            logger.info("Getting latest medication schedule {}", latestMedSchedule);
 
-        if (latestMedSchedule != null) {
-            model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
-            logger.info("Showing number of pills taken {}", latestMedSchedule.getNrOfPillsTaken());
+            if (latestMedSchedule != null) {
+                model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
+                logger.info("Showing number of pills taken {}", latestMedSchedule.getNrOfPillsTaken());
 
-            model.addAttribute("weightOfSinglePill", latestMedSchedule.getWeightOfSinglePill());
-            logger.info("Weight of Single Pill: {}", latestMedSchedule.getWeightOfSinglePill());
+                model.addAttribute("weightOfSinglePill", latestMedSchedule.getWeightOfSinglePill());
+                logger.info("Weight of Single Pill: {}", latestMedSchedule.getWeightOfSinglePill());
 
-            model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
-            logger.info("Number of Pills Placed: {}", latestMedSchedule.getNrOfPillsPlaced());
+                model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
+                logger.info("Number of Pills Placed: {}", latestMedSchedule.getNrOfPillsPlaced());
+            }
+        } else {
+            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
         }
 
         return "dashboard";

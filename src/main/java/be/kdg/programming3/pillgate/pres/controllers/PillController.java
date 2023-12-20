@@ -41,22 +41,14 @@ public class PillController {
 
     @PostMapping("/reminder")
     public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
-        reminderService.saveMedicationSchedule(pillForm);
         logger.info("Processing " + pillForm.toString());
-        return "redirect:reminder";
-    }
 
-    public String submitForm(@ModelAttribute("pillForm") @Valid MedicationScheduleViewModel pillForm,
-                             BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            return "reminder";
-        }
+        logger.info("saving medicationSchedule....");
 
         reminderService.saveMedicationSchedule(pillForm);
-        logger.info("Processing " + pillForm.toString());
+
         return "redirect:reminder";
     }
-
 
 
     @GetMapping(path = "/now", produces = "application/json")

@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-@Profile("jdbctemplate")
+@Profile("postgres")
 @Repository
 //@Primary
 public class JDBCSensorRepository implements SensorRepository {
@@ -51,10 +51,13 @@ public class JDBCSensorRepository implements SensorRepository {
         return getWeightSensor(weightSensor, parameters, sensorInserter, logger);
     }*/
 
-    @Override
+/*    @Override
     public WeightSensor createSensor(WeightSensor weightSensor) {
+        logger.info("trying to create a sensor..");
         Map<String, Object> parameters = new HashMap<>();
+*//*
         parameters.put("sensorID", weightSensor.getSensor_ID());
+*//*
         parameters.put("customer_id", weightSensor.getCustomer().getCustomer_id());
         parameters.put("WEIGHT_CAPACITY_GRAMS", weightSensor.getWEIGHT_CAPACITY_GRAMS());
         parameters.put("calibrationDate", weightSensor.getCalibrationDate());
@@ -66,7 +69,21 @@ public class JDBCSensorRepository implements SensorRepository {
 
         logger.info("Creating weight sensor {}", weightSensor);
         return weightSensor;
+    }*/
+
+
+    @Override
+    public WeightSensor createSensor(WeightSensor weightSensor) {
+        jdbcTemplate.update("INSERT INTO WeightSensor (customer_id, WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) " +
+                        "VALUES (?, ?, ?, ?)",
+                weightSensor.getCustomer().getCustomer_id(),
+                weightSensor.getWEIGHT_CAPACITY_GRAMS(),
+                weightSensor.getCalibrationDate(),
+                weightSensor.getWeight());
+        logger.info("Creating weight sensor {}", weightSensor);
+        return weightSensor;
     }
+
 
 
     @Override

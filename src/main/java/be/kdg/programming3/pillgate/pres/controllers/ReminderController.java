@@ -52,21 +52,6 @@ public class ReminderController {
         return new AlarmResponse(message);
     }
 
-/*    @GetMapping("/reminder")
-    public String showMedicationSchedule(Model model, HttpSession session) {
-                // Retrieve the logged-in user (customer)
-        Customer customer = customerRepository.findCustomerByEmail(session.getId() ,session.getAttribute("password").toString());
-
-        // Retrieve the customer's medication schedule
-//        List<MedicationSchedule> medicationSchedule = customer.getDashboard().getMedicationSchedules();
-
-        // Pass the medication schedule to the template
-//        model.addAttribute("medicationSchedule", medicationSchedule);
-
-        return "reminder";
-
-
-    }*/
 
     public static class AlarmResponse {
         private String message;

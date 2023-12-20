@@ -33,7 +33,23 @@ CREATE TABLE IF NOT EXISTS WeightSensor (
                                             weight DOUBLE PRECISION, -- Change here
                                             FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
 );
+/*ALTER TABLE IF EXISTS WeightSensor
+    ADD CONSTRAINT unique_customer_id UNIQUE (customer_id);*/
 
+alter table WeightSensor
+DROP CONSTRAINT IF EXISTS unique_customer_id;
+
+SELECT constraint_name, column_name
+FROM information_schema.constraint_column_usage
+WHERE table_name = 'WeightSensor';
+
+DELETE FROM WeightSensor
+WHERE sensor_ID > 215;
+/*INSERT INTO WeightSensor (customer_id, WEIGHT_CAPACITY_GRAMS, calibrationDate, weight)
+VALUES ( 1,1000, '2022-01-01', 750);*/
+
+SELECT * FROM WeightSensor;
+SELECT * FROM MedicationSchedule;
 
 
 -- CareGiver Table
