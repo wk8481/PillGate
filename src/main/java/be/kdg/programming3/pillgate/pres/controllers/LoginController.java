@@ -36,44 +36,39 @@ public class LoginController {
         return "login";
     }
 
-
     @PostMapping("/login")
-    public String loginCustomer(@ModelAttribute("customerDTO") @Valid CustomerLoginDto loginDto, BindingResult bindingResult, Model model, HttpSession session) {
-        if (session.getAttribute("authenticatedCustomer") != null) {
-            // User already logged in
-            return "redirect:/dashboard";
+    public String loginCustomer(@ModelAttribute("customerDTO") @Valid CustomerLoginDto loginDto,
+                                BindingResult bindingResult, Model model, HttpSession session) {
+        logger.info("Processing login request");
+
+        if (session.getAttribute("authenticatedUser") != null) {
+            logger.info("User already logged in, redirecting to /reminder");
+            return "redirect:/reminder";
         }
 
-        if (bindingResult.hasErrors()){
-            // Handle validation errors, e.g, return to the frm with error messages
+        if (bindingResult.hasErrors()) {
+            logger.info("Validation errors, returning to login form");
             return "login";
         }
 
         Customer authenticatedCustomer = customerService.loginCustomer(loginDto);
         if (authenticatedCustomer != null) {
             // Store customer_id in the session
-            logger.info("Customer id setting as attribute");
-
             session.setAttribute("customer_id", authenticatedCustomer.getCustomer_id());
-
-            logger.info("Customer id has been set");
-
             session.setAttribute("authenticatedUser", authenticatedCustomer);
-
-            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer); 
+            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer);
             return "redirect:/reminder";
         } else {
+            logger.info("Login failed. Invalid username or password");
             model.addAttribute("error", "Invalid username or password");
             return "login";
         }
     }
-
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
     }
-
 }
 

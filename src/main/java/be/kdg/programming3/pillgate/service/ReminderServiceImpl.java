@@ -17,6 +17,16 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Service implementation for managing medication reminders.
+ * This class provides methods to convert, retrieve, save, and obtain alerts related to medication schedules.
+ *
+ * Implements:
+ * {@link be.kdg.programming3.pillgate.service.ReminderService}
+ * {@link java.io.Serializable}
+ *
+ * @author Team PillGate
+ */
 @Service
 public class ReminderServiceImpl implements ReminderService, Serializable {
 
@@ -41,7 +51,12 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 //        this.customerRepository = customerRepository;
 //    }
 
-
+    /**
+     * Converts a {@link MedicationScheduleViewModel} object to a {@link MedicationSchedule} entity.
+     *
+     * @param pillForm The view model representing the medication schedule form.
+     * @return The converted {@link MedicationSchedule} entity.
+     */
     @Override
     public MedicationSchedule convertToMedicationSchedule(MedicationScheduleViewModel pillForm){
         MedicationSchedule medicationSchedule = new MedicationSchedule();
@@ -59,12 +74,22 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         return medicationSchedule;
     }
 
+    /**
+     * Retrieves the medication schedule form based on the provided {@link MedicationScheduleViewModel}.
+     *
+     * @param model The view model representing the medication schedule form.
+     */
     @Override
     public void getMedicationScheduleForm(MedicationScheduleViewModel model){
         medScheduleRepository.createMedSchedule(convertToMedicationSchedule(model));
         logger.info("Created medication schedule {}", model);
     }
 
+    /**
+     * Retrieves the latest medication schedule.
+     *
+     * @return The latest {@link MedicationSchedule} entity.
+     */
     @Override
     public MedicationSchedule getLatestMedicationSchedule() {
         // Logic to retrieve the latest medication schedule from the repository
@@ -77,6 +102,11 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
                 .orElse(null);
     }
 
+    /**
+     * Saves the medication schedule based on the provided {@link MedicationScheduleViewModel}.
+     *
+     * @param pillForm The view model representing the medication schedule form.
+     */
     @Override
     public void saveMedicationSchedule(MedicationScheduleViewModel pillForm) {
         int customerId  = extractCustomerIdFromSession();
@@ -94,6 +124,12 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         logger.info("Customer_id: {} saved medication schedule", customerId);
     }
 
+    /**
+     * Extracts the customer ID from the session.
+     *
+     * @return The customer ID extracted from the session.
+     * @throws IllegalStateException If the user is not authenticated.
+     */
     private int extractCustomerIdFromSession() {
         HttpSession session = request.getSession(false);
 
@@ -106,7 +142,12 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 
 
 
-
+    /**
+     * Extracts the username (email) from the session.
+     *
+     * @return The username (email) extracted from the session.
+     * @throws IllegalStateException If the user is not authenticated.
+     */
     // Method to extract username from the session
     private String extractUsernameFromSession() {
         HttpSession session = request.getSession(false);
@@ -119,6 +160,11 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
     }
 
 
+    /**
+     * Gets the alert message for the current medication schedule.
+     *
+     * @return The alert message for the current medication schedule.
+     */
     @Override
     public String getMedScheduleAlert() {
         logger.info("Getting medication schedule message");
@@ -136,7 +182,11 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         return null;
     }
 
-
+    /**
+     * Gets the alert message for the next occurrence based on the repeat interval.
+     *
+     * @return The alert message for the next occurrence based on the repeat interval.
+     */
     public String getAlertForRepeatIn(){
         logger.info("Getting medication schedule message to repeat");
         LocalDateTime currentDateTime = LocalDateTime.now();

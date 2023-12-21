@@ -15,7 +15,7 @@ import java.util.Properties;
 
 
 @Configuration
-@Profile("postgres")
+@Profile("prod")
 public class P2DConfig {
     @Bean
     public DataSource dataSource() {
@@ -23,9 +23,9 @@ public class P2DConfig {
                 .create()
 
                 .driverClassName("org.postgresql.Driver")
-                .url("jdbc:postgresql://localhost:5432/PillGatePG")
+                .url("jdbc:postgresql://localhost:5432/PillGateDB")
                 .username("postgres")
-                .password("817641")
+                .password("Student_1234")
                 .build();
         return dataSource;
     }

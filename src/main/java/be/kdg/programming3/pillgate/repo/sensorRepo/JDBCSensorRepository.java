@@ -18,9 +18,9 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-@Profile("jdbctemplate")
+@Profile("postgres")
 @Repository
-//@Primary
+@Primary
 public class JDBCSensorRepository implements SensorRepository {
     private final Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
     private static AtomicInteger nextId = new AtomicInteger(1);

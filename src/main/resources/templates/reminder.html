@@ -77,21 +77,27 @@
     </nav>
 </header>
 <main>
-<div class="container mt-5">
-    <form th:action="@{/reminder}" th:object="${pillForm}" method="post" modelAttribute="pillForm">
-        <input type="hidden" th:field="*{customer_id}" th:value="${customer_id}" />
-        <div class="mb-3">
-            <label for="pillName" class="form-label">Pill Name</label>
-            <input type="text" class="form-control" id="pillName" th:field="*{pillName}" required>
-        </div>
-        <div class="mb -3">
-            <label for="timeTakePill" class="form-label">Time</label>
-            <input type="datetime-local" class="form-control" id="timeTakePill" lang="en" th:field="*{timeTakePill}" required>
-        </div>
-        <div class="mb-3">
-            <label for="nrOfPillsPlaced" class="form-label">Number of pills placed in the pillbox</label>
-            <input type="number" class="form-control" id="nrOfPillsPlaced" th:field="*{nrOfPillsPlaced}">
-        </div>
+    <div class="container mt-5">
+        <form th:action="@{/reminder}" th:object="${pillForm}" method="post" modelAttribute="pillForm">
+            <input type="hidden" th:field="*{customer_id}" th:value="${customer_id}" />
+
+            <!-- Add this section to display validation errors -->
+            <div th:if="${#fields.hasErrors('pillForm')}" class="alert alert-danger" role="alert">
+                <span th:each="error : ${#fields.errors('pillForm')}" th:text="${error}"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="pillName" class="form-label">Pill Name</label>
+                <input type="text" class="form-control" id="pillName" th:field="*{pillName}" required>
+            </div>
+            <div class="mb-3">
+                <label for="timeTakePill" class="form-label">Time</label>
+                <input type="datetime-local" class="form-control" id="timeTakePill" lang="en" th:field="*{timeTakePill}" required>
+            </div>
+            <div class="mb-3">
+                <label for="nrOfPillsPlaced" class="form-label">Number of pills placed in the pillbox</label>
+                <input type="number" class="form-control" id="nrOfPillsPlaced" th:field="*{nrOfPillsPlaced}">
+            </div>
         <div class="mb-3">
             <label for="interval" class="form-label">Interval</label>
             <select name="interval" class="form-label" id="interval" th:field="*{repeatIn}" required>

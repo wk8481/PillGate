@@ -48,12 +48,30 @@
         <div id="main">
             <h1>Registration</h1>
             <form id="registration-form" th:object="${customerDTO}" th:action="@{/registration}" method="post">
-                <input type="text" th:field="*{firstName}" placeholder="First Name" class="register-form-field" required>
-                <input type="text" th:field="*{lastName}" placeholder="Last Name" class="register-form-field" required>
-                <input type="text" th:field="*{username}" placeholder="Username"  class="register-form-field" required>
-                <input type="date" th:field="*{birthDate}" class="register-form-field" required>
-                <input type="password" th:field="*{password}" placeholder="Password" class="register-form-field" required>
-                <input type="email" th:field="*{email}" placeholder="example@email.com" class="register-form-field" required>
+                <div class="form-group">
+                    <input type="text" th:field="*{firstName}" placeholder="First Name" class="register-form-field" required>
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" th:field="*{lastName}" placeholder="Last Name" class="register-form-field" required>
+                    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" th:field="*{username}" placeholder="Username"  class="register-form-field" required>
+                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="date" th:field="*{birthDate}" class="register-form-field" required>
+                    <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="password" th:field="*{password}" placeholder="Password" class="register-form-field" required>
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="email" th:field="*{email}" placeholder="example@email.com" class="register-form-field" required>
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <input type="checkbox" id="caregiverCheckbox" th:field="*{hasCareGiver}" name="caregiver" class="form-check-input">
                     <label for="caregiverCheckbox" class="form-check-label">I am a caregiver</label>
@@ -62,7 +80,6 @@
             </form>
         </div>
     </main>
-
 </body>
 <footer> PillGate &#169; 2023 All rights reserved</footer>
 </html>

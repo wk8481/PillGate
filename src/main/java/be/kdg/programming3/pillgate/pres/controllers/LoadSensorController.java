@@ -1,4 +1,4 @@
-package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
+package be.kdg.programming3.pillgate.pres.controllers;
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Arrays;
 
 @Controller
 @RequestMapping("/loadSensor")
@@ -31,6 +30,14 @@ public class LoadSensorController {
         this.medscheduleRepository = medScheduleRepository;
         this.reminderService = reminderService;
     }
+
+
+//    @GetMapping()
+//    public String showDashboard(Model model) {
+//        logger.info("Showing dashboard ...");
+//        model.addAttribute("medicationSchedules", medscheduleRepository.findAllMedSchedules());
+//        return "dashboard";
+//}
 
     @GetMapping()
     public String showSensor(Model model) {
@@ -60,11 +67,12 @@ public class LoadSensorController {
             model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
             logger.info("Showing number of pills taken {}", latestMedSchedule.getNrOfPillsTaken());
 
-            model.addAttribute("weightOfSinglePill", latestMedSchedule.getWeightOfSinglePill());
-            logger.info("Weight of Single Pill: {}", latestMedSchedule.getWeightOfSinglePill());
+            model.addAttribute("isPillTaken", latestMedSchedule.isPillTaken());
+            logger.info("Is the Pill taken: {}", latestMedSchedule.isPillTaken());
 
             model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
             logger.info("Number of Pills Placed: {}", latestMedSchedule.getNrOfPillsPlaced());
+
         }
 
         return "dashboard";
