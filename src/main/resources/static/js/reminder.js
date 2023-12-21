@@ -61,22 +61,3 @@ const repeatedFunction2 = () => {
 };
 
 let intervalForRepeat = setInterval(repeatedFunction2, 10000);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

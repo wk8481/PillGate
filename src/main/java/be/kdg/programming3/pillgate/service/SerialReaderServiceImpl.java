@@ -196,7 +196,7 @@ public class SerialReaderServiceImpl implements SerialReader{
                     return false;
                 }
 
-                weightSensors.get()
+//                weightSensors.get()
 
                 logger.info("Weight sensor data: {}", weightSensors);
 
