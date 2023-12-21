@@ -50,22 +50,5 @@ public class PillController {
         return "redirect:reminder";
     }
 
-
-    @GetMapping(path = "/now", produces = "application/json")
-    public @ResponseBody ReminderController.AlarmResponse getCurrentAlarm() {
-        String message = reminderService.getMedScheduleAlert();
-        return new ReminderController.AlarmResponse(message);
-
-
-//        logger.info("saving medicationSchedule....");
-
-//        reminderService.saveMedicationSchedule(pillForm);
-
-//        return "redirect:reminder";
-        //TODO: FIX THE COMMENTED LINES
-    }
-
-
-
 }
 

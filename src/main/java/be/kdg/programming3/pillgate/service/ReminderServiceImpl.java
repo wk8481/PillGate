@@ -117,19 +117,6 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 
 
 
-
-    // Method to extract username from the session
-    private String extractUsernameFromSession() {
-        HttpSession session = request.getSession(false);
-
-        if (session != null && session.getAttribute("email") != null) {
-            return (String) session.getAttribute("email");
-        } else {
-            throw new IllegalStateException("User not authenticated");
-        }
-    }
-
-
     @Override
     public String getMedScheduleAlert() {
         logger.info("Getting medication schedule message");
@@ -140,7 +127,8 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
             && !medicationSchedule.isStopped()) {
                 medicationSchedule.setStopped(true);
                 logger.info("It is time to take your {}", medicationSchedule.getPillName());
-                medScheduleRepository.createMedSchedule(medicationSchedule);
+                medicationSchedule.setMessage("It is time to take your " + medicationSchedule.getPillName());
+                logger.info("The message: {}", medicationSchedule.getMessage());
                 return medicationSchedule.getMessage();
             }
         }
@@ -158,7 +146,8 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
                     && !medicationSchedule.isStopped()) {
                 medicationSchedule.setStopped(true);
                 logger.info("It is time to take your {}", medicationSchedule.getPillName());
-                medScheduleRepository.createMedSchedule(medicationSchedule);
+                medicationSchedule.setMessage("It is time to take your " + medicationSchedule.getPillName());
+                logger.info("The message: {}", medicationSchedule.getMessage());
                 return medicationSchedule.getMessage();
             }
         }
