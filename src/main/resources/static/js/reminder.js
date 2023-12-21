@@ -1,5 +1,5 @@
 // Define a flag to track whether the alert is currently shown
-let isAlartShown = false;
+let isAlertShown = false;
 
 const repeatedFunction = () => {
     console.log("Calling backend...");
@@ -11,6 +11,7 @@ const repeatedFunction = () => {
             return response.json();
         })
         .then((data) => {
+            console.log("Response from server: ", data);
             if (data.message != null) {
                 swal.fire({
                     title: "Alarm",
@@ -19,9 +20,10 @@ const repeatedFunction = () => {
                     button:"Stop"
                 }).then((result) => {
                     clearInterval(interval);
-
+                    console.log("pop up");
                 });
             }
+            console.log("no pop up")
         })
         .catch((error) => {
             console.error('Fetch error: ', error);
