@@ -34,7 +34,7 @@ public class LoadSensorController {
     @GetMapping()
     public String showSensor(Model model, HttpSession session) {
         if (session.getAttribute("authenticatedUser") != null) {
-            logger.info("Showing load sensor data ..");
+            logger.info("Dashboard ..");
             model.addAttribute("sensors", sensorRepository.findAllWSensors());
         return "dashboard";
         } else {

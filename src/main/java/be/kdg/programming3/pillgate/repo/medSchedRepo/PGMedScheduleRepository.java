@@ -77,11 +77,13 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
     public MedicationSchedule updateMedSchedule(MedicationSchedule medicationSchedule) {
         logger.info("Updating med schedule: {}", medicationSchedule);
         String updateQuery = "UPDATE MedicationSchedule SET " +
-                "pillName=:pillName, timeTakePill=:timeTakePill WHERE medSchedule_id=:medSchedule_id";
+                "pillName=:pillName, timeTakePill=:timeTakePill, nrOfPillsPlaced=:nrOfPillsPlaced, nrOfPillsTaken=:nrOfPillsTaken WHERE medSchedule_id=:medSchedule_id";
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("pillName", medicationSchedule.getPillName());
         parameters.put("timeTakePill", medicationSchedule.getTimeTakePill());
+        parameters.put("nrOfPillsPlaced", medicationSchedule.getNrOfPillsPlaced());
+        parameters.put("nrOfPillsTaken", medicationSchedule.getNrOfPillsTaken());
         parameters.put("medSchedule_id", medicationSchedule.getMedSchedule_id());
 
         int updatedRows = jdbcTemplate.update(updateQuery, parameters);

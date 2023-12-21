@@ -1,8 +1,9 @@
 package be.kdg.programming3.pillgate.pres.controllers;
 
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerLoginDto;
-import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
+import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import be.kdg.programming3.pillgate.service.CustomerService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -23,10 +24,12 @@ public class LoginController {
 
     Logger logger = LoggerFactory.getLogger(LoginController.class);
     private final CustomerService customerService;
+    private final SensorRepository sensorRepository;
 
     @Autowired
-    public LoginController(CustomerService customerService) {
+    public LoginController(CustomerService customerService, SensorRepository sensorRepository) {
         this.customerService = customerService;
+        this.sensorRepository = sensorRepository;
     }
 
     @GetMapping("/login")
@@ -60,7 +63,8 @@ public class LoginController {
 
             session.setAttribute("authenticatedUser", authenticatedCustomer);
 
-            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer); 
+            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer);
+
             return "redirect:/reminder";
         } else {
             model.addAttribute("error", "Invalid username or password");

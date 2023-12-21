@@ -4,7 +4,7 @@ package be.kdg.programming3.pillgate.domain.sensor;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 //@Entity
@@ -16,9 +16,8 @@ public class WeightSensor {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "SENSOR_ID")
     private int sensor_ID;
-    private final int WEIGHT_CAPACITY_GRAMS = 1000;
 
-    private LocalDate calibrationDate;
+    private LocalDateTime calibrationDate;
 
     private double weight;
 
@@ -29,21 +28,21 @@ public class WeightSensor {
     private transient Customer customer;
 
 
-    public WeightSensor(int sensor_ID, LocalDate calibrationDate, double weight, double calibrationFactor, int customer_id) {
+    public WeightSensor(int sensor_ID, LocalDateTime calibrationDate, double weight, double calibrationFactor, int customer_id) {
         this.calibrationDate = calibrationDate;
         this.sensor_ID = sensor_ID;
         this.weight = weight;
         this.calibrationFactor = calibrationFactor;
         this.customer = new Customer(customer_id);
     }
-    public WeightSensor(int sensor_ID, int customer_id, int WEIGHT_CAPACITY_GRAMS, LocalDate calibrationDate , double weight) {
+    public WeightSensor(int sensor_ID, int customer_id, LocalDateTime calibrationDate , double weight) {
         this.calibrationDate = calibrationDate;
         this.sensor_ID = sensor_ID;
         this.weight = weight;
         this.customer = new Customer(customer_id);
     }
 
-    public WeightSensor(int sensor_ID, LocalDate calibrationDate, double weight, double calibrationFactor, Customer customer) {
+    public WeightSensor(int sensor_ID, LocalDateTime calibrationDate, double weight, double calibrationFactor, Customer customer) {
         this.sensor_ID = sensor_ID;
         this.calibrationDate = calibrationDate;
         this.weight = weight;
@@ -90,11 +89,8 @@ public class WeightSensor {
     }
 //
 
-    public int getWEIGHT_CAPACITY_GRAMS() {
-        return WEIGHT_CAPACITY_GRAMS;
-    }
 
-    public LocalDate getCalibrationDate() {
+    public LocalDateTime getCalibrationDate() {
         return calibrationDate;
     }
 
@@ -102,7 +98,7 @@ public class WeightSensor {
 
     public void setCustomer(Customer customer) {this.customer = customer;}
 
-    public void setCalibrationDate(LocalDate calibrationDate) {
+    public void setCalibrationDate(LocalDateTime calibrationDate) {
         this.calibrationDate = calibrationDate;
     }
 
@@ -120,22 +116,18 @@ public class WeightSensor {
 
     @Override
     public String toString() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
 
         String formattedDate = dtf.format(calibrationDate);
         return String.format("WeightSensor{" +
                 "sensor_ID=" + sensor_ID +
-                ", WEIGHT_CAPACITY_GRAMS=" + WEIGHT_CAPACITY_GRAMS +
+                ", customer_id=" + customer.getCustomer_id() +
                 ", calibrationDate=" + formattedDate +
                 ", weight=" + weight +
                 ", calibrationFactor=" + calibrationFactor +
                 '}');
     }
 
-
-    public int getWeightCapacityGrams() {
-        return getWEIGHT_CAPACITY_GRAMS();
-    }
     public void assignToCustomer(Customer customer) {
         this.customer = customer;
         customer.setWeightSensor(this);

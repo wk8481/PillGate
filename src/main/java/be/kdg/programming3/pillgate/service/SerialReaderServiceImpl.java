@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -39,20 +40,6 @@ public class SerialReaderServiceImpl implements SerialReader{
         this.sensorRepository = sensorRepository;
         this.medScheduleRepository=medScheduleRepository;
     }
-
-
-//    PREVIOUS CONSTRUCTOR USING JDBC SENSOR REPOSITORY
-//    @Autowired
-//    public SerialReaderServiceImpl(@Qualifier("JDBCSensorRepository") SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
-//        this.sensorRepository = sensorRepository;
-//        this.medScheduleRepository=medScheduleRepository;
-//    }
-
-
-
-//    public SerialReaderServiceImpl(SensorRepository sensorRepository) {
-//        this.sensorRepository = sensorRepository;
-//    }
 
     public void readArduinoData(String portName) {
         SerialPort[] serialPorts = SerialPort.getCommPorts();
@@ -120,13 +107,16 @@ public class SerialReaderServiceImpl implements SerialReader{
                 // Retrieve the latest WeightSensor from the repository
                 WeightSensor latestSensor = sensorRepository.findAllWSensors().stream().findFirst().orElse(null);
 
-                sensorRepository.createSensor(latestSensor);
+                latestSensor.setCalibrationDate(LocalDateTime.now());
+                //sensorRepository.createSensor(latestSensor);
+                sensorRepository.updateSensor(latestSensor);
                 //logger.info("Latest weight sensor: {}", latestSensor);
 
                 // Update the values in the latest WeightSensor
                 if (latestSensor != null) {
                     latestSensor.updateValues(weight, calibrationFactor);
 
+                    latestSensor.setCalibrationDate(LocalDateTime.now());
                     sensorRepository.updateSensor(latestSensor);
 
                     // Retrieve the latest MedicationSchedule from the repository
@@ -196,9 +186,8 @@ public class SerialReaderServiceImpl implements SerialReader{
                     return false;
                 }
 
-                weightSensors.get()
-
                 logger.info("Weight sensor data: {}", weightSensors);
+
 
                 // Compare current total weight with the previous total weight
                 double currentTotalWeight = weightSensors.get(0).getWeight();
@@ -207,7 +196,7 @@ public class SerialReaderServiceImpl implements SerialReader{
 
 
                 // Round the weights to a specific number of decimal places
-                int decimalPlaces = 2; // Adjust this based on your requirements
+                int decimalPlaces = 3; // Adjust this based on your requirements
                 double roundedCurrentWeight = round(currentTotalWeight, decimalPlaces);
                 logger.info("Rounded current weight: {}", roundedCurrentWeight);
                 double roundedPreviousWeight = round(previousTotalWeight, decimalPlaces);
@@ -216,7 +205,8 @@ public class SerialReaderServiceImpl implements SerialReader{
                 int weightOfSinglePill = (int) medicationSchedule.getWeightOfSinglePill();
 
                 // If the rounded difference is equal to the weight of a single pill, consider it a pill taken
-                if (roundedPreviousWeight - roundedCurrentWeight == weightOfSinglePill) {
+                if (roundedPreviousWeight - roundedCurrentWeight >= weightOfSinglePill) {
+                    logger.info("Weight reduction indicates a pill taken.... incrementing nrOfPillsTaken and decrementing nrOfPillsPlaced");
                     // Increment nrOfPillsTaken
                     int nrOfPillsTaken = medicationSchedule.getNrOfPillsTaken() + 1;
                     medicationSchedule.setNrOfPillsTaken(nrOfPillsTaken);
@@ -227,7 +217,7 @@ public class SerialReaderServiceImpl implements SerialReader{
 
                     logger.info("Number of pills taken increased: {}", nrOfPillsTaken);
                     logger.info("Number of pills placed decreased: {}", nrOfPillsPlacedUpdated);
-
+                    medScheduleRepository.updateMedSchedule(medicationSchedule);
                     return true;
                 }
 
@@ -240,44 +230,6 @@ public class SerialReaderServiceImpl implements SerialReader{
         return Math.round(value * scale) / scale;
     }
 
-
-        // there is no need to save the weight sensor data to the json file
-/*        @Override
-    public void saveWeightSensorDataToJson(WeightSensor weightSensor) {
-        try {
-            // Check if the JSON file exists
-            File file = new File(jsonFilePath);
-            boolean fileExists = file.exists();
-
-            // Append or create a new JSON file
-            try (FileWriter fileWriter = new FileWriter(file, true)) {
-                if (!fileExists) {
-                    // If the file doesn't exist, add the opening bracket for JSON array
-                    fileWriter.write("[\n");
-                } else {
-                    // If the file exists, add a comma to separate objects in the array
-                    fileWriter.write(",\n");
-                }
-
-                // Convert WeightSensor object to JSON
-                String json = objectMapper.writeValueAsString(weightSensor);
-
-                // Write JSON to file
-                fileWriter.write(json);
-
-                // Close the array if it's the last object
-                if (!fileExists) {
-                    fileWriter.write("\n]");
-                }
-            }
-
-            logger.info("Weight sensor data appended to JSON file: {}", jsonFilePath);
-
-        } catch (IOException e) {
-            logger.error("Error appending weight sensor data to JSON", e);
-            throw new RuntimeException("Error appending weight sensor data to JSON", e);
-        }
-    }*/
 
     public void disconnect() throws IOException {
         if (input != null) {
