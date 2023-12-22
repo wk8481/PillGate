@@ -19,8 +19,8 @@ public class MedicationSchedule {
     private String pillName;
     private LocalDateTime timeTakePill;
 
-// We can use this instead of localdatetime to only show the time not the date
-  //  private LocalTime timeTakePill;
+    // We can use this instead of localdatetime to only show the time not the date
+    //  private LocalTime timeTakePill;
     private int repeatIn;
     private int nrOfPillsPlaced;
     private double weightOfSinglePill;
@@ -62,6 +62,8 @@ public class MedicationSchedule {
         this.customer = customer;
         this.dashboard = dashboard;
     }
+
+
 
 
     public MedicationSchedule() {
@@ -159,6 +161,12 @@ public class MedicationSchedule {
     }
 
     public void setDashboard(Dashboard dashboard) {this.dashboard = dashboard;}
+
+
+    public boolean isPillTaken() {
+        // Check if at least one pill has been taken and nrOfPillsPlaced has decreased
+        return nrOfPillsTaken > 0 && nrOfPillsPlaced < nrOfPillsTaken || weightOfSinglePill == 0.0;
+    }
 
 
     @Override

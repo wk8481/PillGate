@@ -14,27 +14,54 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
+/**
+ * Implementation of the {@link CustomerService} interface.
+ * This class provides methods to manage customer-related operations.
+ *
+ * @author Team PillGate
+ */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-
+    // Logger for logging information and debugging.
     private final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
+
+    // Repository for customer data access.
     CustomerRepository customerRepository;
 
 
 
+    // Autowired HttpServletRequest for handling HTTP requests.
     @Autowired
     private HttpServletRequest request;
+
+    /**
+     * Constructs a new instance of {@code CustomerServiceImpl}.
+     *
+     * @param customerRepository The repository for customer data access.
+     */
 
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
+    /**
+     * Creates a new customer.
+     *
+     * @param customer The customer entity to be created.
+     * @return The created customer entity.
+     */
     @Override
     public Customer createCustomer(Customer customer) {
         logger.info("Adding a customer with id {} ", customer.getCustomer_id());
         return customerRepository.createCustomer(customer);
     }
+
+    /**
+     * Retrieves a list of all customers.
+     *
+     * @return A list of all customers.
+     */
 
     @Override
     public List<Customer> getCustomers() {
@@ -67,6 +94,13 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }*/
 
+
+    /**
+     * Logs in a customer using the provided login information.
+     *
+     * @param login The login information provided by the customer.
+     * @return The authenticated customer or {@code null} if login fails.
+     */
    @Override
     public Customer loginCustomer(CustomerLoginDto login) {
         String email = login.getEmail();
@@ -97,7 +131,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
-
+    /**
+     * Extracts the email of the authenticated user from the session.
+     *
+     * @return The email of the authenticated user.
+     * @throws IllegalStateException If the user is not authenticated.
+     */
     @Override
     public String extractEmailFromSession() {
         HttpSession session = request.getSession(false);
@@ -109,6 +148,14 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalStateException("User not authenticated");
         }
     }
+
+    /**
+     * Registers a new customer and saves information to the session.
+     *
+     * @param registrationDto The registration information provided by the customer.
+     * @param session         The HTTP session to store customer information.
+     * @return The newly registered customer.
+     */
     @Override
     public Customer registerNewCustomer(CustomerRegistrationDto registrationDto, HttpSession session) {
 
