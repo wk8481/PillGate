@@ -16,6 +16,7 @@
     <script defer th:src="@{../static/js/users.js}"></script>
     <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
     <script defer th:src="@{../static/js/reminder.js}"></script>
+    <script defer th:src="@{../static/js/accessPage.js}"></script>
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
 <header>
@@ -28,9 +29,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
@@ -67,8 +65,11 @@
                         <li class="nav-item"><!--class="nav-item"-->
                             <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
                         </li>
-                        <li class="nav-item"><!--class="nav-item"-->
+                        <li class="nav-item" th:unless="${session.isLoggedIn}">
                             <a class="btn btn-primary" th:href="@{/login}">Log In</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.isLoggedIn}">
+                            <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                         </li>
                     </ul>
                 </ul>
@@ -78,7 +79,8 @@
 </header>
 <main>
 <div class="container mt-5">
-    <form th:action="@{/reminder}" th:object="${pillForm}" method="post" modelAttribute="pillForm">
+    <h3 class="welcome">Enter your medication details</h3>
+    <form th:action="@{/reminder}" th:object="${pillForm}" id="reminder-form" method="post" modelAttribute="pillForm">
         <input type="hidden" th:field="*{customer_id}" th:value="${customer_id}" />
         <div class="mb-3">
             <label for="pillName" class="form-label">Pill Name</label>
@@ -94,7 +96,7 @@
         </div>
         <div class="mb-3">
             <label for="interval" class="form-label">Interval</label>
-            <select name="interval" class="form-label" id="interval" th:field="*{repeatIn}" required>
+            <select type="number" name="interval" class="form-control" id="interval" th:field="*{repeatIn}" required>
                 <option value="1">1 hour</option>
                 <option value="2">2 hours</option>
                 <option value="3">3 hours</option>
@@ -121,7 +123,7 @@
                 <option value="24">24 hours</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Schedule Reminder</button>
+        <button type="submit" class="btn btn-primary" id="reminder-btn">Schedule Reminder</button>
     </form>
 </div>
 

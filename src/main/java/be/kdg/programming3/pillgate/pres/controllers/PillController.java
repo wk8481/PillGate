@@ -24,18 +24,22 @@ public class PillController {
 
     Logger logger = LoggerFactory.getLogger(PillController.class);
     private final ReminderService reminderService;
-    private final CustomerService customerService;
     @Autowired
-    public PillController(ReminderService reminderService, CustomerService customerService) {
+    public PillController(ReminderService reminderService) {
         this.reminderService = reminderService;
-        this.customerService = customerService;
     }
 
     @GetMapping("/reminder")
     public String showForm(Model model, HttpSession session) {
-        logger.info("Showing reminder form");
-        model.addAttribute("pillForm", new MedicationScheduleViewModel());
-        return "reminder";
+        Object isLoggedIn = session.getAttribute("isLoggedIn");
+        if (isLoggedIn == null || !(isLoggedIn instanceof  Boolean) || ! (Boolean) isLoggedIn) {
+            return "redirect:/login";
+        } else {
+            logger.info("Showing reminder form");
+            model.addAttribute("pillForm", new MedicationScheduleViewModel());
+            model.addAttribute("customerName", new Customer().getCustomer_name());   // Pass customer name to the model
+            return "reminder";
+        }
     }
 
 

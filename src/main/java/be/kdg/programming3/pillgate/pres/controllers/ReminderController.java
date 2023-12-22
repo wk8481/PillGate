@@ -25,7 +25,6 @@ import java.util.List;
 @RequestMapping("/alarm")
 public class ReminderController {
 
-    private MedScheduleRepository medScheduleRepository;
     private CustomerRepository customerRepository;
     private ReminderService reminderService;
     private SerialReader sensorservice;

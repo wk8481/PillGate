@@ -11,6 +11,7 @@
     <script defer th:src="@{../static/js/users.js}"></script>
     <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
     <script defer th:src="@{../static/js/reminder.js}"></script>
+    <script defer th:src="@{../static/js/accessPage.js}"></script>
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
 <header>
@@ -23,9 +24,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
@@ -62,8 +60,11 @@
                         <li class="nav-item"><!--class="nav-item"-->
                             <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
                         </li>
-                        <li class="nav-item"><!--class="nav-item"-->
+                        <li class="nav-item" th:unless="${session.isLoggedIn}">
                             <a class="btn btn-primary" th:href="@{/login}">Log In</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.isLoggedIn}">
+                            <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                         </li>
                     </ul>
                 </ul>

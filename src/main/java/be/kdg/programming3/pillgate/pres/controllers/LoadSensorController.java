@@ -1,6 +1,7 @@
 package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
@@ -33,14 +34,22 @@ public class LoadSensorController {
 
     @GetMapping()
     public String showSensor(Model model, HttpSession session) {
-        if (session.getAttribute("authenticatedUser") != null) {
+        // check if user is logged in
+        Object isLoggedIn = session.getAttribute("isLoggedIn");
+        if (isLoggedIn == null || !(isLoggedIn instanceof  Boolean) || ! (Boolean) isLoggedIn) {
+            return "redirect:/login";
+        }
+
+        // check if user is authenticated
+        Object authenticatedUser = session.getAttribute("authenticatedUser");
+        if (authenticatedUser != null && authenticatedUser instanceof Customer) {
             logger.info("Showing load sensor data ..");
             model.addAttribute("sensors", sensorRepository.findAllWSensors());
-        return "dashboard";
+            return "dashboard";
         } else {
             logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
+            return "redirect:/login";
         }
-        return "dashboard";
     }
 
     @GetMapping("/readArduino")

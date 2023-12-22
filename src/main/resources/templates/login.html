@@ -7,8 +7,7 @@
 
     <link rel="stylesheet" th:href="@{../style.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
-    </script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script defer th:src="@{../static/js/users.js}"></script>
     <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
     <script defer th:src="@{../static/js/reminder.js}"></script>
@@ -26,9 +25,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
@@ -62,11 +58,14 @@
                     </li>
 
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><!--class="nav-item"-->
+                        <li class="nav-item">
                             <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
                         </li>
-                        <li class="nav-item"><!--class="nav-item"-->
+                        <li class="nav-item" th:if="${session.isLoggedIn}">
                             <a class="btn btn-primary" th:href="@{/login}">Log In</a>
+                        </li>
+                        <li class="nav-item" th:unless="${session.isLoggedIn}">
+                            <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                         </li>
                     </ul>
                 </ul>
@@ -76,12 +75,23 @@
 </header>
 <main>
     <div id="register-login-main">
-        <h1 id="login-header">Login</h1>
-        <form id="login-form" th:action="@{/login}" method="post">
-            <input type="text" name="email" id="email-field"  class="login-form-field" placeholder="Email">
-            <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
-            <input type="submit" value="login" id="login-btn">
-        </form>
+        <h1 id="login-register-header">Login</h1>
+        <p id="register-link">Not registered yet? <a href="/registration" class="link-text">Register here</a></p>
+
+        <div th:if="${session.isLoggedIn}">
+            <!-- Display logout button when the user is logged in -->
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" id="logout-btn">
+            </form>
+        </div>
+
+        <div th:unless="${session.isLoggedIn}">
+            <form id="login-form" th:action="@{/login}" method="post">
+                <input type="text" name="email" id="email-field"  class="login-form-field" placeholder="Email">
+                <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+                <input type="submit" value="login" id="login-btn">
+            </form>
+        </div>
     </div>
 </main>
 
