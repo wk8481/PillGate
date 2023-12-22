@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" >
     <title>Medication Schedule</title>
 
     <link rel="stylesheet" th:href="@{../style.css}">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <!--SweetAlert2 css-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -16,6 +16,7 @@
     <script defer th:src="@{../static/js/users.js}"></script>
     <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
     <script defer th:src="@{../static/js/reminder.js}"></script>
+    <script defer th:src="@{../static/js/accessPage.js}"></script>
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
 <header>
@@ -30,9 +31,6 @@
                         <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
                     </li>
                     <li class="nav-item">
@@ -41,10 +39,13 @@
                     <!-- Additional empty list items removed for brevity -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
+                            <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:if="${session.isLoggedIn}">
                             <a class="btn btn-primary" th:href="@{/login}">Log In</a>
+                        </li>
+                        <li class="nav-item" th:unless="${session.isLoggedIn}">
+                            <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                         </li>
                     </ul>
                 </ul>
@@ -54,7 +55,8 @@
 </header>
 <main>
     <div class="container mt-5">
-        <form th:action="@{/reminder}" th:object="${pillForm}" method="post" modelAttribute="pillForm">
+        <h3 class="welcome">Enter your medication details</h3>
+        <form th:action="@{/reminder}" th:object="${pillForm}" method="post" modelAttribute="pillForm" id="reminder-form">
             <input type="hidden" th:field="*{customer_id}" th:value="${customer_id}" />
 
             <!-- Add this section to display validation errors -->
@@ -85,7 +87,7 @@
             </div>
             <div class="mb-3">
                 <label th:for="interval" class="form-label">Interval</label>
-                <select name="interval" class="form-label" id="interval" th:field="*{repeatIn}" required>
+                <select name="interval" class="form-control" id="interval" th:field="*{repeatIn}" required>
                 <option value="1">1 hour</option>
                 <option value="2">2 hours</option>
                 <option value="3">3 hours</option>
@@ -116,7 +118,7 @@
             </div>
         </div>
 
-            <button type="submit" class="btn btn-primary">Schedule Reminder</button>
+            <button type="submit" class="btn btn-primary" id="reminder-btn">Schedule Reminder</button>
         </form>
     </div>
 
