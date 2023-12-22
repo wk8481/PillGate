@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +43,7 @@ import java.util.Map;
 public class LoadSensorController {
 
     private final SerialReader serialReader;
+
     private final SensorRepository sensorRepository;
     private final MedScheduleRepository medscheduleRepository;
     private final MedicationScheduleService medicationScheduleService;
@@ -53,14 +53,17 @@ public class LoadSensorController {
     /**
      * Constructs a new LoadSensorController with the specified dependencies.
      *
-     * @param serialReader     The service for reading data from the Arduino.
-     * @param sensorRepository The repository for managing sensor data.
-     * @param reminderService  The service for managing medication reminders.
+     * @param serialReader          The service for reading data from the Arduino.
+     * @param sensorRepository
+     * @param medscheduleRepository
+     * @param reminderService       The service for managing medication reminders.
      */
-    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, ReminderService reminderService) {
+
+
+    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, MedScheduleRepository medscheduleRepository, MedicationScheduleService medicationScheduleService, ReminderService reminderService) {
         this.serialReader = serialReader;
         this.sensorRepository = sensorRepository;
-        this.medscheduleRepository = medScheduleRepository;
+        this.medscheduleRepository = medscheduleRepository;
         this.medicationScheduleService = medicationScheduleService;
         this.reminderService = reminderService;
     }
