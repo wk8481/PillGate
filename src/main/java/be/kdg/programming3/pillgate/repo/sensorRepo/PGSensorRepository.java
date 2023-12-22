@@ -6,27 +6,36 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * The {@code PGSensorRepository} class is an implementation of the {@link SensorRepository} interface
+ * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the WeightSensor entities.
+ *
+ * <p>This class is part of the PillGate application developed by Team PillGate.</p>
+ *
+ * @author Team PillGate
+ * @see SensorRepository
+ * @see WeightSensor
+ */
 @Profile("postgres")
 @Repository
 //@Primary
-public class JDBCSensorRepository implements SensorRepository {
-    private final Logger logger = LoggerFactory.getLogger(JDBCSensorRepository.class);
+public class PGSensorRepository implements SensorRepository {
+    private final Logger logger = LoggerFactory.getLogger(PGSensorRepository.class);
     private final JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert sensorInserter;
 
-    public JDBCSensorRepository(JdbcTemplate jdbcTemplate) {
+    /**
+     * Constructs a new {@code PGSensorRepository} with the specified {@link JdbcTemplate}.
+     *
+     * @param jdbcTemplate The {@link JdbcTemplate} used to interact with the PostgreSQL database.
+     */
+    public PGSensorRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.sensorInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("WeightSensor")
@@ -34,6 +43,14 @@ public class JDBCSensorRepository implements SensorRepository {
         logger.info("Setting up the sensor repository...");
     }
 
+    /**
+     * Maps a row in the database to a {@link WeightSensor} object.
+     *
+     * @param rs     The result set representing a row in the database.
+     * @param rowId  The row ID.
+     * @return A {@link WeightSensor} object mapped from the database row.
+     * @throws SQLException If a SQL exception occurs.
+     */
     public WeightSensor mapRow(ResultSet rs, int rowId) throws SQLException {
         return new WeightSensor(
                 rs.getInt("sensor_ID"),
@@ -41,7 +58,6 @@ public class JDBCSensorRepository implements SensorRepository {
                 rs.getTimestamp("calibrationDate").toLocalDateTime(),
                 rs.getDouble("weight"));
     }
-
 
     @Override
     public WeightSensor createSensor(WeightSensor weightSensor) {
@@ -53,8 +69,6 @@ public class JDBCSensorRepository implements SensorRepository {
         logger.info("Creating weight sensor {}", weightSensor);
         return weightSensor;
     }
-
-
 
     @Override
     public List<WeightSensor> findAllWSensors() {
@@ -69,8 +83,7 @@ public class JDBCSensorRepository implements SensorRepository {
         return weightSensor;
     }
 
-
-   @Override
+    @Override
     public WeightSensor updateSensor(WeightSensor existingWSensor) {
         logger.info("Updating weight sensor: {}", existingWSensor);
 
@@ -82,7 +95,6 @@ public class JDBCSensorRepository implements SensorRepository {
                 existingWSensor.getWeight(),
                 existingWSensor.getSensor_ID());
 
-
         jdbcTemplate.update(sqlinsert,
                 existingWSensor.getCustomer().getCustomer_id(),
                 existingWSensor.getCalibrationDate(),
@@ -92,11 +104,8 @@ public class JDBCSensorRepository implements SensorRepository {
             logger.info("Weight sensor updated successfully: {}", existingWSensor);
             return existingWSensor;
         } else {
-            //logger.warn("No weight sensor found with ID: {}", existingWSensor.getSensor_ID());
             logger.warn("No weight sensor found with ID: {}", existingWSensor.getCustomer().getCustomer_id());
             return null;
         }
-
     }
-
 }

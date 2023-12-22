@@ -1,6 +1,5 @@
 package be.kdg.programming3.pillgate.repo.careGiverRepo;
 
-
 import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +9,20 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
+/**
+ * The {@code PGCareGiverRepository} class is an implementation of the {@link CareGiverRepository} interface
+ * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the CareGiver entities.
+ *
+ * <p>This class is part of the PillGate application developed by Team PillGate.</p>
+ *
+ * <p><b>Author:</b> Team PillGate</p>
+ *
+ * @see CareGiverRepository
+ * @see CareGiver
+ */
 @Repository
 @Profile("postgres")
 @Primary
@@ -23,11 +32,15 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    /**
+     * Constructs a new {@code PGCareGiverRepository} with the specified {@link JdbcTemplate}.
+     *
+     * @param jdbcTemplate The {@link JdbcTemplate} used to interact with the PostgreSQL database.
+     */
     @Autowired
     public PGCareGiverRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
 
     private static final RowMapper<CareGiver> CAREGIVER_ROW_MAPPER = (rs, rowNum) -> {
         CareGiver careGiver = new CareGiver();
@@ -37,6 +50,12 @@ public class PGCareGiverRepository implements CareGiverRepository {
         return careGiver;
     };
 
+    /**
+     * Creates a new CareGiver in the PostgreSQL database.
+     *
+     * @param careGiver The CareGiver entity to be created.
+     * @return The created CareGiver entity.
+     */
     @Override
     public CareGiver createCareGiver(CareGiver careGiver) {
         logger.info("Creating caregiver {}", careGiver);
@@ -46,12 +65,23 @@ public class PGCareGiverRepository implements CareGiverRepository {
         return careGiver;
     }
 
+    /**
+     * Retrieves all CareGivers from the PostgreSQL database.
+     *
+     * @return A list of CareGiver entities.
+     */
     @Override
     public List<CareGiver> findAllCareGivers() {
         logger.info("Finding caregivers...");
         return jdbcTemplate.query("SELECT * FROM CareGiver", CAREGIVER_ROW_MAPPER);
     }
 
+    /**
+     * Retrieves a CareGiver by its ID from the PostgreSQL database.
+     *
+     * @param caregiver_id The ID of the CareGiver to be retrieved.
+     * @return The CareGiver entity with the specified ID.
+     */
     @Override
     public CareGiver findCaregiverByID(int caregiver_id) {
         logger.info("Finding caregiver by id: {}", caregiver_id);
@@ -59,6 +89,12 @@ public class PGCareGiverRepository implements CareGiverRepository {
                 new Object[]{caregiver_id}, CAREGIVER_ROW_MAPPER);
     }
 
+    /**
+     * Updates an existing CareGiver in the PostgreSQL database.
+     *
+     * @param existingCareGiver The CareGiver entity to be updated.
+     * @return The updated CareGiver entity.
+     */
     @Override
     public CareGiver updateCareGiver(CareGiver existingCareGiver) {
         logger.info("Updating caregiver {}", existingCareGiver);
@@ -76,6 +112,12 @@ public class PGCareGiverRepository implements CareGiverRepository {
         }
     }
 
+    /**
+     * Deletes a CareGiver by its ID from the PostgreSQL database.
+     *
+     * @param caregiverId The ID of the CareGiver to be deleted.
+     * @return The deleted CareGiver entity.
+     */
     @Override
     public CareGiver deleteCaregiver(int caregiverId) {
         String selectQuery = "SELECT * FROM CareGiver WHERE caregiver_id = ?";

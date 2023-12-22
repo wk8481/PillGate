@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 
+/**
+ * Controller responsible for handling requests related to the sensor data and Arduino communication.
+ * It provides methods to display sensor data, read Arduino data, show the number of pills taken,
+ * and create a new sensor instance.
+ * @author Team PillGate
+ */
 @Controller
 @RequestMapping("/loadSensor")
 public class LoadSensorController {
@@ -26,12 +32,26 @@ public class LoadSensorController {
     private final ReminderService reminderService;
     private final Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
 
+    /**
+     * Constructs a new LoadSensorController with the specified dependencies.
+     *
+     * @param serialReader     The service for reading data from the Arduino.
+     * @param sensorRepository The repository for managing sensor data.
+     * @param reminderService  The service for managing medication reminders.
+     */
     public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, ReminderService reminderService) {
         this.serialReader = serialReader;
         this.sensorRepository = sensorRepository;
         this.reminderService = reminderService;
     }
 
+    /**
+     * Displays the sensor data on the dashboard.
+     *
+     * @param model   The Spring MVC model.
+     * @param session The HTTP session.
+     * @return The name of the view to render.
+     */
     @GetMapping()
     public String showSensor(Model model, HttpSession session) {
         // check if user is logged in
@@ -52,6 +72,13 @@ public class LoadSensorController {
         }
     }
 
+    /**
+     * Reads data from the Arduino and displays the updated sensor data on the dashboard.
+     *
+     * @param model   The Spring MVC model.
+     * @param session The HTTP session.
+     * @return The name of the view to render.
+     */
     @GetMapping("/readArduino")
     public String readArduino(Model model, HttpSession session) {
         if (session.getAttribute("authenticatedUser") != null) {
@@ -69,7 +96,13 @@ public class LoadSensorController {
         return "dashboard";
     }
 
-
+    /**
+     * Shows the number of pills taken and related information on the dashboard.
+     *
+     * @param model   The Spring MVC model.
+     * @param session The HTTP session.
+     * @return The name of the view to render.
+     */
     @GetMapping("/readArduino/showPillsTaken")
     public String showNumberOfPillsTaken(Model model, HttpSession session) {
         if (session.getAttribute("authenticatedUser") != null) {
@@ -93,6 +126,12 @@ public class LoadSensorController {
         return "dashboard";
     }
 
+    /**
+     * Creates a new sensor instance and displays the updated sensor data on the dashboard.
+     *
+     * @param model The Spring MVC model.
+     * @return The name of the view to render.
+     */
 
     @GetMapping("/createSensor")
     public String createSensor(Model model) {

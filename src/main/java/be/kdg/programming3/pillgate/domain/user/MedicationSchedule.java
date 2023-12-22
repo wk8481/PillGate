@@ -9,8 +9,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a medication schedule for a specific customer.
+ * This class encapsulates information about the customer's prescribed medication,
+ * including pill details, dosage schedule, and tracking of medication taken.
+ * @author Team PillGate
+ */
 @Component
 public class MedicationSchedule {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -156,12 +163,22 @@ public class MedicationSchedule {
 
 
 
+    /**
+     * Checks whether at least one pill has been taken.
+     *
+     * @return True if at least one pill has been taken, false otherwise.
+     */
     public boolean isPillTaken() {
         // Check if at least one pill has been taken and nrOfPillsPlaced has decreased
         return nrOfPillsTaken > 0 && nrOfPillsPlaced < nrOfPillsTaken || weightOfSinglePill == 0.0;
     }
 
 
+    /**
+     * Returns a formatted string representation of the MedicationSchedule.
+     *
+     * @return A string containing the medication schedule details.
+     */
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");

@@ -16,6 +16,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The {@code PGMedScheduleRepository} class is an implementation of the {@link MedScheduleRepository} interface
+ * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the MedicationSchedule entities.
+ *
+ * <p>This class is part of the PillGate application developed by Team PillGate.</p>
+ *
+ * @author Team PillGate
+ * @see MedScheduleRepository
+ * @see MedicationSchedule
+ */
 @Repository
 @Profile("postgres")
 @Primary
@@ -25,6 +35,12 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    /**
+     * Constructs a new {@code PGMedScheduleRepository} with the specified {@link NamedParameterJdbcTemplate}.
+     *
+     * @param jdbcTemplate The {@link NamedParameterJdbcTemplate} used to interact with the PostgreSQL database.
+     */
+    @Autowired
     public PGMedScheduleRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         logger.info("Setting up the PostgreSQL med schedule repository...");
         this.jdbcTemplate = jdbcTemplate;
@@ -130,5 +146,4 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
             return medicationSchedule;
         }
     }
-
 }
