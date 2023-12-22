@@ -1,9 +1,9 @@
+/*
 package be.kdg.programming3.pillgate.repo.medSchedRepo;
 
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -112,6 +112,16 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
         return deletedMedSchedule;
     }
 
+    @Override
+    public List<PGMedScheduleRepository.DailyCount> getPillsTakenPerDay(int nDays) {
+        return null;
+    }
+
+    @Override
+    public List<Integer> getTimeOfDayData() {
+        return null;
+    }
+
     public boolean existsById(int customerId) {
         String sql = "SELECT COUNT(*) FROM Customer WHERE customer_id = ?";
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{customerId}, Integer.class);
@@ -119,3 +129,4 @@ public class JDBCMedscheduleRepository implements MedScheduleRepository{
     }
 }
 
+*/

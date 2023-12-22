@@ -4,17 +4,15 @@ import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import be.kdg.programming3.pillgate.domain.user.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.*;
 
 @Repository
 @Profile("postgres")
@@ -127,5 +125,78 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
             return medicationSchedule;
         }
     }
+
+    public class DailyCount {
+        private Date day;
+        private Integer count;
+
+
+        public Date getDay() {
+            return day;
+        }
+
+        public void setDay(Date day) {
+            this.day = day;
+        }
+
+        public Integer getCount() {
+            return count;
+        }
+
+        public void setCount(Integer count) {
+            this.count = count;
+        }
+    }
+
+
+    public List<DailyCount> getPillsTakenPerDay(int nDays) {
+        String interval = nDays + " days";
+        String sql = "SELECT DATE(timeTakePill) as day, SUM(nrOfPillsTaken) as count " +
+                "FROM MedicationSchedule " +
+                "WHERE timeTakePill >= CURRENT_DATE - INTERVAL '" + interval + "' " +
+                "GROUP BY DATE(timeTakePill) " +
+                "ORDER BY DATE(timeTakePill)";
+
+        return jdbcTemplate.query(sql, new RowMapper<DailyCount>() {
+            @Override
+            public DailyCount mapRow(ResultSet rs, int rowNum) throws SQLException {
+                DailyCount dailyCount = new DailyCount();
+                dailyCount.setDay(rs.getDate("day"));
+                dailyCount.setCount(rs.getInt("count"));
+                return dailyCount;
+            }
+        });
+    }
+
+
+    @Override
+    public Map<Integer, Map<String, Integer>> getTimeOfDayDataWithPillName() {
+        // Initialize a map to store counts per hour and per pill name
+        Map<Integer, Map<String, Integer>> countsPerHourPerPill = new HashMap<>();
+
+        // Define the SQL query
+        String sql = "SELECT EXTRACT(HOUR FROM timeTakePill) AS hourOfDay, pillName, sum(nrofpillstaken) as count " +
+                "FROM MedicationSchedule " +
+                "WHERE timeTakePill IS NOT NULL " +
+                "GROUP BY hourOfDay, pillName " +
+                "ORDER BY hourOfDay, pillName";
+
+        // Execute the query and update the countsPerHourPerPill map
+        jdbcTemplate.query(sql, rs -> {
+            int hour = rs.getInt("hourOfDay");
+            String pillName = rs.getString("pillName");
+            int count = rs.getInt("count");
+
+            // Initialize the inner map if it does not exist for the hour
+            countsPerHourPerPill.computeIfAbsent(hour, k -> new HashMap<>());
+
+            // Update the count for the pill name at the hour
+            countsPerHourPerPill.get(hour).put(pillName, count);
+        });
+
+        return countsPerHourPerPill;
+    }
+
+
 
 }

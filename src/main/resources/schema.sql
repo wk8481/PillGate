@@ -92,5 +92,3 @@ CREATE TABLE IF NOT EXISTS CustomerCareGiver (
 select * from CUSTOMER;
 select * from MEDICATIONSCHEDULE;
 
-
-

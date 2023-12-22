@@ -11,6 +11,7 @@
     <script defer th:src="@{../static/js/users.js}"></script>
     <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
     <script defer th:src="@{../static/js/reminder.js}"></script>
+
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
 <header>
@@ -98,6 +99,26 @@
         </tr>
         </tbody>
     </table>
+
+    <!-- Replace the static images with Thymeleaf attributes -->
+    <!-- Displaying the generated charts -->
+    <div>
+        <h2>Pill Taking Overview</h2>
+        <img th:src="${pillsTakenChartUrl}" alt="Pill Taking Overview Chart"/>
+    </div>
+<!--    <div>-->
+<!--        <h2>Time of Day Overview</h2>-->
+<!--        <img th:src="${timeOfDayChartUrl}" alt="Time of Day Overview Chart"/>-->
+<!--    </div>-->
+
+    <div>
+        <h2>Time of Day Overview</h2>
+        <img th:src="${timeOfDayChartUrl}" alt="Time of Day Overview Chart"/>
+    </div>
+
+    <!--<img th:src="${pillsTakenChartUrl}" alt="Pill Taking Overview Chart"/>
+    <img th:src="${timeOfDayChartUrl}" alt="Time of Day Overview Chart"/>-->
+
 
 
 </main>
