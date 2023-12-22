@@ -52,13 +52,13 @@ public class LoadSensorController {
         this.reminderService = reminderService;
     }
 
-    @GetMapping
+ /*  @GetMapping
     public String loadSensor(Model model) {
         // Add logic to handle the /loadSensor requests
         generateCharts(model);
         return "dashboard"; // Or the name of the Thymeleaf template you want to display
     }
-
+*/
     @GetMapping()
     public String showSensor(Model model, HttpSession session) {
         // check if user is logged in
@@ -70,6 +70,7 @@ public class LoadSensorController {
         // check if user is authenticated
         Object authenticatedUser = session.getAttribute("authenticatedUser");
         if (authenticatedUser != null && authenticatedUser instanceof Customer) {
+            generateCharts(model);
             logger.info("Showing load sensor data ..");
             model.addAttribute("sensors", sensorRepository.findAllWSensors());
             return "dashboard";
