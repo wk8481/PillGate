@@ -1,10 +1,12 @@
 package be.kdg.programming3.pillgate.service;
 
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
 import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
+import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -22,15 +24,18 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 
     private final MedScheduleRepository medScheduleRepository;
     private final CustomerRepository customerRepository;
+    private final SensorRepository sensorRepository;
+
     @Autowired
     private HttpServletRequest request;
 
     private Logger logger = LoggerFactory.getLogger(ReminderServiceImpl.class);
 
     @Autowired
-    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, CustomerRepository customerRepository){
+    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, CustomerRepository customerRepository, SensorRepository sensorRepository){
         this.medScheduleRepository = medscheduleRepository;
         this.customerRepository = customerRepository;
+        this.sensorRepository = sensorRepository;
     }
 
 
@@ -89,6 +94,12 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         }
 
         MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
+
+        WeightSensor weightSensor = new WeightSensor();
+        weightSensor.setCustomer(customerExists);
+        weightSensor.setCalibrationDate(LocalDateTime.now());
+        sensorRepository.createSensor(weightSensor);
+        logger.info("Weight sensor created for the customer {}", weightSensor);
         medicationSchedule.setMessage("It's time to take your " + pillForm.getPillName());
         medScheduleRepository.createMedSchedule(medicationSchedule);
         logger.info("Customer_id: {} saved medication schedule", customerId);
@@ -106,19 +117,6 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 
 
 
-
-    // Method to extract username from the session
-    private String extractUsernameFromSession() {
-        HttpSession session = request.getSession(false);
-
-        if (session != null && session.getAttribute("email") != null) {
-            return (String) session.getAttribute("email");
-        } else {
-            throw new IllegalStateException("User not authenticated");
-        }
-    }
-
-
     @Override
     public String getMedScheduleAlert() {
         logger.info("Getting medication schedule message");
@@ -129,7 +127,8 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
             && !medicationSchedule.isStopped()) {
                 medicationSchedule.setStopped(true);
                 logger.info("It is time to take your {}", medicationSchedule.getPillName());
-                medScheduleRepository.createMedSchedule(medicationSchedule);
+                medicationSchedule.setMessage("It is time to take your " + medicationSchedule.getPillName());
+                logger.info("The message: {}", medicationSchedule.getMessage());
                 return medicationSchedule.getMessage();
             }
         }
@@ -147,7 +146,8 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
                     && !medicationSchedule.isStopped()) {
                 medicationSchedule.setStopped(true);
                 logger.info("It is time to take your {}", medicationSchedule.getPillName());
-                medScheduleRepository.createMedSchedule(medicationSchedule);
+                medicationSchedule.setMessage("It is time to take your " + medicationSchedule.getPillName());
+                logger.info("The message: {}", medicationSchedule.getMessage());
                 return medicationSchedule.getMessage();
             }
         }

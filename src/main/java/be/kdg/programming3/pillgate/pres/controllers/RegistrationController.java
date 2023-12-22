@@ -1,16 +1,16 @@
-
 package be.kdg.programming3.pillgate.pres.controllers;
+
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
 import be.kdg.programming3.pillgate.service.CustomerService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 
 @RequestMapping("/")
 @Controller
@@ -35,8 +35,17 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registerCustomer(@ModelAttribute("customerDTO") CustomerRegistrationDto registrationDto) {
+    public String registerCustomer(@ModelAttribute("customerDTO") @Valid CustomerRegistrationDto registrationDto,
+                                   BindingResult bindingResult) {
         logger.info("Registering customer: " + registrationDto.toString());
+
+        if (bindingResult.hasErrors()) {
+            logger.info("Validation errors, returning to registration form");
+            bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
+            // If there are validation errors, return to the registration form with error messages
+            return "registration";
+        }
+
         customerService.registerNewCustomer(registrationDto, session);
 
         return "registration"; // Redirect to a success or confirmation page
@@ -48,4 +57,3 @@ public class RegistrationController {
         return "home";
     }
 }
-

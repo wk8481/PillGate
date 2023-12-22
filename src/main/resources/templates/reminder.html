@@ -16,6 +16,7 @@
     <script defer th:src="@{../static/js/users.js}"></script>
     <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
     <script defer th:src="@{../static/js/reminder.js}"></script>
+    <script defer th:src="@{../static/js/accessPage.js}"></script>
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
 <header>
@@ -28,9 +29,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
@@ -62,13 +60,16 @@
                     <li class="nav-item">
                         <a class="nav-link"></a>
                     </li>
-
+                    <!-- Additional empty list items removed for brevity -->
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><!--class="nav-item"-->
-                            <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
                         </li>
-                        <li class="nav-item"><!--class="nav-item"-->
+                        <li class="nav-item" th:if="${session.isLoggedIn}">
                             <a class="btn btn-primary" th:href="@{/login}">Log In</a>
+                        </li>
+                        <li class="nav-item" th:unless="${session.isLoggedIn}">
+                            <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                         </li>
                     </ul>
                 </ul>
@@ -77,24 +78,40 @@
     </nav>
 </header>
 <main>
-<div class="container mt-5">
-    <form th:action="@{/reminder}" th:object="${pillForm}" method="post" modelAttribute="pillForm">
-        <input type="hidden" th:field="*{customer_id}" th:value="${customer_id}" />
-        <div class="mb-3">
-            <label for="pillName" class="form-label">Pill Name</label>
-            <input type="text" class="form-control" id="pillName" th:field="*{pillName}" required>
-        </div>
-        <div class="mb -3">
-            <label for="timeTakePill" class="form-label">Time</label>
-            <input type="datetime-local" class="form-control" id="timeTakePill" lang="en" th:field="*{timeTakePill}" required>
-        </div>
-        <div class="mb-3">
-            <label for="nrOfPillsPlaced" class="form-label">Number of pills placed in the pillbox</label>
-            <input type="number" class="form-control" id="nrOfPillsPlaced" th:field="*{nrOfPillsPlaced}">
-        </div>
-        <div class="mb-3">
-            <label for="interval" class="form-label">Interval</label>
-            <select name="interval" class="form-label" id="interval" th:field="*{repeatIn}" required>
+    <div class="container mt-5">
+        <h3 class="welcome">Enter your medication details</h3>
+        <form th:action="@{/reminder}" th:object="${pillForm}" method="post" modelAttribute="pillForm" id="reminder-form">
+            <input type="hidden" th:field="*{customer_id}" th:value="${customer_id}" />
+
+            <!-- Add this section to display validation errors -->
+            <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+                <p>The form contained errors!</p>
+            </div>
+
+            <div class="mb-3">
+                <label th:for="pillName" class="form-label">Pill Name</label>
+                <input type="text" class="form-control" id="pillName" th:field="*{pillName}" required>
+                <div th:if="${#fields.hasErrors('pillName')}" class="alert alert-danger">
+                    <p th:errors="*{pillName}">The pill name has errors!</p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label th:for="timeTakePill" class="form-label">Time</label>
+                <input type="datetime-local" class="form-control" id="timeTakePill" lang="en" th:field="*{timeTakePill}" required>
+                <div th:if="${#fields.hasErrors('timeTakePill')}" class="alert alert-danger">
+                    <p th:errors="*{timeTakePill}">The time has errors!</p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label th:for="nrOfPillsPlaced" class="form-label">Number of pills placed in the pillbox</label>
+                <input type="number" class="form-control" id="nrOfPillsPlaced" th:field="*{nrOfPillsPlaced}">
+                <div th:if="${#fields.hasErrors('nrOfPillsPlaced')}" class="alert alert-danger">
+                    <p th:errors="*{nrOfPillsPlaced}">The number of pills placed has errors!</p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label th:for="interval" class="form-label">Interval</label>
+                <select name="interval" class="form-control" id="interval" th:field="*{repeatIn}" required>
                 <option value="1">1 hour</option>
                 <option value="2">2 hours</option>
                 <option value="3">3 hours</option>
@@ -120,13 +137,16 @@
                 <option value="23">23 hours</option>
                 <option value="24">24 hours</option>
             </select>
+            <div th:if="${#fields.hasErrors('repeatIn')}" class="alert alert-danger">
+                <p th:errors="*{repeatIn}">The interval has errors!</p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Schedule Reminder</button>
-    </form>
-</div>
 
-<script th:src="@{/js/reminder.js}"></script>
+            <button type="submit" class="btn btn-primary" id="reminder-btn">Schedule Reminder</button>
+        </form>
+    </div>
+
+    <script th:src="@{/js/reminder.js}"></script>
 </main>
 </body>
-
 </html>

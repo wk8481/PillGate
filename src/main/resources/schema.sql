@@ -23,16 +23,48 @@ FROM information_schema.constraint_column_usage
 WHERE table_name = 'customer';
 
 
-
--- DROP TABLE IF EXISTS WeightSensor;
-CREATE TABLE IF NOT EXISTS WeightSensor (
-                                            sensor_ID SERIAL PRIMARY KEY,
-                                            customer_id INT,
-                                            WEIGHT_CAPACITY_GRAMS INT DEFAULT 1000,
-                                            calibrationDate DATE, -- change this to timestamp
-                                            weight DOUBLE PRECISION, -- Change here
-                                            FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+DROP TABLE IF EXISTS WeightSensor;
+CREATE TABLE IF NOT EXISTS WeightSensor(
+                                        sensor_ID       SERIAL PRIMARY KEY,
+                                        customer_id     INT,
+                                        calibrationDate TIMESTAMP,
+                                        weight          DOUBLE PRECISION,
+                                        FOREIGN KEY (customer_id) REFERENCES Customer (customer_id)
 );
+/*ALTER TABLE IF EXISTS WeightSensor
+    ADD CONSTRAINT unique_calibration_Date UNIQUE (calibrationDate);*/
+/*ALTER TABLE IF EXISTS WeightSensor
+    ADD CONSTRAINT unique_customer_id UNIQUE (customer_id);*/
+
+/*ALTER TABLE WeightSensor ADD CONSTRAINT unique_customer_id UNIQUE (customer_id);*/
+
+
+/*alter table WeightSensor
+DROP CONSTRAINT IF EXISTS unique_customer_id;*/
+
+
+
+ALTER TABLE WeightSensor
+    ALTER COLUMN calibrationDate SET DEFAULT CURRENT_TIMESTAMP;
+
+/*ALTER TABLE WeightSensor
+    DROP CONSTRAINT IF EXISTS unique_calibration_date;*/
+
+SELECT conname
+FROM pg_constraint
+WHERE conrelid = 'WeightSensor'::regclass AND contype = 'u';
+
+/*DELETE FROM WeightSensor
+WHERE sensor_ID <215;*/
+
+/*INSERT INTO WeightSensor (customer_id, calibrationDate, weight)
+VALUES (2, '2023-12-21 17:35:45', 750);*/
+
+
+
+SELECT * FROM WeightSensor;
+SELECT * FROM MedicationSchedule;
+SELECT * FROM Customer;
 
 
 
@@ -60,7 +92,7 @@ CREATE TABLE IF NOT EXISTS Dashboard (
 
 
 -- MedicationSchedule Table
--- DROP TABLE IF EXISTS MedicationSchedule;
+DROP TABLE IF EXISTS MedicationSchedule;
 CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   medSchedule_id SERIAL PRIMARY KEY,
                                                   customer_id INT,

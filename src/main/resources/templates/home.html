@@ -24,9 +24,6 @@
                             <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
                         </li>
                         <li class="nav-item">
@@ -61,8 +58,11 @@
                             <li class="nav-item"><!--class="nav-item"-->
                                 <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
                             </li>
-                            <li class="nav-item"><!--class="nav-item"-->
+                            <li class="nav-item" th:unless="${session.isLoggedIn}">
                                 <a class="btn btn-primary" th:href="@{/login}">Log In</a>
+                            </li>
+                            <li class="nav-item" th:if="${session.isLoggedIn}">
+                                <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                             </li>
                         </ul>
                     </ul>

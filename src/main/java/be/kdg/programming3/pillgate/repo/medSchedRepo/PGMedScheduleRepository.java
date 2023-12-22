@@ -49,14 +49,15 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
     @Override
     public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
         logger.info("Creating med schedule: {}", medSchedule);
-        String insertQuery = "INSERT INTO MedicationSchedule(customer_id, pillName, " +
+        String insertQuery = "INSERT INTO MedicationSchedule(customer_id, pillName, repeatIn, " +
                 "timeTakePill, nrOfPillsPlaced, weightOfSinglePill, nrOfPillsTaken, isStopped, message) " +
-                "VALUES (:customer_id, :pillName, :timeTakePill, " +
+                "VALUES (:customer_id, :pillName, :repeatIn, :timeTakePill, " +
                 ":nrOfPillsPlaced, :weightOfSinglePill, :nrOfPillsTaken, :isStopped, :message)";
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("customer_id", medSchedule.getCustomer().getCustomer_id());
         parameters.put("pillName", medSchedule.getPillName());
+        parameters.put("repeatIn", medSchedule.getRepeatIn());
         parameters.put("timeTakePill", medSchedule.getTimeTakePill());
         parameters.put("nrOfPillsPlaced", medSchedule.getNrOfPillsPlaced());
         parameters.put("weightOfSinglePill", medSchedule.getWeightOfSinglePill());
@@ -75,11 +76,13 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
     public MedicationSchedule updateMedSchedule(MedicationSchedule medicationSchedule) {
         logger.info("Updating med schedule: {}", medicationSchedule);
         String updateQuery = "UPDATE MedicationSchedule SET " +
-                "pillName=:pillName, timeTakePill=:timeTakePill WHERE medSchedule_id=:medSchedule_id";
+                "pillName=:pillName, timeTakePill=:timeTakePill, nrOfPillsPlaced=:nrOfPillsPlaced, nrOfPillsTaken=:nrOfPillsTaken WHERE medSchedule_id=:medSchedule_id";
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("pillName", medicationSchedule.getPillName());
         parameters.put("timeTakePill", medicationSchedule.getTimeTakePill());
+        parameters.put("nrOfPillsPlaced", medicationSchedule.getNrOfPillsPlaced());
+        parameters.put("nrOfPillsTaken", medicationSchedule.getNrOfPillsTaken());
         parameters.put("medSchedule_id", medicationSchedule.getMedSchedule_id());
 
         int updatedRows = jdbcTemplate.update(updateQuery, parameters);
@@ -116,8 +119,8 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
             medicationSchedule.setCustomer_id(rs.getInt("customer_id"));
             medicationSchedule.getCustomer().setCustomer_id(rs.getInt("customer_id"));
             medicationSchedule.setPillName(rs.getString("pillName"));
-            medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
             medicationSchedule.setRepeatIn(rs.getInt("repeatIn"));
+            medicationSchedule.setTimeTakePill(rs.getTimestamp("timeTakePill").toLocalDateTime());
             medicationSchedule.setNrOfPillsPlaced(rs.getInt("nrOfPillsPlaced"));
             medicationSchedule.setWeightOfSinglePill(rs.getDouble("weightOfSinglePill"));
             medicationSchedule.setNrOfPillsTaken(rs.getInt("nrOfPillsTaken"));

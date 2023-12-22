@@ -24,56 +24,40 @@ public class PillController {
 
     Logger logger = LoggerFactory.getLogger(PillController.class);
     private final ReminderService reminderService;
-    private final CustomerService customerService;
     @Autowired
-    public PillController(ReminderService reminderService, CustomerService customerService) {
+    public PillController(ReminderService reminderService) {
         this.reminderService = reminderService;
-        this.customerService = customerService;
     }
 
     @GetMapping("/reminder")
     public String showForm(Model model, HttpSession session) {
-        logger.info("Showing reminder form");
-        model.addAttribute("pillForm", new MedicationScheduleViewModel());
-        return "reminder";
+        Object isLoggedIn = session.getAttribute("isLoggedIn");
+        if (isLoggedIn == null || !(isLoggedIn instanceof  Boolean) || ! (Boolean) isLoggedIn) {
+            return "redirect:/login";
+        } else {
+            logger.info("Showing reminder form");
+            model.addAttribute("pillForm", new MedicationScheduleViewModel());
+            model.addAttribute("customerName", new Customer().getCustomer_name());   // Pass customer name to the model
+            return "reminder";
+        }
     }
 
 
     @PostMapping("/reminder")
-    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
-        reminderService.saveMedicationSchedule(pillForm);
+    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm, BindingResult bindingResult) {
         logger.info("Processing " + pillForm.toString());
-        return "redirect:reminder";
-    }
+            if (bindingResult.hasErrors()) {
+                logger.info("Validation errors, returning to reminder form");
+                bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
+                return "reminder";
+            }
 
-    public String submitForm(@ModelAttribute("pillForm") @Valid MedicationScheduleViewModel pillForm,
-                             BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            return "reminder";
-        }
+        logger.info("saving medicationSchedule....");
 
         reminderService.saveMedicationSchedule(pillForm);
-        logger.info("Processing " + pillForm.toString());
+
         return "redirect:reminder";
     }
-
-
-
-    @GetMapping(path = "/now", produces = "application/json")
-    public @ResponseBody ReminderController.AlarmResponse getCurrentAlarm() {
-        String message = reminderService.getMedScheduleAlert();
-        return new ReminderController.AlarmResponse(message);
-
-
-//        logger.info("saving medicationSchedule....");
-
-//        reminderService.saveMedicationSchedule(pillForm);
-
-//        return "redirect:reminder";
-        //TODO: FIX THE COMMENTED LINES
-    }
-
-
 
 }
 

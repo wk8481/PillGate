@@ -19,8 +19,8 @@ public class MedicationSchedule {
     private String pillName;
     private LocalDateTime timeTakePill;
 
-// We can use this instead of localdatetime to only show the time not the date
-  //  private LocalTime timeTakePill;
+    // We can use this instead of localdatetime to only show the time not the date
+    //  private LocalTime timeTakePill;
     private int repeatIn;
     private int nrOfPillsPlaced;
     private double weightOfSinglePill;
@@ -33,9 +33,7 @@ public class MedicationSchedule {
     @JoinColumn(name = "customer_id")
     private transient Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "dashboard_id")
-    private transient Dashboard dashboard;
+
 
 
 
@@ -51,7 +49,7 @@ public class MedicationSchedule {
         this.nrOfPillsTaken = nrOfPillsTaken;
     }
 
-    public MedicationSchedule(int medSchedule_id, String pillName, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced, boolean isStopped, String message, Customer customer, Dashboard dashboard) {
+    public MedicationSchedule(int medSchedule_id, String pillName, LocalDateTime timeTakePill, int repeatIn, int nrOfPillsPlaced, boolean isStopped, String message, Customer customer) {
         this.medSchedule_id = medSchedule_id;
         this.pillName = pillName;
         this.timeTakePill = timeTakePill;
@@ -60,8 +58,10 @@ public class MedicationSchedule {
         this.message = message;
         this.nrOfPillsPlaced = nrOfPillsPlaced;
         this.customer = customer;
-        this.dashboard = dashboard;
+
     }
+
+
 
 
     public MedicationSchedule() {
@@ -154,11 +154,12 @@ public class MedicationSchedule {
         this.customer = customer;
     }
 
-    public void addDashboard(Dashboard dashboard) {
-        this.dashboard = dashboard;
-    }
 
-    public void setDashboard(Dashboard dashboard) {this.dashboard = dashboard;}
+
+    public boolean isPillTaken() {
+        // Check if at least one pill has been taken and nrOfPillsPlaced has decreased
+        return nrOfPillsTaken > 0 && nrOfPillsPlaced < nrOfPillsTaken || weightOfSinglePill == 0.0;
+    }
 
 
     @Override
@@ -174,6 +175,8 @@ public class MedicationSchedule {
                 ", timeTakePill=" + formattedDate3 +
                 ", repeatIn=" + repeatIn +
                 ", nrOfPillsPlaced=" + nrOfPillsPlaced +
+                ", nrOfPillsTaken=" + nrOfPillsTaken +
+                ", weightOfSinglePill=" + weightOfSinglePill +
                 '}';
 
 

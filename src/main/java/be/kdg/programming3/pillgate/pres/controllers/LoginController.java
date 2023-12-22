@@ -39,13 +39,10 @@ public class LoginController {
 
     @PostMapping("/login")
     public String loginCustomer(@ModelAttribute("customerDTO") @Valid CustomerLoginDto loginDto, BindingResult bindingResult, Model model, HttpSession session) {
-        if (session.getAttribute("authenticatedCustomer") != null) {
-            // User already logged in
-            return "redirect:/dashboard";
-        }
-
         if (bindingResult.hasErrors()){
             // Handle validation errors, e.g, return to the frm with error messages
+                    logger.info("Validation errors, returning to reminder form");
+                    bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
             return "login";
         }
 
@@ -59,8 +56,10 @@ public class LoginController {
             logger.info("Customer id has been set");
 
             session.setAttribute("authenticatedUser", authenticatedCustomer);
+            session.setAttribute("isLoggedIn", true);
 
-            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer); 
+
+            logger.info("Login successful. Customer {} authenticated", authenticatedCustomer);
             return "redirect:/reminder";
         } else {
             model.addAttribute("error", "Invalid username or password");
@@ -72,7 +71,7 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return "redirect:/home";
     }
 
 }

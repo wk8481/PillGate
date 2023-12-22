@@ -7,13 +7,50 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
+/**
+ * Service interface for managing customers.
+ * This service defines methods to handle customer-related operations.
+ *
+ * @author Team PillGate
+ */
 public interface CustomerService {
 
+    /**
+     * Creates a new customer.
+     *
+     * @param customer The customer entity to be created.
+     * @return The created customer entity.
+     */
     Customer createCustomer(Customer customer);
+
+    /**
+     * Retrieves a list of all customers.
+     *
+     * @return A list of customer entities.
+     */
     List<Customer> getCustomers();
 
+    /**
+     * Authenticates a customer based on login credentials.
+     *
+     * @param login The login credentials provided by the user.
+     * @return The authenticated customer entity, or null if authentication fails.
+     */
     Customer loginCustomer(CustomerLoginDto login);
+
+    /**
+     * Extracts the email address of the currently authenticated customer from the session.
+     *
+     * @return The email address of the authenticated customer.
+     */
     String extractEmailFromSession();
 
+    /**
+     * Registers a new customer.
+     *
+     * @param registrationDto The registration details provided by the user.
+     * @param session         The HTTP session.
+     * @return The registered customer entity.
+     */
     Customer registerNewCustomer(CustomerRegistrationDto registrationDto, HttpSession session);
 }

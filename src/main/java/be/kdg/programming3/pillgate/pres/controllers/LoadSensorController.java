@@ -1,6 +1,7 @@
 package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.PGMedScheduleRepository;
@@ -8,12 +9,11 @@ import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import be.kdg.programming3.pillgate.service.MedicationScheduleService;
 import be.kdg.programming3.pillgate.service.ReminderService;
 import be.kdg.programming3.pillgate.service.SerialReader;
+import jakarta.servlet.http.HttpSession;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -24,9 +24,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -57,39 +59,62 @@ public class LoadSensorController {
         return "dashboard"; // Or the name of the Thymeleaf template you want to display
     }
 
-    @GetMapping("/showSensor")
-    public String showSensor(Model model) {
-        logger.info("Showing load sensor data ..");
-        model.addAttribute("sensors", sensorRepository.findAllWSensors());
-        return "dashboard";
+    @GetMapping()
+    public String showSensor(Model model, HttpSession session) {
+        // check if user is logged in
+        Object isLoggedIn = session.getAttribute("isLoggedIn");
+        if (isLoggedIn == null || !(isLoggedIn instanceof  Boolean) || ! (Boolean) isLoggedIn) {
+            return "redirect:/login";
+        }
+
+        // check if user is authenticated
+        Object authenticatedUser = session.getAttribute("authenticatedUser");
+        if (authenticatedUser != null && authenticatedUser instanceof Customer) {
+            logger.info("Showing load sensor data ..");
+            model.addAttribute("sensors", sensorRepository.findAllWSensors());
+            return "dashboard";
+        } else {
+            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/readArduino")
-    public String readArduino(Model model) {
-        try {
-            serialReader.readArduinoData("COM5");
-            model.addAttribute("sensors", sensorRepository.findAllWSensors());
-        } catch (Exception e) {
-            logger.info("Error reading Arduino data", e);
+    public String readArduino(Model model, HttpSession session) {
+        if (session.getAttribute("authenticatedUser") != null) {
+
+            try {
+                serialReader.readArduinoData("COM5");
+                model.addAttribute("sensors", sensorRepository.findAllWSensors());
+            } catch (Exception e) {
+                logger.info("Error reading Arduino data", e);
+            }
+            return "dashboard";
+        } else {
+            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
         }
         return "dashboard";
     }
 
 
     @GetMapping("/readArduino/showPillsTaken")
-    public String showNumberOfPillsTaken(Model model) {
-        MedicationSchedule latestMedSchedule = reminderService.getLatestMedicationSchedule();
-        logger.info("Getting latest medication schedule {}", latestMedSchedule);
+    public String showNumberOfPillsTaken(Model model, HttpSession session) {
+        if (session.getAttribute("authenticatedUser") != null) {
+            MedicationSchedule latestMedSchedule = reminderService.getLatestMedicationSchedule();
+            logger.info("Getting latest medication schedule {}", latestMedSchedule);
 
-        if (latestMedSchedule != null) {
-            model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
-            logger.info("Showing number of pills taken {}", latestMedSchedule.getNrOfPillsTaken());
+            if (latestMedSchedule != null) {
+                model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
+                logger.info("Showing number of pills taken {}", latestMedSchedule.getNrOfPillsTaken());
 
-            model.addAttribute("weightOfSinglePill", latestMedSchedule.getWeightOfSinglePill());
-            logger.info("Weight of Single Pill: {}", latestMedSchedule.getWeightOfSinglePill());
+                model.addAttribute("weightOfSinglePill", latestMedSchedule.getWeightOfSinglePill());
+                logger.info("Weight of Single Pill: {}", latestMedSchedule.getWeightOfSinglePill());
 
-            model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
-            logger.info("Number of Pills Placed: {}", latestMedSchedule.getNrOfPillsPlaced());
+                model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
+                logger.info("Number of Pills Placed: {}", latestMedSchedule.getNrOfPillsPlaced());
+            }
+        } else {
+            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
         }
 
         return "dashboard";
@@ -103,7 +128,6 @@ public class LoadSensorController {
         model.addAttribute("sensors", sensorRepository.findAllWSensors());
         return "dashboard";
     }
-
 
     @GetMapping("/generateCharts")
     public String generateCharts(Model model) {
@@ -153,61 +177,58 @@ public class LoadSensorController {
         return "data:image/png;base64," + Base64.getEncoder().encodeToString(outputStream.toByteArray());
     }
 
-   public String GenerateChartUrl(Map<Integer, Map<String, Integer>> countsPerHourPerPill) {
-       // Formatter for the hour labels
-       DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    public String GenerateChartUrl(Map<Integer, Map<String, Integer>> countsPerHourPerPill) {
+        // Formatter for the hour labels
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-       // Create a dataset for the chart
-       DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        // Create a dataset for the chart
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-       // Loop through each hour
-       for (Integer hour : countsPerHourPerPill.keySet()) {
-           // Format the hour for the label
-           LocalTime time = LocalTime.of(hour, 0);
-           String hourLabel = time.format(timeFormatter);
+        // Loop through each hour
+        for (Integer hour : countsPerHourPerPill.keySet()) {
+            // Format the hour for the label
+            LocalTime time = LocalTime.of(hour, 0);
+            String hourLabel = time.format(timeFormatter);
 
-           // Loop through each pill taken during this hour
-           for (Map.Entry<String, Integer> pillEntry : countsPerHourPerPill.get(hour).entrySet()) {
-               String pillName = pillEntry.getKey();
-               Integer count = pillEntry.getValue();
+            // Loop through each pill taken during this hour
+            for (Map.Entry<String, Integer> pillEntry : countsPerHourPerPill.get(hour).entrySet()) {
+                String pillName = pillEntry.getKey();
+                Integer count = pillEntry.getValue();
 
-               // Add the count to the dataset with the pill name as the series
-               dataset.addValue(count, pillName, hourLabel);
-           }
-       }
+                // Add the count to the dataset with the pill name as the series
+                dataset.addValue(count, pillName, hourLabel);
+            }
+        }
 
-       // Generate the chart with series for each pill
-       JFreeChart chart = ChartFactory.createBarChart(
-               "Time of Day Overview", // Chart title
-               "Hour of Day", // X-axis label
-               "Number of Pills Taken", // Y-axis label
-               dataset, // Dataset
-               PlotOrientation.VERTICAL,
-               true, // Include legend to differentiate pills
-               true, // Tooltips
-               false // URLs
-       );
+        // Generate the chart with series for each pill
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Time of Day Overview", // Chart title
+                "Hour of Day", // X-axis label
+                "Number of Pills Taken", // Y-axis label
+                dataset, // Dataset
+                PlotOrientation.VERTICAL,
+                true, // Include legend to differentiate pills
+                true, // Tooltips
+                false // URLs
+        );
 
-       // Set the range axis to only display integer values
-       CategoryPlot plot = chart.getCategoryPlot();
-       NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-       rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        // Set the range axis to only display integer values
+        CategoryPlot plot = chart.getCategoryPlot();
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-       // Convert the chart to a PNG image encoded as a Base64 string
-       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-       try {
-           ChartUtils.writeChartAsPNG(outputStream, chart, 800, 600);
-           return "data:image/png;base64," + Base64.getEncoder().encodeToString(outputStream.toByteArray());
-       } catch (IOException e) {
-           e.printStackTrace();
-           return null;
-       }
-   }
+        // Convert the chart to a PNG image encoded as a Base64 string
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            ChartUtils.writeChartAsPNG(outputStream, chart, 800, 600);
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 
 
 }
-
-
-
-
