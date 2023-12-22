@@ -174,6 +174,8 @@ public class MedicationSchedule {
                 ", timeTakePill=" + formattedDate3 +
                 ", repeatIn=" + repeatIn +
                 ", nrOfPillsPlaced=" + nrOfPillsPlaced +
+                ", nrOfPillsTaken=" + nrOfPillsTaken +
+                ", weightOfSinglePill=" + weightOfSinglePill +
                 '}';
 
 
