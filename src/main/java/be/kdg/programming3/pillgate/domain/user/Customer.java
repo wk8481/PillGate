@@ -53,7 +53,7 @@ public class Customer {
     private transient List<MedicationSchedule> medicationSchedules;
 
 //    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private transient Dashboard dashboard;
+    
 
 //    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private transient WeightSensor weightSensor;
@@ -300,23 +300,7 @@ public class Customer {
         medicationSchedules.add(medicationSchedule);
     }
 
-    /**
-     * Gets the dashboard associated with the customer.
-     *
-     * @return The {@link Dashboard} associated with the customer.
-     */
-    public Dashboard getDashboard() {
-        return dashboard;
-    }
-    /**
-     * Sets the dashboard associated with the customer.
-     *
-     * @param dashboard The dashboard to be associated with the customer.
-     */
-    public void setDashboard(Dashboard dashboard) {
-        this.dashboard = dashboard;
-        dashboard.setCustomer(this);
-    }
+
     /**
      * Sets the weight sensor associated with the customer.
      *

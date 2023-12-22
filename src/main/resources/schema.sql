@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS Dashboard (
 
 
 -- MedicationSchedule Table
--- DROP TABLE IF EXISTS MedicationSchedule;
+DROP TABLE IF EXISTS MedicationSchedule;
 CREATE TABLE IF NOT EXISTS MedicationSchedule (
                                                   medSchedule_id SERIAL PRIMARY KEY,
                                                   customer_id INT,
