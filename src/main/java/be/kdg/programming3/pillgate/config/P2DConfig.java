@@ -15,7 +15,7 @@ import java.util.Properties;
 
 
 @Configuration
-@Profile("postgres")
+@Profile("prod")
 public class P2DConfig {
     @Bean
     public DataSource dataSource() {
