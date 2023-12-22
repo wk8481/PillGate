@@ -11,7 +11,7 @@
     <script defer th:src="@{../static/js/users.js}"></script>
     <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
     <script defer th:src="@{../static/js/reminder.js}"></script>
-    <script defer th:src="@{../static/js/accessPage.js}"></script>
+
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
 <header>
@@ -24,6 +24,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
@@ -60,11 +63,8 @@
                         <li class="nav-item"><!--class="nav-item"-->
                             <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
                         </li>
-                        <li class="nav-item" th:unless="${session.isLoggedIn}">
+                        <li class="nav-item"><!--class="nav-item"-->
                             <a class="btn btn-primary" th:href="@{/login}">Log In</a>
-                        </li>
-                        <li class="nav-item" th:if="${session.isLoggedIn}">
-                            <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                         </li>
                     </ul>
                 </ul>
@@ -79,178 +79,50 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Time to Take Pill</th>
-            <th>Pill Taken</th>
-            <th>Pill Number</th>
+            <th>SensorId</th>
+            <th>Weight: </th>
+            <th>Calibration Date: </th>
         </tr>
         </thead>
         <tbody>
-        <!-- Iterate over medication schedules and populate the table rows -->
-        <tr th:each="schedule : ${medicationSchedule}">
-            <td th:utext="${schedule.nrOfPillsTaken}"></td>
-            <td th:utext="${schedule.isPillTaken}"></td>
-            <td th:utext="${schedule.nrOfPillsPlaced}"></td>
+        <!-- Iterate over sensors and populate the table rows -->
+        <tr th:each="sensor : ${sensors}">
+            <td th:utext="${sensor.sensor_ID}"></td>
+            <td th:utext="${sensor.weight}"></td>
+            <td th:utext="${sensor.calibrationDate}"></td>
+        </tr>
+
+        <tr>
+            <td th:colspan="2">Number of pills taken: <span th:utext="${nrOfPillsTaken}"></span></td>
+            <td th:colspan="2">Number of pills placed: <span th:utext="${nrOfPillsPlaced}"></span></td>
+            <td th:colspan="2">Weight of single pill: <span th:utext="${weightOfSinglePill}"></span></td>
         </tr>
         </tbody>
     </table>
 
-    <!--        <h3>Your medication intake tracker</h3>-->
+    <!-- Replace the static images with Thymeleaf attributes -->
+    <!-- Displaying the generated charts -->
+    <div>
+        <h2>Pill Taking Overview</h2>
+        <img th:src="${pillsTakenChartUrl}" alt="Pill Taking Overview Chart"/>
+    </div>
+<!--    <div>-->
+<!--        <h2>Time of Day Overview</h2>-->
+<!--        <img th:src="${timeOfDayChartUrl}" alt="Time of Day Overview Chart"/>-->
+<!--    </div>-->
 
-    <!--        <table>-->
-    <!--            <thead>-->
-    <!--            <tr>-->
-    <!--                <th colspan="2"></th>-->
-    <!--                <th>Header 2</th>-->
-    <!--                <th>Header 3</th>-->
-    <!--            </tr>-->
-    <!--            </thead>-->
-    <!--            <tbody>-->
-    <!--            <tr>-->
-    <!--                <td rowspan="3"></td>-->
-    <!--                <td>sample cell</td>-->
-    <!--                <td>Row 1, Cell 2</td>-->
-    <!--                <td>Row 1, Cell 3</td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>sample cell</td>-->
-    <!--                <td>Row 2, Cell 2</td>-->
-    <!--                <td>Row 2, Cell 3</td>-->
-    <!--            </tr>-->
+    <div>
+        <h2>Time of Day Overview</h2>
+        <img th:src="${timeOfDayChartUrl}" alt="Time of Day Overview Chart"/>
+    </div>
 
-    </tbody>
-    </table>
+    <!--<img th:src="${pillsTakenChartUrl}" alt="Pill Taking Overview Chart"/>
+    <img th:src="${timeOfDayChartUrl}" alt="Time of Day Overview Chart"/>-->
+
+
+
 </main>
 
 <footer> PillGate &#169; 2023 All rights reserved</footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8" >-->
-<!--    <title>Dashboard</title>-->
-
-<!--    <link rel="stylesheet" th:href="@{../style.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>-->
-<!--    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">-->
-<!--    </script>-->
-<!--    <script defer th:src="@{../static/js/users.js}"></script>-->
-<!--    <script defer th:src="@{../static/js/dropdown-menu.js}"></script>-->
-<!--    <script defer th:src="@{../static/js/reminder.js}"></script>-->
-<!--</head>-->
-<!--<body data-spy="scroll" data-target="#navbar" data-offset="56">-->
-<!--<header>-->
-<!--    <nav class="navbar navbar-expand-lg">-->
-<!--        <div class="container-fluid">-->
-<!--            <div class="navbar-collapse">-->
-<!--                <ul class="navbar-nav mr-auto">-->
-<!--                    <li class="nav-item active">-->
-<!--                        <a class="nav-link" th:href="@{/home}">Homepage</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" th:href="@{/deliverables}">Deliverables</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" th:href="@{/PresentedBy}">Presented By</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link"></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link"></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link"></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link"></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link"></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link"></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link"></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link"></a>-->
-<!--                    </li>-->
-
-<!--                    <ul class="navbar-nav ml-auto">-->
-<!--                        <li class="nav-item">&lt;!&ndash;class="nav-item"&ndash;&gt;-->
-<!--                            <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item">&lt;!&ndash;class="nav-item"&ndash;&gt;-->
-<!--                            <a class="btn btn-primary" th:href="@{/login}">Log In</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </nav>-->
-<!--</header>-->
-
-<!--<main class="container mt-5">-->
-<!--    <h1 class="text-center">Dashboard</h1>-->
-
-<!--    <table class="table table-bordered">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>SensorId</th>-->
-<!--            <th>Weight: </th>-->
-<!--            <th>Calibration Date: </th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        &lt;!&ndash; Iterate over sensors and populate the table rows &ndash;&gt;-->
-<!--        <tr th:each="sensor : ${sensors}">-->
-<!--            <td th:utext="${sensor.sensor_ID}"></td>-->
-<!--            <td th:utext="${sensor.weight}"></td>-->
-<!--            <td th:utext="${sensor.calibrationDate}"></td>-->
-<!--        </tr>-->
-
-<!--        <tr>-->
-<!--            <td th:colspan="2">Number of pills taken: <span th:utext="${nrOfPillsTaken}"></span></td>-->
-<!--            <td th:colspan="2">Number of pills placed: <span th:utext="${nrOfPillsPlaced}"></span></td>-->
-<!--            <td th:colspan="2">Weight of single pill: <span th:utext="${weightOfSinglePill}"></span></td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-
-
-<!--</main>-->
-
-<!--<footer> PillGate &#169; 2023 All rights reserved</footer>-->
-<!--</body>-->
-<!--</html>-->
