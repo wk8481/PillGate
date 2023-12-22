@@ -41,6 +41,8 @@ public class LoginController {
     public String loginCustomer(@ModelAttribute("customerDTO") @Valid CustomerLoginDto loginDto, BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()){
             // Handle validation errors, e.g, return to the frm with error messages
+                    logger.info("Validation errors, returning to reminder form");
+                    bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
             return "login";
         }
 

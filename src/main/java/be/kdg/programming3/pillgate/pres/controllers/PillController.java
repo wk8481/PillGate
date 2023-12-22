@@ -44,8 +44,13 @@ public class PillController {
 
 
     @PostMapping("/reminder")
-    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm) {
+    public String submitForm(@ModelAttribute("pillForm") MedicationScheduleViewModel pillForm, BindingResult bindingResult) {
         logger.info("Processing " + pillForm.toString());
+            if (bindingResult.hasErrors()) {
+                logger.info("Validation errors, returning to reminder form");
+                bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
+                return "reminder";
+            }
 
         logger.info("saving medicationSchedule....");
 
