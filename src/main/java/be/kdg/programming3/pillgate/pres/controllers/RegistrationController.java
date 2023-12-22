@@ -40,6 +40,8 @@ public class RegistrationController {
         logger.info("Registering customer: " + registrationDto.toString());
 
         if (bindingResult.hasErrors()) {
+            logger.info("Validation errors, returning to registration form");
+            bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
             // If there are validation errors, return to the registration form with error messages
             return "registration";
         }

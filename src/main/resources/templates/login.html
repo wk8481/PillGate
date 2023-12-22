@@ -55,19 +55,21 @@
 <main>
     <div id="register-login-main">
         <h1 id="login-header">Login</h1>
-        form id="login-form" th:action="@{/login}" method="post" th:object="${customerDTO}">
-        <div th:if="${#fields.hasErrors('customerDTO')}" class="alert alert-danger" role="alert">
-            <span th:each="error : ${#fields.errors('customerDTO')}" th:text="${error}"></span>
+        <form id="login-form" th:action="@{/login}" method="post" th:object="${customerDTO}">
+        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+            <span>The form contained errors! </span>
         </div>
 
-        <input type="text" th:field="*{email}" id="email-field" class="login-form-field" placeholder="Email">
-        <div th:if="${#fields.hasErrors('customerDTO.email')}" class="alert alert-danger" role="alert">
-            <span th:text="${#fields.errors('customerDTO.email')}"></span>
+        <label for="email-field"></label>
+        <input type="text" th:field="*{email}" id="email-field" class="login-form-field" placeholder="Email" required>
+        <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger" role="alert">
+            <span th:errors="*{email}"></span>
         </div>
 
-        <input type="password" th:field="*{password}" id="password-field" class="login-form-field" placeholder="Password">
-        <div th:if="${#fields.hasErrors('customerDTO.password')}" class="alert alert-danger" role="alert">
-            <span th:text="${#fields.errors('customerDTO.password')}"></span>
+        <label for="password-field"></label>
+        <input type="password" th:field="*{password}" id="password-field" class="login-form-field" placeholder="Password" required>
+        <div th:if="${#fields.hasErrors('password')}" class="alert alert-danger" role="alert">
+            <span th:errors="*{password}"></span>
         </div>
 
         <button type="submit" class="btn btn-primary" id="login-btn">Login</button>

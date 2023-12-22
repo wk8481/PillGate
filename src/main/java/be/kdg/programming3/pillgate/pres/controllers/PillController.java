@@ -43,7 +43,11 @@ public class PillController {
     public String submitForm(@ModelAttribute("pillForm") @Valid MedicationScheduleViewModel pillForm,
                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
+            logger.info("Validation errors, returning to reminder form");
+            bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
             return "reminder";
+
+
         }
 
         reminderService.saveMedicationSchedule(pillForm);

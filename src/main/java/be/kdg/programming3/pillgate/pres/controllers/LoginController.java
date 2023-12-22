@@ -48,6 +48,8 @@ public class LoginController {
 
         if (bindingResult.hasErrors()) {
             logger.info("Validation errors, returning to login form");
+            bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
+
             return "login";
         }
 
