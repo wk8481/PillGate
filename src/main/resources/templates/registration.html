@@ -1,65 +1,100 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" media="all" href="../static/style.css" th:href="@{/static/style.css}">
+    <link rel="stylesheet" th:href="@{../style.css}">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script src="../js/dropdown-menu.js" type="module"></script>
     <title>Register</title>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <div class="navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" th:href="@{/home}">Homepage</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/PresentedBy}">Presented By</a>
-                        </li>
-
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><!--class="nav-item"-->
-                                <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
-                            </li>
-                            <li class="nav-item"><!--class="nav-item"-->
-                                <a class="btn btn-primary" th:href="@{/login}">Log In</a>
-                            </li>
-                        </ul>
-                    </ul>
-                </div>
+<header>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/home}">Homepage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/loadSensor}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/reminder}">Medication Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/PresentedBy}">Presented By</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto"> <!-- Use ms-auto here -->
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
+                    </li>
+                    <li class="nav-item" th:unless="${session.isLoggedIn}">
+                        <a class="btn btn-primary" th:href="@{/login}">Log In</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.isLoggedIn}">
+                        <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </header>
-    <main id="register-login-main">
-        <div id="main">
-            <h1>Registration</h1>
-            <form id="registration-form" th:object="${customerDTO}" th:action="@{/registration}" method="post">
-                <input type="text" th:field="*{firstName}" placeholder="First Name" class="register-form-field" required>
-                <input type="text" th:field="*{lastName}" placeholder="Last Name" class="register-form-field" required>
-                <input type="text" th:field="*{username}" placeholder="Username"  class="register-form-field" required>
-                <input type="date" th:field="*{birthDate}" class="register-form-field" required>
-                <input type="password" th:field="*{password}" placeholder="Password" class="register-form-field" required>
-                <input type="email" th:field="*{email}" placeholder="example@email.com" class="register-form-field" required>
-                <div class="form-group">
-                    <input type="checkbox" id="caregiverCheckbox" th:field="*{hasCareGiver}" name="caregiver" class="form-check-input">
-                    <label for="caregiverCheckbox" class="form-check-label">I am a caregiver</label>
-                </div>
-                <input type="submit" value="Register" id="register-btn">
-            </form>
         </div>
-    </main>
+    </nav>
+</header>
+<main id="register-login-main">
+    <h1 id="login-register-header">Registration</h1>
+    <p id="login-link">Already registered? <a href="/login" class="link-text">Log in here</a></p>
+    <div id="main">
+        <form id="registration-form" th:object="${customerDTO}" th:action="@{/registration}" method="post">
+            <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                <span>The form contained errors!</span>
+            </div>
+            <div class="form-group">
+                <label th:for="firstName" class="form-label">First Name</label>
+                    <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name" class="register-form-field" required>
 
+                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="lastName" class="form-label">Last Name</label>
+                    <input type="text" th:field="*{lastName}"  id="lastName" placeholder="Last Name" class="register-form-field" required>
+
+                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="username" class="form-label">Username</label>
+                    <input type="text" th:field="*{username}"  id="username" placeholder="Username" class="register-form-field" required>
+
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <label th:for="birthDate" class="form-label" >Birth Date</label>
+                <input type="date" th:field="*{birthDate}" id="birthDate" class="register-form-field" required>
+
+                <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="password" class="form-label">Password</label>
+                    <input type="password" th:field="*{password}" id="password" placeholder="Password" class="register-form-field" required>
+
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="email" class="form-label">Email</label>
+                    <input type="email" th:field="*{email}" id="email" placeholder="example@email.com" class="register-form-field" required>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="caregiverCheckbox" th:field="*{hasCareGiver}" name="caregiver" class="form-check-input">
+                <label for="caregiverCheckbox" class="form-check-label">I am a caregiver</label>
+            </div>
+            <input type="submit" value="Register" id="register-btn">
+        </form>
+    </div>
+</main>
+    <footer> PillGate &#169; 2023 All rights reserved</footer>
 </body>
-<footer> PillGate &#169; 2023 All rights reserved</footer>
 </html>

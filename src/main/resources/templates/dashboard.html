@@ -11,6 +11,8 @@
     <script defer th:src="@{../static/js/users.js}"></script>
     <script defer th:src="@{../static/js/dropdown-menu.js}"></script>
     <script defer th:src="@{../static/js/reminder.js}"></script>
+    <script defer th:src="@{../static/js/readSensor.js}"></script>
+
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="56">
 <header>
@@ -30,39 +32,17 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/PresentedBy}">Presented By</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ms-auto"> <!-- Use ms-auto here -->
                     <li class="nav-item">
-                        <a class="nav-link"></a>
+                        <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
+                    <li class="nav-item" th:unless="${session.isLoggedIn}">
+                        <a class="btn btn-primary" th:href="@{/login}">Log In</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
+                    <li class="nav-item" th:if="${session.isLoggedIn}">
+                        <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><!--class="nav-item"-->
-                            <a class="btn btn-outline-primary me-2" href="registration.html">Register</a>
-                        </li>
-                        <li class="nav-item"><!--class="nav-item"-->
-                            <a class="btn btn-primary" th:href="@{/login}">Log In</a>
-                        </li>
-                    </ul>
                 </ul>
             </div>
         </div>
@@ -71,7 +51,6 @@
 
 <main class="container mt-5">
     <h1 class="text-center">Dashboard</h1>
-
 
     <table class="table table-bordered">
         <thead>
@@ -97,10 +76,28 @@
         </tbody>
     </table>
 
+    <div class="btn-dash">
+        <button onclick="readSensor()" id="dashboard-btn2">Read Sensor</button>
+    </div>
 
+    <div id="charts">
+        <div>
+            <h2>Pill Taking Overview</h2>
+            <img th:src="${pillsTakenChartUrl}" class="charts-img" alt="Pill Taking Overview Chart"/>
+        </div>
+        <div>
+            <h2>Time of Day Overview</h2>
+            <img th:src="${timeOfDayChartUrl}" class="charts-img" alt="Time of Day Overview Chart"/>
+        </div>
+    </div>
+
+    <div class="btn-dash">
+        <button onclick="disconnectSensor()" id="dashboard-btn">Disconnect Sensor</button>
+    </div>
+
+    <script th:src="@{/js/readSensor.js}"></script>
 
 </main>
-
-<footer> PillGate &#169; 2023 All rights reserved</footer>
+    <footer> PillGate &#169; 2023 All rights reserved</footer>
 </body>
 </html>

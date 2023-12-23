@@ -13,7 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * The {@code PGCustomerRepository} class is an implementation of the {@link CustomerRepository} interface
+ * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the Customer entities.
+ *
+ * <p>This class is part of the PillGate application developed by Team PillGate.</p>
+ *
+ * @author Team PillGate
+ * @see CustomerRepository
+ * @see Customer
+ */
 @Repository
 @Profile("postgres")
 @Primary
@@ -23,6 +32,11 @@ public class PGCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    /**
+     * Constructs a new {@code PGCustomerRepository} with the specified {@link NamedParameterJdbcTemplate}.
+     *
+     * @param jdbcTemplate The {@link NamedParameterJdbcTemplate} used to interact with the PostgreSQL database.
+     */
     public PGCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         logger.info("Setting up the PostgreSQL customer repository...");
         this.jdbcTemplate = jdbcTemplate;
@@ -79,8 +93,6 @@ public class PGCustomerRepository implements CustomerRepository {
         return jdbcTemplate.queryForObject(selectQuery, parameters, new CustomerRowMapper());
     }
 
-
-
     @Override
     public Customer findCustomerByUsername(String username) {
         logger.info("Finding customers by username: {}", username);
@@ -102,7 +114,7 @@ public class PGCustomerRepository implements CustomerRepository {
         parameters.put("customer_name", existingCustomer.getCustomer_name());
         parameters.put("birthDate", existingCustomer.getBirthDate());
         parameters.put("email", existingCustomer.getEmail());
-        parameters.put("hasCareGiver", existingCustomer.getCareGivers());
+        parameters.put("hasCareGiver", existingCustomer.isHasCareGiver());
         parameters.put("password", existingCustomer.getPassword());
         parameters.put("customer_id", existingCustomer.getCustomer_id());
 
