@@ -1,7 +1,7 @@
 package be.kdg.programming3.pillgate.repo.sensorRepo;
 
-import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
-import org.springframework.stereotype.Component;
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensorData;
+import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 
 import java.util.List;
 
@@ -14,17 +14,17 @@ public interface SensorRepository {
     /**
      * Creates a new Weight Sensor in the repository.
      *
-     * @param weightSensor The Weight Sensor to be created.
+     * @param weightSensorData The Weight Sensor to be created.
      * @return The created Weight Sensor.
      */
-    WeightSensor createSensor(WeightSensor weightSensor);
+    WeightSensorData createSensor(WeightSensorData weightSensorData);
 
     /**
      * Retrieves a list of all Weight Sensors in the repository.
      *
      * @return A list of Weight Sensors.
      */
-    List<WeightSensor> findAllWSensors();
+    List<WeightSensorData> findAllWSensors();
 
     /**
      * Retrieves a Weight Sensor by its unique identifier.
@@ -32,7 +32,7 @@ public interface SensorRepository {
      * @param sensor_ID The unique identifier of the Weight Sensor.
      * @return The Weight Sensor with the specified identifier, or {@code null} if not found.
      */
-    WeightSensor findSensorByID(int sensor_ID);
+    WeightSensorData findSensorByID(int sensor_ID);
 
     /**
      * Updates an existing Weight Sensor in the repository.
@@ -40,5 +40,5 @@ public interface SensorRepository {
      * @param existingWSensor The existing Weight Sensor to be updated.
      * @return The updated Weight Sensor.
      */
-    WeightSensor updateSensor(WeightSensor existingWSensor);
+    WeightSensorData updateSensor(WeightSensorData existingWSensor);
 }

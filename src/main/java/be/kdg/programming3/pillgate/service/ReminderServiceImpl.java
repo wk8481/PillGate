@@ -1,6 +1,6 @@
 package be.kdg.programming3.pillgate.service;
 
-import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensorData;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.MedicationScheduleViewModel;
@@ -19,6 +19,14 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * The {@code ReminderServiceImpl} class implements the {@link ReminderService} interface
+ * and provides methods for managing medication schedules, converting view models,
+ * and handling medication reminders.
+ * @author Team PillGate
+ * @see ReminderService
+ */
+
 @Service
 public class ReminderServiceImpl implements ReminderService, Serializable {
 
@@ -31,6 +39,13 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 
     private Logger logger = LoggerFactory.getLogger(ReminderServiceImpl.class);
 
+    /**
+     * Constructs a new {@code ReminderServiceImpl} with the specified repositories and servlet request.
+     * @param medscheduleRepository The repository for MedicationSchedule entities.
+     * @param customerRepository    The repository for Customer entities.
+     * @param sensorRepository      The repository for WeightSensorData entities.
+     */
+
     @Autowired
     public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, CustomerRepository customerRepository, SensorRepository sensorRepository){
         this.medScheduleRepository = medscheduleRepository;
@@ -38,6 +53,11 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         this.sensorRepository = sensorRepository;
     }
 
+    /**
+     * Converts a {@link MedicationScheduleViewModel} to a {@link MedicationSchedule}.
+     * @param pillForm The view model containing medication schedule data.
+     * @return The converted MedicationSchedule entity.
+     */
     @Override
     public MedicationSchedule convertToMedicationSchedule(MedicationScheduleViewModel pillForm){
         MedicationSchedule medicationSchedule = new MedicationSchedule();
@@ -55,12 +75,17 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         return medicationSchedule;
     }
 
+
     @Override
     public void getMedicationScheduleForm(MedicationScheduleViewModel model){
         medScheduleRepository.createMedSchedule(convertToMedicationSchedule(model));
         logger.info("Created medication schedule {}", model);
     }
 
+    /**
+     * Retrieves the latest MedicationSchedule from the repository.
+     * @return The latest MedicationSchedule, or {@code null} if none exists.
+     */
     @Override
     public MedicationSchedule getLatestMedicationSchedule() {
         // Logic to retrieve the latest medication schedule from the repository
@@ -73,6 +98,14 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
                 .orElse(null);
     }
 
+    /**
+     * First, it checks if the customer exists in the database.
+     * If the customer exists, it will create a new weight sensor for the specific customer.
+     * Before saving the medication schedule, it will set the message to the customer, based on the pill name.
+     * Saves a MedicationSchedule based on the provided view model.
+     * @param pillForm The view model containing medication schedule data.
+     * Before saving medicationShcedule
+     */
     @Override
     public void saveMedicationSchedule(MedicationScheduleViewModel pillForm) {
         int customerId  = extractCustomerIdFromSession();
@@ -87,17 +120,23 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
 
         // Creates a weight sensor for the customer
-        WeightSensor weightSensor = new WeightSensor();
-        weightSensor.setCustomer(customerExists);
-        weightSensor.setCalibrationDate(LocalDateTime.now());
-        sensorRepository.createSensor(weightSensor);
-        logger.info("Weight sensor created for the customer {}", weightSensor);
+        WeightSensorData weightSensorData = new WeightSensorData();
+        weightSensorData.setCustomer(customerExists);
+        weightSensorData.setCalibrationDate(LocalDateTime.now());
+        sensorRepository.createSensor(weightSensorData);
+        logger.info("Weight sensor created for the customer {}", weightSensorData);
 
 
         medicationSchedule.setMessage("It's time to take your " + pillForm.getPillName());
         medScheduleRepository.createMedSchedule(medicationSchedule);
         logger.info("Customer_id: {} saved medication schedule", customerId);
     }
+
+    /**
+     * Extracts the customer ID from the current session.
+     * @return The customer ID.
+     * @throws IllegalStateException if the user is not authenticated.
+     */
 
     private int extractCustomerIdFromSession() {
         HttpSession session = request.getSession(false);
@@ -109,8 +148,12 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         }
     }
 
-
-
+    /**
+     * Retrieves the medication schedule alert message for the current time.
+     * it will check if the current time is equal to the timeTakePill of the medication schedule.
+     * If the time is equal, it will set the message to the customer.
+     * @return The medication schedule alert message, or {@code null} if no alert is present.
+     */
     @Override
     public String getMedScheduleAlert() {
         logger.info("Getting medication schedule message");
@@ -129,7 +172,11 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         return null;
     }
 
-
+    /**
+     * This is the same method from above, but it will check if the current time is equal to the time which repeatIn (hours) + timeTakePIll of the medication schedule.
+     * If the time is equal, it will set the message to the customer.
+     * @return The medication schedule alert message, or {@code null} if no alert is present.
+     */
     public String getAlertForRepeatIn(){
         logger.info("Getting medication schedule message to repeat");
         LocalDateTime currentDateTime = LocalDateTime.now();

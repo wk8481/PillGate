@@ -1,6 +1,7 @@
 package be.kdg.programming3.pillgate.repo.sensorRepo;
 
-import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensorData;
+import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -12,6 +13,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * The {@code JDBCSensorRepository} class is an implementation of the {@link SensorRepository} interface
+ * @author Team PillGate
+ * @see SensorRepository
+ * @see WeightSensorData
+ */
+
+//TODO: add javadoc alperen
 @Profile("postgres")
 @Repository
 //@Primary
@@ -23,13 +32,13 @@ public class JDBCSensorRepository implements SensorRepository {
     public JDBCSensorRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.sensorInserter = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("WeightSensor")
+                .withTableName("WeightSensorData")
                 .usingGeneratedKeyColumns("calibrationDate");
         logger.info("Setting up the sensor repository...");
     }
 
-    public WeightSensor mapRow(ResultSet rs, int rowId) throws SQLException {
-        return new WeightSensor(
+    public WeightSensorData mapRow(ResultSet rs, int rowId) throws SQLException {
+        return new WeightSensorData(
                 rs.getInt("sensor_ID"),
                 rs.getInt("customer_id"),
                 rs.getTimestamp("calibrationDate").toLocalDateTime(),
@@ -38,34 +47,34 @@ public class JDBCSensorRepository implements SensorRepository {
 
 
     @Override
-    public WeightSensor createSensor(WeightSensor weightSensor) {
+    public WeightSensorData createSensor(WeightSensorData weightSensorData) {
         jdbcTemplate.update("INSERT INTO WeightSensor (customer_id, calibrationDate, weight) " +
                         "VALUES (?, ?, ?)",
-                weightSensor.getCustomer().getCustomer_id(),
-                weightSensor.getCalibrationDate(),
-                weightSensor.getWeight());
-        logger.info("Creating weight sensor {}", weightSensor);
-        return weightSensor;
+                weightSensorData.getCustomer().getCustomer_id(),
+                weightSensorData.getCalibrationDate(),
+                weightSensorData.getWeight());
+        logger.info("Creating weight sensor {}", weightSensorData);
+        return weightSensorData;
     }
 
 
 
     @Override
-    public List<WeightSensor> findAllWSensors() {
+    public List<WeightSensorData> findAllWSensors() {
         logger.info("Reading weightSensors from the database...");
         return jdbcTemplate.query("SELECT * FROM WeightSensor ORDER BY calibrationDate DESC LIMIT 2", this::mapRow);
     }
 
     @Override
-    public WeightSensor findSensorByID(int sensor_ID) {
-        WeightSensor weightSensor = jdbcTemplate.queryForObject("SELECT * FROM WeightSensor WHERE sensor_ID = ?", this::mapRow, sensor_ID);
-        logger.info("Finding weight sensor by id {} ", weightSensor.getSensor_ID());
-        return weightSensor;
+    public WeightSensorData findSensorByID(int sensor_ID) {
+        WeightSensorData weightSensorData = jdbcTemplate.queryForObject("SELECT * FROM WeightSensor WHERE sensor_ID = ?", this::mapRow, sensor_ID);
+        logger.info("Finding weight sensor by id {} ", weightSensorData.getSensor_ID());
+        return weightSensorData;
     }
 
 
    @Override
-    public WeightSensor updateSensor(WeightSensor existingWSensor) {
+    public WeightSensorData updateSensor(WeightSensorData existingWSensor) {
         logger.info("Updating weight sensor: {}", existingWSensor);
 
         String sql = "UPDATE WeightSensor SET calibrationDate = ?, weight = ? WHERE sensor_ID = ?";

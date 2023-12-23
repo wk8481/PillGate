@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 /**
  * Data Transfer Object (DTO) for customer registration information.
  * This class represents the data required for customer registration.
- *
  * @author Team PillGate
  */
 @Component
@@ -93,135 +92,66 @@ public class CustomerRegistrationDto {
         this.hasCareGiver = hasCareGiver;
     }
 
-    /**
-     * Get the first name.
-     *
-     * @return The first name of the customer.
-     */
+
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * Set the first name.
-     *
-     * @param firstName The first name of the customer.
-     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    /**
-     * Get the last name.
-     *
-     * @return The last name of the customer.
-     */
+
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * Set the last name.
-     *
-     * @param lastName The last name of the customer.
-     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    /**
-     * Get the date of birth.
-     *
-     * @return The date of birth of the customer.
-     */
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    /**
-     * Set the date of birth.
-     *
-     * @param birthDate The date of birth of the customer.
-     */
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
-    /**
-     * Get the username.
-     *
-     * @return The chosen username for authentication.
-     */
     public String getUsername() {
         return username;
     }
 
-    /**
-     * Set the username.
-     *
-     * @param username The chosen username for authentication.
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * Get the password.
-     *
-     * @return The password for customer authentication.
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * Set the password.
-     *
-     * @param password The password for customer authentication.
-     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     * Get the email address.
-     *
-     * @return The email address of the customer.
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * Set the email address.
-     *
-     * @param email The email address of the customer.
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * Check if the customer has a caregiver.
-     *
-     * @return True if the customer has a caregiver, false otherwise.
-     */
     public boolean getHasCareGiver() {
         return hasCareGiver;
     }
 
-    /**
-     * Set the caregiver flag.
-     *
-     * @param hasCareGiver Flag indicating whether the customer has a caregiver.
-     */
     public void setHasCareGiver(boolean hasCareGiver) {
         this.hasCareGiver = hasCareGiver;
     }
 
     /**
      * Override toString() to provide a string representation of the object.
-     *
      * @return A string representation of the CustomerRegistrationDto object.
      */
     @Override

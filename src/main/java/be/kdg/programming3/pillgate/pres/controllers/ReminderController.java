@@ -23,8 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/alarm")
 public class ReminderController {
-
-    private CustomerRepository customerRepository;
+    
     private ReminderService reminderService;
     private SerialReader sensorservice;
 
@@ -32,8 +31,6 @@ public class ReminderController {
 
     /**
      * Constructs a new {@code ReminderController} with the specified repositories and services.
-     *
-     * @param customerRepository The repository for customer-related operations.
      * @param reminderService    The service responsible for medication reminder-related operations.
      */
     @Autowired
@@ -44,7 +41,6 @@ public class ReminderController {
 
     /**
      * Retrieves the current medication alert.
-     *
      * @return An {@link AlarmResponse} containing the current medication alert message.
      */
     @GetMapping(path = "/now", produces = "application/json")
@@ -55,7 +51,6 @@ public class ReminderController {
 
     /**
      * Retrieves the medication alert for repeated medication schedules.
-     *
      * @return An {@link AlarmResponse} containing the medication alert message for repeated schedules.
      */
     @GetMapping(path = "/repeat", produces = "application/json")
@@ -65,25 +60,20 @@ public class ReminderController {
     }
 
     /**
-     * The nested class representing the response for medication alerts.
+     * The nested class representing the response for sending reminder.
+     * The attribute message contains the message for reminder.
      */
     public static class AlarmResponse {
         private String message;
 
         /**
          * Constructs a new {@code AlarmResponse} with the specified message.
-         *
          * @param message The message representing the medication alert.
          */
         public AlarmResponse(String message) {
             this.message = message;
         }
 
-        /**
-         * Gets the message representing the medication alert.
-         *
-         * @return The message of the medication alert.
-         */
         public String getMessage() {
             return message;
         }

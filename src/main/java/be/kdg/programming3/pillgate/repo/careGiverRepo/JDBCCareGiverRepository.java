@@ -16,10 +16,7 @@ import java.util.List;
  * The {@code PGCareGiverRepository} class is an implementation of the {@link CareGiverRepository} interface
  * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the CareGiver entities.
  *
- * <p>This class is part of the PillGate application developed by Team PillGate.</p>
- *
- * <p><b>Author:</b> Team PillGate</p>
- *
+ * @author Team PillGate
  * @see CareGiverRepository
  * @see CareGiver
  */
@@ -52,7 +49,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Creates a new CareGiver in the PostgreSQL database.
-     *
      * @param careGiver The CareGiver entity to be created.
      * @return The created CareGiver entity.
      */
@@ -67,7 +63,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Retrieves all CareGivers from the PostgreSQL database.
-     *
      * @return A list of CareGiver entities.
      */
     @Override
@@ -78,7 +73,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Retrieves a CareGiver by its ID from the PostgreSQL database.
-     *
      * @param caregiver_id The ID of the CareGiver to be retrieved.
      * @return The CareGiver entity with the specified ID.
      */
@@ -91,7 +85,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Updates an existing CareGiver in the PostgreSQL database.
-     *
      * @param existingCareGiver The CareGiver entity to be updated.
      * @return The updated CareGiver entity.
      */
@@ -114,7 +107,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Deletes a CareGiver by its ID from the PostgreSQL database.
-     *
      * @param caregiverId The ID of the CareGiver to be deleted.
      * @return The deleted CareGiver entity.
      */

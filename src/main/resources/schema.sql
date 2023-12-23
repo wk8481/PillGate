@@ -1,6 +1,6 @@
--- WeightSensor Table
+-- WeightSensorData Table
 -- one to many relationship with customer
--- WeightSensor Table
+-- WeightSensorData Table
 
 
 
@@ -23,8 +23,8 @@ FROM information_schema.constraint_column_usage
 WHERE table_name = 'customer';
 
 
-DROP TABLE IF EXISTS WeightSensor;
-CREATE TABLE IF NOT EXISTS WeightSensor(
+DROP TABLE IF EXISTS WeightSensorData;
+CREATE TABLE IF NOT EXISTS WeightSensorData(
                                         sensor_ID       SERIAL PRIMARY KEY,
                                         customer_id     INT,
                                         calibrationDate TIMESTAMP,
@@ -35,40 +35,40 @@ CREATE TABLE IF NOT EXISTS WeightSensor(
 SELECT * FROM WeightSensor;
 
 
-/*ALTER TABLE IF EXISTS WeightSensor
+/*ALTER TABLE IF EXISTS WeightSensorData
     ADD CONSTRAINT unique_calibration_Date UNIQUE (calibrationDate);*/
-/*ALTER TABLE IF EXISTS WeightSensor
+/*ALTER TABLE IF EXISTS WeightSensorData
     ADD CONSTRAINT unique_customer_id UNIQUE (customer_id);*/
 
-/*ALTER TABLE WeightSensor ADD CONSTRAINT unique_customer_id UNIQUE (customer_id);*/
+/*ALTER TABLE WeightSensorData ADD CONSTRAINT unique_customer_id UNIQUE (customer_id);*/
 
 
-/*alter table WeightSensor
+/*alter table WeightSensorData
 DROP CONSTRAINT IF EXISTS unique_customer_id;*/
 
 
+--
+-- ALTER TABLE WeightSensorData
+--     ALTER COLUMN calibrationDate SET DEFAULT CURRENT_TIMESTAMP;
 
-ALTER TABLE WeightSensor
-    ALTER COLUMN calibrationDate SET DEFAULT CURRENT_TIMESTAMP;
-
-/*ALTER TABLE WeightSensor
+/*ALTER TABLE WeightSensorData
     DROP CONSTRAINT IF EXISTS unique_calibration_date;*/
 
-SELECT conname
-FROM pg_constraint
-WHERE conrelid = 'WeightSensor'::regclass AND contype = 'u';
+-- SELECT conname
+-- FROM pg_constraint
+-- WHERE conrelid = 'WeightSensorData'::regclass AND contype = 'u';
 
-/*DELETE FROM WeightSensor
+/*DELETE FROM WeightSensorData
 WHERE sensor_ID <215;*/
 
-/*INSERT INTO WeightSensor (customer_id, calibrationDate, weight)
+/*INSERT INTO WeightSensorData (customer_id, calibrationDate, weight)
 VALUES (2, '2023-12-21 17:35:45', 750);*/
 
 
 
-SELECT * FROM WeightSensor;
-SELECT * FROM MedicationSchedule;
-SELECT * FROM Customer;
+-- SELECT * FROM WeightSensorData;
+-- SELECT * FROM MedicationSchedule;
+-- SELECT * FROM Customer;
 
 
 
@@ -125,6 +125,6 @@ CREATE TABLE IF NOT EXISTS CustomerCareGiver (
 );
 
 
-select * from CUSTOMER;
-select * from MEDICATIONSCHEDULE;
+-- select * from CUSTOMER;
+-- select * from MEDICATIONSCHEDULE;
 

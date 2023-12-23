@@ -1,0 +1,59 @@
+.team-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.teamMember {
+    text-align: center;
+    margin: 10px;
+}
+
+.teamMember img {
+    width: 250px; /* Adjust the maximum width of the images */
+    border-radius: 40%; /* Optional: Round the corners of the images */
+    height: 250px;
+    object-fit: cover;
+}
+
+
+.container {
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    justify-content: left;
+
+}
+
+
+
+
+#work_done {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.table{
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-row{
+    display: table-row;
+}
+
+.table-data{
+    display: table-cell;
+    padding: 10px;
+    border : 1px solid #ddd;
+}
+
+.table-header {
+    display: flex;
+    font-weight: bold;
+
+}

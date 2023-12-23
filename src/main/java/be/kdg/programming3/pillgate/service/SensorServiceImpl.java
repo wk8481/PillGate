@@ -1,42 +1,52 @@
 package be.kdg.programming3.pillgate.service;
 
-import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensorData;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 
 @Service
-//@Qualifier
-public class SerialReaderServiceImpl implements SerialReader{
+public class SensorServiceImpl implements SensorService {
     private BufferedReader input;
     private final SensorRepository sensorRepository;
     private final MedScheduleRepository medScheduleRepository;
-    private Logger logger = LoggerFactory.getLogger(SerialReaderServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(SensorServiceImpl.class);
 
     private boolean stopReadingArduinoData = false;
     private static final double BOX_WEIGHT = 100.0;
 
     @Autowired
-    public SerialReaderServiceImpl(SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
+    public SensorServiceImpl(SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
         this.sensorRepository = sensorRepository;
         this.medScheduleRepository=medScheduleRepository;
     }
+
+
+    @Override
+    public List<WeightSensorData> findAllWSensors(){
+        return sensorRepository.findAllWSensors();
+    }
+
+
+
+    @Override
+    public WeightSensorData createSensor(WeightSensorData weightSensorData){
+        sensorRepository.createSensor(weightSensorData);
+        return weightSensorData;
+    }
+
 
     public void readArduinoData(String portName) {
         SerialPort[] serialPorts = SerialPort.getCommPorts();
@@ -101,16 +111,16 @@ public class SerialReaderServiceImpl implements SerialReader{
                 double weight = Double.parseDouble(parts[2]);
                 double calibrationFactor = Double.parseDouble(parts[6]);
 
-                // Retrieve the first WeightSensor created from the repository
+                // Retrieve the first WeightSensorData created from the repository
 
-                WeightSensor firstSensor = sensorRepository.findAllWSensors().stream().findFirst().orElse(null);
+                WeightSensorData firstSensor = sensorRepository.findAllWSensors().stream().findFirst().orElse(null);
                 logger.info("====================================");
                 logger.info("First weight sensor: {}", firstSensor);
 
-                // Update the values in the latest WeightSensor
+                // Update the values in the latest WeightSensorData
                 if (firstSensor != null) {
                     firstSensor.updateValues(weight, calibrationFactor);
-                    logger.info("Updating the values in the first WeightSensor: {},{}", weight, calibrationFactor);
+                    logger.info("Updating the values in the first WeightSensorData: {},{}", weight, calibrationFactor);
                     firstSensor.setCalibrationDate(LocalDateTime.now());
                     sensorRepository.createSensor(firstSensor);
 
@@ -139,25 +149,25 @@ public class SerialReaderServiceImpl implements SerialReader{
     }
 
 
-    public double calculateWeightOfSinglePill(WeightSensor weightSensor, int nrOfPillsPlaced) {
-        double weightOfSinglePill = (weightSensor.getWeight() - BOX_WEIGHT) / nrOfPillsPlaced;
+    public double calculateWeightOfSinglePill(WeightSensorData weightSensorData, int nrOfPillsPlaced) {
+        double weightOfSinglePill = (weightSensorData.getWeight() - BOX_WEIGHT) / nrOfPillsPlaced;
         return Math.max(weightOfSinglePill,0.1);
     }
 
-    public void processWeightData(MedicationSchedule medicationSchedule, WeightSensor weightSensor) {
+    public void processWeightData(MedicationSchedule medicationSchedule, WeightSensorData weightSensorData) {
         // Get the nrOfPillsPlaced value provided by user
         int nrOfPillsPlaced = medicationSchedule.getNrOfPillsPlaced();
         logger.info("Number of pills placed: {}", nrOfPillsPlaced);
 
         // Calculates the weight of a single pill
-        double weightOfSinglePill = calculateWeightOfSinglePill(weightSensor, nrOfPillsPlaced);
+        double weightOfSinglePill = calculateWeightOfSinglePill(weightSensorData, nrOfPillsPlaced);
 
         // Updates the MedicationSchedule fields
         medicationSchedule.setWeightOfSinglePill(weightOfSinglePill);
         logger.info("Weight of single pill: {}", weightOfSinglePill);
 
         // Checks if weight reduction indicates pill taken
-        if (weightReductionIndicatesPillTaken(weightSensor, medicationSchedule)) {
+        if (weightReductionIndicatesPillTaken(weightSensorData, medicationSchedule)) {
 
             // Increments nrOfPillsTaken
             int nrOfPillsTaken = medicationSchedule.getNrOfPillsTaken() + 1;
@@ -189,9 +199,10 @@ public class SerialReaderServiceImpl implements SerialReader{
     }
 
             // Method to check if weight reduction indicates a pill is taken
-            private boolean weightReductionIndicatesPillTaken(WeightSensor weightSensor, MedicationSchedule medicationSchedule) {
+            private boolean weightReductionIndicatesPillTaken(WeightSensorData weightSensorData, MedicationSchedule medicationSchedule) {
                 // Get the latest weight sensor from the repository
-                List<WeightSensor> weightSensors = sensorRepository.findAllWSensors();
+//                List<WeightSensorData> weightSensorData = sensorRepository.findAllWSensors();
+                List<WeightSensorData> weightSensors = findAllWSensors();
 
                 if (weightSensors.size() < 2) {
                     logger.warn("Not enough weight sensor data found.");

@@ -12,7 +12,6 @@ public class PresentedByController {
 
     /**
      * Handles HTTP GET requests to display the "Presented By" page.
-     *
      * @return The view name for the "Presented By" page.
      */
     @GetMapping("/PresentedBy")

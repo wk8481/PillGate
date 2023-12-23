@@ -15,25 +15,26 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * The {@code PGMedScheduleRepository} class is an implementation of the {@link MedScheduleRepository} interface
+ * The {@code JDBCMedScheduleRepository} class is an implementation of the {@link MedScheduleRepository} interface
  * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the MedicationSchedule entities.
- *
- * <p>This class is part of the PillGate application developed by Team PillGate.</p>
- *
+ * This class is part of the PillGate application developed by Team PillGate.
  * @author Team PillGate
  * @see MedScheduleRepository
  * @see MedicationSchedule
  */
+
+//TODO: add javadoc(Manami)
+
 @Repository
 @Profile("postgres")
 @Primary
-public class PGMedScheduleRepository implements MedScheduleRepository {
+public class JDBCMedScheduleRepository implements MedScheduleRepository {
 
-    private static Logger logger = LoggerFactory.getLogger(PGMedScheduleRepository.class);
+    private static Logger logger = LoggerFactory.getLogger(JDBCMedScheduleRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public PGMedScheduleRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JDBCMedScheduleRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         logger.info("Setting up the PostgreSQL med schedule repository...");
         this.jdbcTemplate = jdbcTemplate;
     }

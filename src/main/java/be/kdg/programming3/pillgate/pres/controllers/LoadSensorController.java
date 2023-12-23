@@ -1,11 +1,9 @@
 package be.kdg.programming3.pillgate.pres.controllers;//package be.kdg.programming3.oldproj.controllers;
 
-import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import be.kdg.programming3.pillgate.domain.sensor.WeightSensorData;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
-import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
-import be.kdg.programming3.pillgate.repo.medSchedRepo.PGMedScheduleRepository;
-import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
+import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedScheduleRepository;
 import be.kdg.programming3.pillgate.service.MedicationScheduleService;
 import be.kdg.programming3.pillgate.service.ReminderService;
 import be.kdg.programming3.pillgate.service.SerialReader;
@@ -44,26 +42,20 @@ public class LoadSensorController {
 
     private final SerialReader serialReader;
 
-    private final SensorRepository sensorRepository;
-    private final MedScheduleRepository medscheduleRepository;
     private final MedicationScheduleService medicationScheduleService;
     private final ReminderService reminderService;
     private final Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
 
     /**
      * Constructs a new LoadSensorController with the specified dependencies.
-     *
-     * @param serialReader          The service for reading data from the Arduino.
-     * @param sensorRepository
-     * @param medscheduleRepository
+     * @param sensorService          The service for reading data from the Arduino.
+     * @param medicationScheduleService The service for managing medication schedules.
      * @param reminderService       The service for managing medication reminders.
      */
 
 
-    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, MedScheduleRepository medscheduleRepository, MedicationScheduleService medicationScheduleService, ReminderService reminderService) {
-        this.serialReader = serialReader;
-        this.sensorRepository = sensorRepository;
-        this.medscheduleRepository = medscheduleRepository;
+    public LoadSensorController(SensorService sensorService, MedicationScheduleService medicationScheduleService, ReminderService reminderService) {
+        this.sensorService = sensorService;
         this.medicationScheduleService = medicationScheduleService;
         this.reminderService = reminderService;
     }
@@ -81,7 +73,7 @@ public class LoadSensorController {
         if (authenticatedUser != null && authenticatedUser instanceof Customer) {
             generateCharts(model);
             logger.info("Showing load sensor data ..");
-            model.addAttribute("sensors", sensorRepository.findAllWSensors());
+            model.addAttribute("sensors", sensorService.findAllWSensors());
             return "dashboard";
         } else {
             logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
@@ -91,7 +83,6 @@ public class LoadSensorController {
 
     /**
      * Reads data from the Arduino and displays the updated sensor data on the dashboard.
-     *
      * @param model   The Spring MVC model.
      * @param session The HTTP session.
      * @return The name of the view to render.
@@ -101,8 +92,8 @@ public class LoadSensorController {
         if (session.getAttribute("authenticatedUser") != null) {
 
             try {
-                serialReader.readArduinoData("COM5");
-                model.addAttribute("sensors", sensorRepository.findAllWSensors());
+                sensorService.readArduinoData("COM5");
+                model.addAttribute("sensors", sensorService.findAllWSensors());
             } catch (Exception e) {
                 logger.info("Error reading Arduino data", e);
             }
@@ -113,35 +104,6 @@ public class LoadSensorController {
         return "dashboard";
     }
 
-    /**
-     * Shows the number of pills taken and related information on the dashboard.
-     *
-     * @param model   The Spring MVC model.
-     * @param session The HTTP session.
-     * @return The name of the view to render.
-     */
-    @GetMapping("/readArduino/showPillsTaken")
-    public String showNumberOfPillsTaken(Model model, HttpSession session) {
-        if (session.getAttribute("authenticatedUser") != null) {
-            MedicationSchedule latestMedSchedule = reminderService.getLatestMedicationSchedule();
-            logger.info("Getting latest medication schedule {}", latestMedSchedule);
-
-            if (latestMedSchedule != null) {
-                model.addAttribute("nrOfPillsTaken", latestMedSchedule.getNrOfPillsTaken());
-                logger.info("Showing number of pills taken {}", latestMedSchedule.getNrOfPillsTaken());
-
-                model.addAttribute("weightOfSinglePill", latestMedSchedule.getWeightOfSinglePill());
-                logger.info("Weight of Single Pill: {}", latestMedSchedule.getWeightOfSinglePill());
-
-                model.addAttribute("nrOfPillsPlaced", latestMedSchedule.getNrOfPillsPlaced());
-                logger.info("Number of Pills Placed: {}", latestMedSchedule.getNrOfPillsPlaced());
-            }
-        } else {
-            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
-        }
-
-        return "dashboard";
-    }
 
     /**
      * Creates a new sensor instance and displays the updated sensor data on the dashboard.
@@ -152,16 +114,16 @@ public class LoadSensorController {
 
     @GetMapping("/createSensor")
     public String createSensor(Model model) {
-        WeightSensor newSensor = new WeightSensor(/* initialize with necessary values */);
-        sensorRepository.createSensor(newSensor);
-        model.addAttribute("sensors", sensorRepository.findAllWSensors());
+        WeightSensorData newSensor = new WeightSensorData(/* initialize with necessary values */);
+        sensorService.createSensor(newSensor);
+        model.addAttribute("sensors", sensorService.findAllWSensors());
         return "dashboard";
     }
-
+//TODO: javadoc
     @GetMapping("/generateCharts")
     public String generateCharts(Model model) {
         // Fetch data for the charts
-        List<PGMedScheduleRepository.DailyCount> pillsTakenSummary =medicationScheduleService.getPillsTakenPerDay(7);
+        List<JDBCMedScheduleRepository.DailyCount> pillsTakenSummary =medicationScheduleService.getPillsTakenPerDay(7);
         Map<Integer, Map<String, Integer>> pillsTakenPerHour = medicationScheduleService.getTimeOfDayPillData();
 
 
@@ -174,10 +136,10 @@ public class LoadSensorController {
 
         return "dashboard";
     }
-
-    private String generateChartUrl(String seriesName, List<PGMedScheduleRepository.DailyCount> data) {
+//TODO: javadoc
+    private String generateChartUrl(String seriesName, List<JDBCMedScheduleRepository.DailyCount> data) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (PGMedScheduleRepository.DailyCount count : data) {
+        for (JDBCMedScheduleRepository.DailyCount count : data) {
             dataset.addValue(count.getCount(), seriesName, count.getDay().toString());
         }
 

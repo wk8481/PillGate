@@ -18,30 +18,17 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class MedicationSchedule {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int medSchedule_id;
-
     private String pillName;
     private LocalDateTime timeTakePill;
 
-    // We can use this instead of localdatetime to only show the time not the date
-    //  private LocalTime timeTakePill;
     private int repeatIn;
     private int nrOfPillsPlaced;
     private double weightOfSinglePill;
     private int nrOfPillsTaken;
-
     private boolean isStopped;
     private String message;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
     private transient Customer customer;
-
-
-
 
 
     public MedicationSchedule(Customer customer, String pillName,
@@ -165,7 +152,7 @@ public class MedicationSchedule {
 
     /**
      * Checks whether at least one pill has been taken.
-     *
+     * Currently not used, however it might be useful in the future.
      * @return True if at least one pill has been taken, false otherwise.
      */
     public boolean isPillTaken() {
@@ -176,7 +163,6 @@ public class MedicationSchedule {
 
     /**
      * Returns a formatted string representation of the MedicationSchedule.
-     *
      * @return A string containing the medication schedule details.
      */
     @Override

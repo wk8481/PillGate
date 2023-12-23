@@ -14,17 +14,13 @@
 --
 --
 
-
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1000, '2022-01-01', 750);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1200, '2022-01-02', 800);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1100, '2022-02-01', 650);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1500, '2022-02-15', 900);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1300, '2022-03-01', 700);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1000, '2022-03-20', 750);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (900, '2022-04-01', 550);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1400, '2022-04-10', 850);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1600, '2022-05-05', 1000);
-INSERT INTO WeightSensor (WEIGHT_CAPACITY_GRAMS, calibrationDate, weight) VALUES (1700, '2022-06-01', 1050);
+--
+-- INSERT INTO WeightSensorData (customer_id, calibrationDate, weight) VALUES (1, '2023-12-20 08:00:00',0.0);
+-- INSERT INTO WeightSensorData (customer_id, calibrationDate, weight) VALUES (1, '2023-12-20 08:00:03', 106);
+-- INSERT INTO WeightSensorData (customer_id, calibrationDate, weight) VALUES (1, '2023-12-20 08:00:06',103);
+-- INSERT INTO WeightSensorData (customer_id, calibrationDate, weight) VALUES (1, '2023-12-20 08:00:09',103);
+-- INSERT INTO WeightSensorData (customer_id, calibrationDate, weight) VALUES (1, '2023-12-20 08:00:12',103);
+-- INSERT INTO WeightSensorData (customer_id, calibrationDate, weight) VALUES (1, '2023-12-20 08:00:15',100);
 
 
 /*INSERT INTO MedicationSchedule (customer_id, pillName, repeatIn, timeTakePill, nrOfPillsPlaced, weightOfSinglePill, nrOfPillsTaken, isStopped, message)

@@ -14,10 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The {@code PGCustomerRepository} class is an implementation of the {@link CustomerRepository} interface
+ * The {@code JDBCCustomerRepository} class is an implementation of the {@link CustomerRepository} interface
  * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the Customer entities.
- *
- * <p>This class is part of the PillGate application developed by Team PillGate.</p>
  *
  * @author Team PillGate
  * @see CustomerRepository
@@ -26,18 +24,17 @@ import java.util.Map;
 @Repository
 @Profile("postgres")
 @Primary
-public class PGCustomerRepository implements CustomerRepository {
+public class JDBCCustomerRepository implements CustomerRepository {
 
-    private static Logger logger = LoggerFactory.getLogger(PGCustomerRepository.class);
+    private static Logger logger = LoggerFactory.getLogger(JDBCCustomerRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     /**
-     * Constructs a new {@code PGCustomerRepository} with the specified {@link NamedParameterJdbcTemplate}.
-     *
+     * Constructs a new {@code JDBCCustomerRepository} with the specified {@link NamedParameterJdbcTemplate}.
      * @param jdbcTemplate The {@link NamedParameterJdbcTemplate} used to interact with the PostgreSQL database.
      */
-    public PGCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JDBCCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         logger.info("Setting up the PostgreSQL customer repository...");
         this.jdbcTemplate = jdbcTemplate;
     }

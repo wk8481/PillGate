@@ -14,7 +14,6 @@ public class HomeController {
 
     /**
      * Handles HTTP GET requests for the home page.
-     *
      * @return The logical view name "home" to be resolved by the view resolver.
      */
     @GetMapping

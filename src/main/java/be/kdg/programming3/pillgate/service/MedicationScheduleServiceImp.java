@@ -2,8 +2,8 @@ package be.kdg.programming3.pillgate.service;
 
 
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
+import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedScheduleRepository;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
-import be.kdg.programming3.pillgate.repo.medSchedRepo.PGMedScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +41,7 @@ public class MedicationScheduleServiceImp implements MedicationScheduleService {
     }
 
     @Override
-    public List<PGMedScheduleRepository.DailyCount> getPillsTakenPerDay(int nDays) {
+    public List<JDBCMedScheduleRepository.DailyCount> getPillsTakenPerDay(int nDays) {
         return medScheduleRepository.getPillsTakenPerDay(nDays);
     }
     @Override

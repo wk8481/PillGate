@@ -22,16 +22,15 @@ public class SensorButtonController {
     private Logger logger = LoggerFactory.getLogger(SensorButtonController.class);
 
 
-    public SensorButtonController(SensorRepository sensorRepository, SerialReader serialReader) {
-        this.sensorRepository = sensorRepository;
-        this.serialReader = serialReader;
+    public SensorButtonController(SensorService sensorService) {
+        this.sensorService = sensorService;
     }
 
 
     @GetMapping("/readSensor")
     public ResponseEntity<String> readSensor() {
         try {
-            serialReader.readArduinoData("COM5");
+            sensorService.readArduinoData("COM5");
             return ResponseEntity.ok("Read sensor success");
         } catch(Exception e) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading sensor");
@@ -44,7 +43,7 @@ public class SensorButtonController {
     @GetMapping("/disconnectSensor")
     public ResponseEntity<String> disconnectSensor(){
         try{
-            serialReader.disconnect();
+            sensorService.disconnect();
             return ResponseEntity.ok("Disconnect success");
         }catch(IOException e){
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error disconnectiong sensor");
