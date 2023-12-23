@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * The {@code SensorRepository} interface provides methods for interacting with Weight Sensors in the repository.
+ * @author Team PillGate
+ * @see WeightSensorData
  */
 
 public interface SensorRepository {

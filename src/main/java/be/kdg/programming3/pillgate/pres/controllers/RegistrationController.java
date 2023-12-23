@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
  * The {@code RegistrationController} class is a Spring MVC controller that handles registration-related requests.
  * It manages the registration process for new customers, including displaying the registration form and processing
  * user input.
+ * @author PillGate
  */
 @RequestMapping("/")
 @Controller

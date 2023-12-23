@@ -66,6 +66,11 @@ public class LoginController {
             bindingResult.getAllErrors().forEach(error -> logger.info(error.toString()));
             return "login";
         }
+        // Check if the password is wrong or blank
+        if (loginDto.getPassword() == null || loginDto.getPassword().trim().isEmpty() || customerService.loginCustomer(loginDto, model) == null) {
+            // Password is incorrect or blank, show custom error page
+            return "login-error";
+        }
 
         Customer authenticatedCustomer = customerService.loginCustomer(loginDto, model);
         if (authenticatedCustomer != null) {

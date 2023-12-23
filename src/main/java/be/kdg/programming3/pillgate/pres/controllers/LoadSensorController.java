@@ -6,7 +6,7 @@ import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 import be.kdg.programming3.pillgate.repo.medSchedRepo.JDBCMedScheduleRepository;
 import be.kdg.programming3.pillgate.service.MedicationScheduleService;
 import be.kdg.programming3.pillgate.service.ReminderService;
-import be.kdg.programming3.pillgate.service.SerialReader;
+import be.kdg.programming3.pillgate.service.SensorService;
 import jakarta.servlet.http.HttpSession;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.jfree.chart.ChartFactory;
@@ -40,7 +40,7 @@ import java.util.Map;
 @RequestMapping("/loadSensor")
 public class LoadSensorController {
 
-    private final SerialReader serialReader;
+    private final SensorService sensorService;
 
     private final MedicationScheduleService medicationScheduleService;
     private final ReminderService reminderService;
@@ -59,6 +59,7 @@ public class LoadSensorController {
         this.medicationScheduleService = medicationScheduleService;
         this.reminderService = reminderService;
     }
+
 
     @GetMapping()
     public String showSensor(Model model, HttpSession session) {

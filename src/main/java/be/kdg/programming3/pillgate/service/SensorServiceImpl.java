@@ -16,7 +16,15 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
-
+/**
+ * This service class {@code SensorServiceImpl} provides functionality related to handling sensor data,
+ * particularly data received from an Arduino device through a serial port.
+ * It interacts with repositories to manage weight sensor data and medication schedules.
+ * @author PillGate
+ * @see SensorService
+ * @see SensorRepository
+ * @see MedScheduleRepository
+ */
 @Service
 public class SensorServiceImpl implements SensorService {
     private BufferedReader input;
@@ -27,6 +35,11 @@ public class SensorServiceImpl implements SensorService {
     private boolean stopReadingArduinoData = false;
     private static final double BOX_WEIGHT = 100.0;
 
+    /**
+     * Constructs a new {@code SensorServiceImpl} with the specified repository.
+     * @param sensorRepository is for WeightSensorData entity and medScheduleRepository is the repository for MedicationSchedule entity.
+     */
+
     @Autowired
     public SensorServiceImpl(SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
         this.sensorRepository = sensorRepository;
@@ -34,13 +47,23 @@ public class SensorServiceImpl implements SensorService {
     }
 
 
+    /**
+     * Retrieves a list of all WeightSensorDatas.
+     *
+     * @return A list of WeightSensorData entity.
+     */
     @Override
     public List<WeightSensorData> findAllWSensors(){
         return sensorRepository.findAllWSensors();
     }
 
 
-
+    /**
+     * Creates a new weightSensorData.
+     *
+     * @param weightSensorData The weightSensorData entity to be created.
+     * @return The created weightSensorData entity.
+     */
     @Override
     public WeightSensorData createSensor(WeightSensorData weightSensorData){
         sensorRepository.createSensor(weightSensorData);
@@ -48,6 +71,13 @@ public class SensorServiceImpl implements SensorService {
     }
 
 
+    /**
+     * Reads data from an Arduino device connected to the specified serial port.
+     * The data is continuously read in a separate thread until {@link #disconnect()} is called.
+     *
+     * @param portName The name of the serial port to which the Arduino is connected.
+     * @throws RuntimeException If there is an issue opening or reading from the specified port.
+     */
     public void readArduinoData(String portName) {
         SerialPort[] serialPorts = SerialPort.getCommPorts();
         SerialPort serialPort = null;
@@ -65,7 +95,6 @@ public class SensorServiceImpl implements SensorService {
         }
 
         if (serialPort.openPort()) {
-            // Sets up the input stream
             logger.info("Port opened successfully: {}", portName);
             input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 
@@ -97,6 +126,13 @@ public class SensorServiceImpl implements SensorService {
         }
     }
 
+    /**
+     * Processes data received from the Arduino device.
+     * Extracts weight and calibration factor information and updates WeightSensorData
+     * and MedicationSchedule entities.
+     *
+     * @param inputLine The raw input line received from the Arduino device.
+     */
     private void processArduinoData(String inputLine) {
         inputLine = inputLine.replaceAll("[^\\x20-\\x7E]", "").trim();
         //logger.info("Received Arduino data: {}", inputLine);
@@ -148,21 +184,37 @@ public class SensorServiceImpl implements SensorService {
         }
     }
 
+    /**
+     * Calculates the weight of a single pill based on weight sensor data.
+     *
+     * Since the weight of a single pill can not be 0 or a negative number,
+     * we are getting weight of single pill as 0.1 to avoid any issues with the calculation
+     * due to the sensitivity problem of the weight sensor.
+     *
+     * @param weightSensorData The weight sensor data used for calculation.
+     * @param nrOfPillsPlaced  The number of pills placed in the pill box.
+     * @return The weight of a single pill.
+     */
 
     public double calculateWeightOfSinglePill(WeightSensorData weightSensorData, int nrOfPillsPlaced) {
         double weightOfSinglePill = (weightSensorData.getWeight() - BOX_WEIGHT) / nrOfPillsPlaced;
         return Math.max(weightOfSinglePill,0.1);
     }
 
+    /**
+     * Processes weight data and updates relevant fields in a {@link MedicationSchedule}.
+     * Prints the nrOfPillsTaken and nrOfPillsPlacedUpdated.
+     *
+     * @param medicationSchedule The medication schedule to update.
+     * @param weightSensorData   The weight sensor data used for processing.
+     */
+
     public void processWeightData(MedicationSchedule medicationSchedule, WeightSensorData weightSensorData) {
-        // Get the nrOfPillsPlaced value provided by user
         int nrOfPillsPlaced = medicationSchedule.getNrOfPillsPlaced();
         logger.info("Number of pills placed: {}", nrOfPillsPlaced);
 
-        // Calculates the weight of a single pill
         double weightOfSinglePill = calculateWeightOfSinglePill(weightSensorData, nrOfPillsPlaced);
 
-        // Updates the MedicationSchedule fields
         medicationSchedule.setWeightOfSinglePill(weightOfSinglePill);
         logger.info("Weight of single pill: {}", weightOfSinglePill);
 
@@ -176,7 +228,6 @@ public class SensorServiceImpl implements SensorService {
                 return;
             }
             medicationSchedule.setNrOfPillsTaken(nrOfPillsTaken);
-
 
             // Decrements nrOfPillsPlaced only if it's greater than 0 (to avoid negative values)
             if (medicationSchedule.getNrOfPillsPlaced() > 0) {
@@ -193,15 +244,23 @@ public class SensorServiceImpl implements SensorService {
 
                 }
             }
-            // Save or update the MedicationSchedule in the repository or database
             medScheduleRepository.updateMedSchedule(medicationSchedule);
         }
     }
 
-            // Method to check if weight reduction indicates a pill is taken
-            private boolean weightReductionIndicatesPillTaken(WeightSensorData weightSensorData, MedicationSchedule medicationSchedule) {
-                // Get the latest weight sensor from the repository
-//                List<WeightSensorData> weightSensorData = sensorRepository.findAllWSensors();
+
+    /**
+     * Checks if weight reduction indicates that a pill has been taken by the customer.
+     *
+     * @param weightSensorData    The weight sensor data used for comparison.
+     * @param medicationSchedule  The medication schedule to update if a pill is taken.
+     * @return {@code true} if weight reduction indicates a pill is taken, otherwise {@code false}.
+     */
+     private boolean weightReductionIndicatesPillTaken(WeightSensorData weightSensorData, MedicationSchedule medicationSchedule) {
+
+            //CHECK THIS PART IF IT IS WORKING FINE
+         // Get the latest weight sensor from the repository
+//              List<WeightSensorData> weightSensorData = sensorRepository.findAllWSensors();
                 List<WeightSensorData> weightSensors = findAllWSensors();
 
                 if (weightSensors.size() < 2) {
@@ -211,12 +270,9 @@ public class SensorServiceImpl implements SensorService {
 
                 logger.info("Weight sensor data: {}", weightSensors);
 
-
-                // Compare current total weight with the previous total weight
                 double currentTotalWeight = weightSensors.get(0).getWeight();
                 double previousTotalWeight = weightSensors.get(1).getWeight();
 
-                // Round the weights to a specific number of decimal places
                 int decimalPlaces = 3; // Adjust this based on your requirements
                 double roundedPreviousWeight = round(previousTotalWeight, decimalPlaces);
                 logger.info("Rounded previous weight: {}", roundedPreviousWeight);
@@ -229,18 +285,30 @@ public class SensorServiceImpl implements SensorService {
                 if (roundedPreviousWeight - roundedCurrentWeight >= weightOfSinglePill) {
                     logger.info("Weight reduction indicates a pill taken.... incrementing nrOfPillsTaken and decrementing nrOfPillsPlaced");
                     logger.info("Weight reduction: {}", roundedPreviousWeight - roundedCurrentWeight);
+
                     return true;
                 }
-
                 return false;
             }
 
-    // Helper method to round a double value to a specific number of decimal places
+
+    /**
+     * Rounds a given double value to a specified number of decimal places.
+     *
+     * @param value         The double value to be rounded.
+     * @param decimalPlaces The number of decimal places to round to.
+     * @return The rounded double value.
+     */
     private double round(double value, int decimalPlaces) {
         double scale = Math.pow(10, decimalPlaces);
         return Math.round(value * scale) / scale;
     }
 
+
+    /**
+     * Disconnects the Arduino data reading thread by setting the stop flag to {@code true}.
+     * This will stop the continuous reading of data from the Arduino device.
+     */
 
     public void disconnect() {
         stopReadingArduinoData = true;

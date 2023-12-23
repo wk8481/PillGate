@@ -37,6 +37,14 @@ public class JDBCSensorRepository implements SensorRepository {
         logger.info("Setting up the sensor repository...");
     }
 
+    /**
+     * Maps a row from the database result set to a {@link WeightSensorData} object.
+     *
+     * @param rs The database result set.
+     * @param rowId The ID of the row to map.
+     * @return A {@link WeightSensorData} object mapped from the database result set.
+     * @throws SQLException If an SQL exception occurs during result set processing.
+     */
     public WeightSensorData mapRow(ResultSet rs, int rowId) throws SQLException {
         return new WeightSensorData(
                 rs.getInt("sensor_ID"),
@@ -45,6 +53,13 @@ public class JDBCSensorRepository implements SensorRepository {
                 rs.getDouble("weight"));
     }
 
+
+    /**
+     * Creates a new {@link WeightSensorData} entry in the database with the provided data.
+     *
+     * @param weightSensorData The weight sensor data to be created in the database.
+     * @return The created weight sensor data.
+     */
 
     @Override
     public WeightSensorData createSensor(WeightSensorData weightSensorData) {
@@ -58,6 +73,12 @@ public class JDBCSensorRepository implements SensorRepository {
     }
 
 
+    /**
+     * Retrieves a list of the two most recent {@link WeightSensorData} entries from the database,
+     * ordered by calibration date in descending order.
+     *
+     * @return A list of the two most recent weight sensor data entries.
+     */
 
     @Override
     public List<WeightSensorData> findAllWSensors() {
@@ -65,6 +86,12 @@ public class JDBCSensorRepository implements SensorRepository {
         return jdbcTemplate.query("SELECT * FROM WeightSensor ORDER BY calibrationDate DESC LIMIT 2", this::mapRow);
     }
 
+    /**
+     * Retrieves a {@link WeightSensorData} entry from the database based on its sensor ID.
+     *
+     * @param sensor_ID The ID of the weight sensor data to retrieve.
+     * @return The weight sensor data with the specified sensor ID.
+     */
     @Override
     public WeightSensorData findSensorByID(int sensor_ID) {
         WeightSensorData weightSensorData = jdbcTemplate.queryForObject("SELECT * FROM WeightSensor WHERE sensor_ID = ?", this::mapRow, sensor_ID);
@@ -72,7 +99,12 @@ public class JDBCSensorRepository implements SensorRepository {
         return weightSensorData;
     }
 
-
+    /**
+     * Updates an existing {@link WeightSensorData} entry in the database with the provided data.
+     *
+     * @param existingWSensor The existing weight sensor data to be updated.
+     * @return The updated weight sensor data if the update is successful, or {@code null} otherwise.
+     */
    @Override
     public WeightSensorData updateSensor(WeightSensorData existingWSensor) {
         logger.info("Updating weight sensor: {}", existingWSensor);

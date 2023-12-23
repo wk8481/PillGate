@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * The {@code PGCareGiverRepository} class is an implementation of the {@link CareGiverRepository} interface
+ * The {@code JDBCCareGiverRepository} class is an implementation of the {@link CareGiverRepository} interface
  * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the CareGiver entities.
  *
  * @author Team PillGate
@@ -23,22 +23,29 @@ import java.util.List;
 @Repository
 @Profile("postgres")
 @Primary
-public class PGCareGiverRepository implements CareGiverRepository {
+public class JDBCCareGiverRepository implements CareGiverRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(PGCareGiverRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(JDBCCareGiverRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 
     /**
-     * Constructs a new {@code PGCareGiverRepository} with the specified {@link JdbcTemplate}.
-     *
+     * Constructs a new {@code JDBCCareGiverRepository} with the specified {@link JdbcTemplate}.
      * @param jdbcTemplate The {@link JdbcTemplate} used to interact with the PostgreSQL database.
      */
     @Autowired
-    public PGCareGiverRepository(JdbcTemplate jdbcTemplate) {
+    public JDBCCareGiverRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Maps a row of the result set to a CareGiver object.
+     *
+     * @param rs     The ResultSet to map to a CareGiver object.
+     * @param rowNum The current row number.
+     * @return A CareGiver object mapped from the current row of the ResultSet.
+     * @throws java.sql.SQLException If a SQL exception occurs while processing the result set.
+     */
     private static final RowMapper<CareGiver> CAREGIVER_ROW_MAPPER = (rs, rowNum) -> {
         CareGiver careGiver = new CareGiver();
         careGiver.setCaregiver_id(rs.getInt("caregiver_id"));

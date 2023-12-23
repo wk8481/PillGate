@@ -1,32 +1,24 @@
 package be.kdg.programming3.pillgate.pres.controllers;
 
 import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
-import be.kdg.programming3.pillgate.repo.medSchedRepo.MedScheduleRepository;
 import be.kdg.programming3.pillgate.service.ReminderService;
-import be.kdg.programming3.pillgate.service.SerialReader;
-import be.kdg.programming3.pillgate.domain.user.Customer;
-import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
 
-import jakarta.servlet.http.HttpSession;
+import be.kdg.programming3.pillgate.service.SensorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * The {@code ReminderController} class is a Spring MVC controller that handles requests related to medication reminders.
  * It provides endpoints to retrieve current medication alerts and alerts for repeated medication schedules.
+ * @author Team PillGate
  */
 @RestController
 @RequestMapping("/alarm")
 public class ReminderController {
-    
     private ReminderService reminderService;
-    private SerialReader sensorservice;
-
+    private SensorService sensorservice;
     private final Logger logger = LoggerFactory.getLogger(ReminderController.class);
 
     /**
@@ -34,8 +26,8 @@ public class ReminderController {
      * @param reminderService    The service responsible for medication reminder-related operations.
      */
     @Autowired
-    public ReminderController(CustomerRepository customerRepository, ReminderService reminderService) {
-        this.customerRepository = customerRepository;
+    public ReminderController(ReminderService reminderService) {
+     
         this.reminderService = reminderService;
     }
 

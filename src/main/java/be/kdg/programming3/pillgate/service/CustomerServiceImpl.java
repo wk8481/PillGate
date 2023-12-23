@@ -20,6 +20,7 @@ import java.util.List;
  * This class provides methods to manage customer-related operations.
  *
  * @author Team PillGate
+ * @see
  */
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -68,33 +69,6 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> getCustomers() {
         return customerRepository.findAllCustomers();
     }
-
-   /* @Override
-    public Customer loginCustomer(CustomerLoginDto login) {
-        String email= login.getEmail();
-        String password = login.getPassword();
-
-        Customer authenticatedCustomer = customerRepository.findCustomerByEmail(email);
-
-        if (authenticatedCustomer != null) {
-            logger.info("Retrieved username from the database: {}", authenticatedCustomer.getCustomer_name());
-            if (authenticatedCustomer.getPassword().equals(password)) {
-                logger.info("Password correctly inputted: {}", password);
-                return authenticatedCustomer;
-            } else if (!authenticatedCustomer.getPassword().equals(password)) {
-                logger.info("password incorrectly inputted {}", password);
-                HttpSession session = request.getSession(true);
-                session.setAttribute("customer", authenticatedCustomer);
-                return authenticatedCustomer;
-            }
-        }
-
-
-        logger.info("Logging failed. {} does not exist.", email);
-
-        return null;
-    }*/
-
 
     /**
      * Logs in a customer using the provided login information.

@@ -11,6 +11,8 @@ import java.util.List;
  * The {@code SensorService} interface defines methods for reading data from an Arduino device.
  *
  * @author Team PillGate
+ * @see SensorRepository
+ * @see WeightSensorData
  */
 public interface SensorService {
 
