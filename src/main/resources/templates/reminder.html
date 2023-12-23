@@ -36,42 +36,17 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/PresentedBy}">Presented By</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ms-auto"> <!-- Use ms-auto here -->
                     <li class="nav-item">
-                        <a class="nav-link"></a>
+                        <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
+                    <li class="nav-item" th:unless="${session.isLoggedIn}">
+                        <a class="btn btn-primary" th:href="@{/login}">Log In</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
+                    <li class="nav-item" th:if="${session.isLoggedIn}">
+                        <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                    </li>
-                    <!-- Additional empty list items removed for brevity -->
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="btn btn-outline-primary me-2" th:href="@{/registration}">Register</a>
-                        </li>
-                        <li class="nav-item" th:if="${session.isLoggedIn}">
-                            <a class="btn btn-primary" th:href="@{/login}">Log In</a>
-                        </li>
-                        <li class="nav-item" th:unless="${session.isLoggedIn}">
-                            <a class="btn btn-primary" th:href="@{/logout}">Log out</a>
-                        </li>
-                    </ul>
                 </ul>
             </div>
         </div>
@@ -148,5 +123,6 @@
 
     <script th:src="@{/js/reminder.js}"></script>
 </main>
+    <footer> PillGate &#169; 2023 All rights reserved</footer>
 </body>
 </html>

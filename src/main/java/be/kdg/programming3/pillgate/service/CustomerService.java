@@ -4,6 +4,7 @@ import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerLoginDto;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public interface CustomerService {
      * @param login The login credentials provided by the user.
      * @return The authenticated customer entity, or null if authentication fails.
      */
-    Customer loginCustomer(CustomerLoginDto login);
+    Customer loginCustomer(CustomerLoginDto login, Model model);
 
     /**
      * Extracts the email address of the currently authenticated customer from the session.

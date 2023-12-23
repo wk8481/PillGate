@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -102,31 +103,33 @@ public class CustomerServiceImpl implements CustomerService {
      * @return The authenticated customer or {@code null} if login fails.
      */
    @Override
-    public Customer loginCustomer(CustomerLoginDto login) {
+    public Customer loginCustomer(CustomerLoginDto login, Model model) {
         String email = login.getEmail();
         String password = login.getPassword();
 
         Customer authenticatedCustomer = customerRepository.findCustomerByEmail(email, password);
 
         if (authenticatedCustomer != null) {
-            logger.info("Retrieved username from the database: {}", authenticatedCustomer.getCustomer_name());
+            logger.info("Retrieved email from the database: {}", authenticatedCustomer.getEmail());
 
             String customerPassword = authenticatedCustomer.getPassword();
 
             if (customerPassword != null && customerPassword.equals(password)) {
                 logger.info("Password correctly inputted: {}", password);
-                return authenticatedCustomer;
             } else {
                 logger.info("Incorrect password inputted: {}", password);
                 // Handle incorrect password scenario, e.g., set a session attribute
-                HttpSession session = request.getSession(true);
-                session.setAttribute("customer", authenticatedCustomer);
-                return authenticatedCustomer;
+                model.addAttribute("warning", "Incorrect password");
+                return null; // Return null to indicate login failure
             }
+            HttpSession session = request.getSession(true);
+            session.setAttribute("customer", authenticatedCustomer);
+            return authenticatedCustomer;
         }
         logger.info("Logging failed. {} does not exist.", email);
         // Handle the case when authenticatedCustomer is null (customer not found)
-        return null;
+       model.addAttribute("warning", "User not found");
+       return null;
     }
 
 

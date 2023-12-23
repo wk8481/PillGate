@@ -52,13 +52,6 @@ public class LoadSensorController {
         this.reminderService = reminderService;
     }
 
- /*  @GetMapping
-    public String loadSensor(Model model) {
-        // Add logic to handle the /loadSensor requests
-        generateCharts(model);
-        return "dashboard"; // Or the name of the Thymeleaf template you want to display
-    }
-*/
     @GetMapping()
     public String showSensor(Model model, HttpSession session) {
         // check if user is logged in
@@ -95,6 +88,21 @@ public class LoadSensorController {
             logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
         }
         return "dashboard";
+    }
+
+    @GetMapping("/disconnect")
+    public String disconnectSensor(HttpSession session) {
+        if (session.getAttribute("authenticatedUser") != null) {
+            try {
+                // Call the disconnect method from SerialReaderService
+                serialReader.disconnect();
+            } catch (IOException e) {
+                logger.error("Error disconnecting sensor", e);
+            }
+        } else {
+            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
+        }
+        return "dashboard"; // Return the appropriate view
     }
 
 
