@@ -6,16 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Profile("postgres")
@@ -74,19 +68,12 @@ public class JDBCSensorRepository implements SensorRepository {
     public WeightSensor updateSensor(WeightSensor existingWSensor) {
         logger.info("Updating weight sensor: {}", existingWSensor);
 
-        String sql = "UPDATE WeightSensor SET calibrationDate = ?, weight = ? WHERE customer_id = ?";
-        String sqlinsert = "INSERT INTO WeightSensor (customer_id, calibrationDate, weight) VALUES ( ?, ?, ?)";
+        String sql = "UPDATE WeightSensor SET calibrationDate = ?, weight = ? WHERE sensor_ID = ?";
 
         int updatedRows = jdbcTemplate.update(sql,
                 existingWSensor.getCalibrationDate(),
                 existingWSensor.getWeight(),
                 existingWSensor.getSensor_ID());
-
-
-        jdbcTemplate.update(sqlinsert,
-                existingWSensor.getCustomer().getCustomer_id(),
-                existingWSensor.getCalibrationDate(),
-                existingWSensor.getWeight());
 
         if (updatedRows > 0) {
             logger.info("Weight sensor updated successfully: {}", existingWSensor);

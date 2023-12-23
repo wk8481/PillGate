@@ -31,6 +31,10 @@ CREATE TABLE IF NOT EXISTS WeightSensor(
                                         weight          DOUBLE PRECISION,
                                         FOREIGN KEY (customer_id) REFERENCES Customer (customer_id)
 );
+
+SELECT * FROM WeightSensor;
+
+
 /*ALTER TABLE IF EXISTS WeightSensor
     ADD CONSTRAINT unique_calibration_Date UNIQUE (calibrationDate);*/
 /*ALTER TABLE IF EXISTS WeightSensor

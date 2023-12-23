@@ -163,7 +163,7 @@ public class MedicationSchedule {
 
     @Override
     public String toString() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
 
         String formattedDate3 = dtf.format(timeTakePill);
 

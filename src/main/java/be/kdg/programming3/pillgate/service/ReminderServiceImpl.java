@@ -38,15 +38,6 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
         this.sensorRepository = sensorRepository;
     }
 
-
-//    PREVIOUS CONSTRUCTOR USING JDBC CUSTOMER REPOSITORY
-//    @Autowired
-//    public ReminderServiceImpl(MedScheduleRepository medscheduleRepository, JDBCCustomerRepository customerRepository){
-//        this.medScheduleRepository = medscheduleRepository;
-//        this.customerRepository = customerRepository;
-//    }
-
-
     @Override
     public MedicationSchedule convertToMedicationSchedule(MedicationScheduleViewModel pillForm){
         MedicationSchedule medicationSchedule = new MedicationSchedule();
@@ -95,11 +86,14 @@ public class ReminderServiceImpl implements ReminderService, Serializable {
 
         MedicationSchedule medicationSchedule = convertToMedicationSchedule(pillForm);
 
+        // Creates a weight sensor for the customer
         WeightSensor weightSensor = new WeightSensor();
         weightSensor.setCustomer(customerExists);
         weightSensor.setCalibrationDate(LocalDateTime.now());
         sensorRepository.createSensor(weightSensor);
         logger.info("Weight sensor created for the customer {}", weightSensor);
+
+
         medicationSchedule.setMessage("It's time to take your " + pillForm.getPillName());
         medScheduleRepository.createMedSchedule(medicationSchedule);
         logger.info("Customer_id: {} saved medication schedule", customerId);
