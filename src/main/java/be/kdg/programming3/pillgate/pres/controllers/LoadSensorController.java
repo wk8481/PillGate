@@ -28,26 +28,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller responsible for handling requests related to the sensor data and Arduino communication.
+ * It provides methods to display sensor data, read Arduino data, show the number of pills taken,
+ * and create a new sensor instance.
+ * @author Team PillGate
+ */
 @Controller
 @RequestMapping("/loadSensor")
 public class LoadSensorController {
 
     private final SerialReader serialReader;
+
     private final SensorRepository sensorRepository;
     private final MedScheduleRepository medscheduleRepository;
     private final MedicationScheduleService medicationScheduleService;
     private final ReminderService reminderService;
-    private Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
+    private final Logger logger = LoggerFactory.getLogger(LoadSensorController.class);
 
-    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository, MedicationScheduleService medicationScheduleService, ReminderService reminderService) {
+    /**
+     * Constructs a new LoadSensorController with the specified dependencies.
+     *
+     * @param serialReader          The service for reading data from the Arduino.
+     * @param sensorRepository
+     * @param medscheduleRepository
+     * @param reminderService       The service for managing medication reminders.
+     */
+
+
+    public LoadSensorController(SerialReader serialReader, SensorRepository sensorRepository, MedScheduleRepository medscheduleRepository, MedicationScheduleService medicationScheduleService, ReminderService reminderService) {
         this.serialReader = serialReader;
         this.sensorRepository = sensorRepository;
-        this.medscheduleRepository = medScheduleRepository;
+        this.medscheduleRepository = medscheduleRepository;
         this.medicationScheduleService = medicationScheduleService;
         this.reminderService = reminderService;
     }
@@ -73,6 +89,13 @@ public class LoadSensorController {
         }
     }
 
+    /**
+     * Reads data from the Arduino and displays the updated sensor data on the dashboard.
+     *
+     * @param model   The Spring MVC model.
+     * @param session The HTTP session.
+     * @return The name of the view to render.
+     */
     @GetMapping("/readArduino")
     public String readArduino(Model model, HttpSession session) {
         if (session.getAttribute("authenticatedUser") != null) {
@@ -90,22 +113,13 @@ public class LoadSensorController {
         return "dashboard";
     }
 
-    @GetMapping("/disconnect")
-    public String disconnectSensor(HttpSession session) {
-        if (session.getAttribute("authenticatedUser") != null) {
-            try {
-                // Call the disconnect method from SerialReaderService
-                serialReader.disconnect();
-            } catch (IOException e) {
-                logger.error("Error disconnecting sensor", e);
-            }
-        } else {
-            logger.info("Customer not authenticated. Session details: {}", session.getAttributeNames());
-        }
-        return "dashboard"; // Return the appropriate view
-    }
-
-
+    /**
+     * Shows the number of pills taken and related information on the dashboard.
+     *
+     * @param model   The Spring MVC model.
+     * @param session The HTTP session.
+     * @return The name of the view to render.
+     */
     @GetMapping("/readArduino/showPillsTaken")
     public String showNumberOfPillsTaken(Model model, HttpSession session) {
         if (session.getAttribute("authenticatedUser") != null) {
@@ -129,6 +143,12 @@ public class LoadSensorController {
         return "dashboard";
     }
 
+    /**
+     * Creates a new sensor instance and displays the updated sensor data on the dashboard.
+     *
+     * @param model The Spring MVC model.
+     * @return The name of the view to render.
+     */
 
     @GetMapping("/createSensor")
     public String createSensor(Model model) {

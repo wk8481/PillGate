@@ -1,12 +1,14 @@
 package be.kdg.programming3.pillgate.repo.sensorRepo;
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * The {@code SensorRepository} interface provides methods for interacting with Weight Sensors in the repository.
  */
+
 public interface SensorRepository {
 
     /**

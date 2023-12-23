@@ -14,6 +14,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * The {@code PGMedScheduleRepository} class is an implementation of the {@link MedScheduleRepository} interface
+ * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the MedicationSchedule entities.
+ *
+ * <p>This class is part of the PillGate application developed by Team PillGate.</p>
+ *
+ * @author Team PillGate
+ * @see MedScheduleRepository
+ * @see MedicationSchedule
+ */
 @Repository
 @Profile("postgres")
 @Primary

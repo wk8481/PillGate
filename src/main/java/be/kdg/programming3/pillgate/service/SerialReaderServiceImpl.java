@@ -21,6 +21,16 @@ import java.util.List;
 import java.util.Objects;
 
 
+/**
+ * The {@code SerialReaderServiceImpl} class implements the {@link SerialReader} interface
+ * and provides methods for reading data from an Arduino device, processing the data,
+ * and updating relevant entities like WeightSensor and MedicationSchedule.
+ *
+ * <p>This class is part of the PillGate application developed by Team PillGate.</p>
+ *
+ * @author Team PillGate
+ * @see SerialReader
+ */
 @Service
 //@Qualifier
 public class SerialReaderServiceImpl implements SerialReader{
@@ -35,12 +45,24 @@ public class SerialReaderServiceImpl implements SerialReader{
 
     private static final double BOX_WEIGHT = 100.0;
 
+    /**
+     * Constructs a new {@code SerialReaderServiceImpl} with the specified repositories.
+     *
+     * @param sensorRepository      The repository for WeightSensor entities.
+     * @param medScheduleRepository The repository for MedicationSchedule entities.
+     */
     @Autowired
     public SerialReaderServiceImpl(SensorRepository sensorRepository, MedScheduleRepository medScheduleRepository) {
         this.sensorRepository = sensorRepository;
         this.medScheduleRepository=medScheduleRepository;
     }
 
+    /**
+     * Reads data from an Arduino device connected to the specified port.
+     *
+     * @param portName The name of the port to which the Arduino device is connected.
+     * @throws RuntimeException If the specified port is not found or if there is an issue opening the port.
+     */
     public void readArduinoData(String portName) {
         SerialPort[] serialPorts = SerialPort.getCommPorts();
         SerialPort serialPort = null;
@@ -91,6 +113,11 @@ public class SerialReaderServiceImpl implements SerialReader{
         }
     }
 
+    /**
+     * Processes the raw data received from the Arduino device.
+     *
+     * @param inputLine The raw data received from the Arduino device.
+     */
     private void processArduinoData(String inputLine) {
         inputLine = inputLine.replaceAll("[^\\x20-\\x7E]", "").trim();
         //logger.info("Received Arduino data: {}", inputLine);
@@ -143,11 +170,24 @@ public class SerialReaderServiceImpl implements SerialReader{
 
         // the new logic I am trying to detect if pill is taken
 
+    /**
+     * Calculates the weight of a single pill based on the updated method.
+     *
+     * @param weightSensor   The WeightSensor entity containing weight-related information.
+     * @param nrOfPillsPlaced The number of pills placed for calculation.
+     * @return The calculated weight of a single pill.
+     */
     public double calculateWeightOfSinglePillUpdatedMethod(WeightSensor weightSensor, int nrOfPillsPlaced) {
                 return (weightSensor.getWeight() - BOX_WEIGHT) / nrOfPillsPlaced;
     }
 
     // Process weight data and update relevant fields in MedicationSchedule
+    /**
+     * Processes the weight data and updates relevant fields in the MedicationSchedule.
+     *
+     * @param medicationSchedule The MedicationSchedule entity to be updated.
+     * @param weightSensor       The WeightSensor entity containing weight-related information.
+     */
     public void processWeightData(MedicationSchedule medicationSchedule, WeightSensor weightSensor) {
                 // Get the user-provided value for nrOfPillsPlaced
                 int nrOfPillsPlaced = medicationSchedule.getNrOfPillsPlaced();
@@ -177,8 +217,15 @@ public class SerialReaderServiceImpl implements SerialReader{
     }
 
             // Method to check if weight reduction indicates a pill taken
-            private boolean weightReductionIndicatesPillTaken(WeightSensor weightSensor, MedicationSchedule medicationSchedule) {
-                // Get the latest weight sensor from the repository
+    /**
+     * Checks if weight reduction indicates a pill taken and updates MedicationSchedule accordingly.
+     *
+     * @param weightSensor        The latest WeightSensor entity.
+     * @param medicationSchedule  The MedicationSchedule entity to be updated.
+     * @return True if weight reduction indicates a pill taken, otherwise false.
+     */
+    private boolean weightReductionIndicatesPillTaken(WeightSensor weightSensor, MedicationSchedule medicationSchedule) {
+    // Get the latest weight sensor from the repository
                 List<WeightSensor> weightSensors = sensorRepository.findAllWSensors();
 
                 if (weightSensors.size() < 2) {
@@ -227,11 +274,23 @@ public class SerialReaderServiceImpl implements SerialReader{
             }
 
     // Helper method to round a double value to a specific number of decimal places
+    /**
+     * Rounds a double value to a specific number of decimal places.
+     *
+     * @param value         The double value to be rounded.
+     * @param decimalPlaces The number of decimal places to round to.
+     * @return The rounded double value.
+     */
     private double round(double value, int decimalPlaces) {
         double scale = Math.pow(10, decimalPlaces);
         return Math.round(value * scale) / scale;
     }
 
+    /**
+     * Disconnects from the Arduino device.
+     *
+     * @throws IOException If an I/O error occurs while disconnecting.
+     */
 
     public void disconnect() throws IOException {
         if (input != null) {
