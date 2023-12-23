@@ -54,4 +54,5 @@ public interface CustomerService {
      * @return The registered customer entity.
      */
     Customer registerNewCustomer(CustomerRegistrationDto registrationDto, HttpSession session);
+
 }
