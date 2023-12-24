@@ -36,7 +36,7 @@ public class P2DConfig {
                 .driverClassName("org.postgresql.Driver")
                 .url("jdbc:postgresql://localhost:5432/postgres")
                 .username("postgres")
-                .password("Student_1234")
+                .password("Manaljan123")
                 .build();
         return dataSource;
     }
