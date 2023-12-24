@@ -1,13 +1,14 @@
 package be.kdg.programming3.pillgate.repo.medSchedRepo;
 
 import be.kdg.programming3.pillgate.domain.user.MedicationSchedule;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
 /**
  * The {@code MedScheduleRepository} interface provides methods for interacting with Medication Schedules in the repository.
+ * @author Team PillGate
+ * @see MedicationSchedule
  */
 
 public interface MedScheduleRepository {
@@ -51,7 +52,7 @@ public interface MedScheduleRepository {
      */
     MedicationSchedule deleteMedSchedule(int medicationSchedule_id);
 
-    List<PGMedScheduleRepository.DailyCount> getPillsTakenPerDay(int nDays);
+    List<JDBCMedScheduleRepository.DailyCount> getPillsTakenPerDay(int nDays);
 
    // List<Integer> getTimeOfDayData();
 

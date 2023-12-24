@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * The {@code PillController} class is a Spring MVC controller that handles requests related to medication reminders.
- * It is responsible for displaying the reminder form and processing the submitted medication schedule.
+ * It is responsible for displaying the medication Schedule form and processing the submitted medication schedule.
+ * @author Team PillGate
  */
 @Controller
 @RequestMapping("/")
@@ -27,7 +28,6 @@ public class PillController {
 
     /**
      * Constructs a new instance of {@code PillController}.
-     *
      * @param reminderService The service responsible for managing medication reminders.
      */
     @Autowired
@@ -37,7 +37,6 @@ public class PillController {
 
     /**
      * Handles HTTP GET requests to display the medication reminder form.
-     *
      * @param model   The model to be populated with data for rendering the view.
      * @param session The HttpSession object to check the user's authentication status.
      * @return The view name for the reminder form or a redirect to the login page if not authenticated.
@@ -57,7 +56,6 @@ public class PillController {
 
     /**
      * Handles HTTP POST requests to process the submitted medication schedule form.
-     *
      * @param pillForm      The MedicationScheduleViewModel object containing the form data.
      * @param bindingResult The BindingResult for validation errors.
      * @return The view name for the reminder form or a redirect to the reminder page after successful submission.

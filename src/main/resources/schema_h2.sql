@@ -1,8 +1,8 @@
 --
 -- -- =======
--- -- WeightSensor Table
+-- -- WeightSensorData Table
 -- -- one to many relationship with customer
--- -- WeightSensor Table
+-- -- WeightSensorData Table
 --
 -- -- Drop TABLE IF EXISTS Customer;
 -- CREATE TABLE IF NOT EXISTS Customer (
@@ -17,8 +17,8 @@
 --
 --
 --
--- -- Drop table IF EXISTS WeightSensor;
--- CREATE TABLE IF NOT EXISTS WeightSensor (
+-- -- Drop table IF EXISTS WeightSensorData;
+-- CREATE TABLE IF NOT EXISTS WeightSensorData (
 --                                             sensor_ID INT AUTO_INCREMENT PRIMARY KEY,
 --                                             customer_id INT,
 --                                             WEIGHT_CAPACITY_GRAMS INT DEFAULT 1000,

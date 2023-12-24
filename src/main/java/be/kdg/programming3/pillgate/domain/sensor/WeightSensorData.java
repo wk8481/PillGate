@@ -7,14 +7,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-//@Entity
-//@Table(name = "WeightSensor")
-@Component
-public class WeightSensor {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "SENSOR_ID")
+@Component
+public class WeightSensorData {
+
     private int sensor_ID;
 
     private LocalDateTime calibrationDate;
@@ -23,26 +19,24 @@ public class WeightSensor {
 
     private double calibrationFactor;
 
-//    @OneToOne
-//    @JoinColumn(name = "customer_id")
     private transient Customer customer;
 
 
-    public WeightSensor(int sensor_ID, LocalDateTime calibrationDate, double weight, double calibrationFactor, int customer_id) {
+    public WeightSensorData(int sensor_ID, LocalDateTime calibrationDate, double weight, double calibrationFactor, int customer_id) {
         this.calibrationDate = calibrationDate;
         this.sensor_ID = sensor_ID;
         this.weight = weight;
         this.calibrationFactor = calibrationFactor;
         this.customer = new Customer(customer_id);
     }
-    public WeightSensor(int sensor_ID, int customer_id, LocalDateTime calibrationDate , double weight) {
+    public WeightSensorData(int sensor_ID, int customer_id, LocalDateTime calibrationDate , double weight) {
         this.calibrationDate = calibrationDate;
         this.sensor_ID = sensor_ID;
         this.weight = weight;
         this.customer = new Customer(customer_id);
     }
 
-    public WeightSensor(int sensor_ID, LocalDateTime calibrationDate, double weight, double calibrationFactor, Customer customer) {
+    public WeightSensorData(int sensor_ID, LocalDateTime calibrationDate, double weight, double calibrationFactor, Customer customer) {
         this.sensor_ID = sensor_ID;
         this.calibrationDate = calibrationDate;
         this.weight = weight;
@@ -50,7 +44,7 @@ public class WeightSensor {
         this.customer = customer;
     }
 
-    public WeightSensor() {
+    public WeightSensorData() {
 
     }
 
@@ -60,7 +54,7 @@ public class WeightSensor {
     }
 
 
-    public WeightSensor(double weight){
+    public WeightSensorData(double weight){
         this.weight = weight;
     }
 
@@ -87,7 +81,6 @@ public class WeightSensor {
     public void setSensor_ID(int sensor_ID) {
         this.sensor_ID = sensor_ID;
     }
-//
 
 
     public LocalDateTime getCalibrationDate() {
@@ -110,7 +103,7 @@ public class WeightSensor {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        WeightSensor that = (WeightSensor) obj;
+        WeightSensorData that = (WeightSensorData) obj;
         return sensor_ID == that.sensor_ID;
     }
 
@@ -119,7 +112,7 @@ public class WeightSensor {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
 
         String formattedDate = dtf.format(calibrationDate);
-        return String.format("WeightSensor{" +
+        return String.format("WeightSensorData{" +
                 "sensor_ID=" + sensor_ID +
                 ", customer_id=" + customer.getCustomer_id() +
                 ", calibrationDate=" + formattedDate +
@@ -128,10 +121,6 @@ public class WeightSensor {
                 '}');
     }
 
-    public void assignToCustomer(Customer customer) {
-        this.customer = customer;
-        customer.setWeightSensor(this);
-    }
 
 }
 
@@ -139,7 +128,7 @@ public class WeightSensor {
 //javadoc versions
 //
 ///**
-// * The {@code WeightSensor} class represents a sensor that measures the weight of a pillbox.
+// * The {@code WeightSensorData} class represents a sensor that measures the weight of a pillbox.
 // * It is associated with a customer and has properties such as weight, calibration factor, and calibration date.
 // * The sensor has a weight capacity in grams.
 // *
@@ -148,7 +137,7 @@ public class WeightSensor {
 // * @since 2023-12-XX
 // */
 //@Component
-//public class WeightSensor {
+//public class WeightSensorData {
 //
 //    // Fields and constructors...
 //
@@ -202,7 +191,7 @@ public class WeightSensor {
 //    // Other getter and setter methods...
 //
 //    /**
-//     * Returns a string representation of the {@code WeightSensor} object.
+//     * Returns a string representation of the {@code WeightSensorData} object.
 //     *
 //     * @return A string containing the sensor's ID, weight capacity, calibration date, weight, and calibration factor.
 //     */
@@ -211,7 +200,7 @@ public class WeightSensor {
 //        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        String formattedDate = dtf.format(calibrationDate);
 //
-//        return String.format("WeightSensor{" +
+//        return String.format("WeightSensorData{" +
 //                "sensor_ID=" + sensor_ID +
 //                ", WEIGHT_CAPACITY_GRAMS=" + WEIGHT_CAPACITY_GRAMS +
 //                ", calibrationDate=" + formattedDate +

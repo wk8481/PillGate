@@ -3,6 +3,7 @@ package be.kdg.programming3.pillgate.service;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerLoginDto;
 import be.kdg.programming3.pillgate.pres.controllers.viewmodels.CustomerRegistrationDto;
+import be.kdg.programming3.pillgate.repo.customerRepo.CustomerRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
@@ -13,6 +14,8 @@ import java.util.List;
  * This service defines methods to handle customer-related operations.
  *
  * @author Team PillGate
+ * @see CustomerRepository
+ * @see Customer
  */
 public interface CustomerService {
 
@@ -54,4 +57,5 @@ public interface CustomerService {
      * @return The registered customer entity.
      */
     Customer registerNewCustomer(CustomerRegistrationDto registrationDto, HttpSession session);
+
 }

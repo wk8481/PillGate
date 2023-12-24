@@ -18,9 +18,7 @@ CREATE TABLE IF NOT EXISTS Customer (
 -- ALTER TABLE IF EXISTS Customer
 --     ADD CONSTRAINT unique_email UNIQUE (email);
 
-SELECT constraint_name, column_name
-FROM information_schema.constraint_column_usage
-WHERE table_name = 'customer';
+
 
 
 DROP TABLE IF EXISTS WeightSensor;
@@ -65,10 +63,6 @@ WHERE sensor_ID <215;*/
 VALUES (2, '2023-12-21 17:35:45', 750);*/
 
 
-
-SELECT * FROM WeightSensor;
-SELECT * FROM MedicationSchedule;
-SELECT * FROM Customer;
 
 
 
@@ -124,6 +118,5 @@ CREATE TABLE IF NOT EXISTS CustomerCareGiver (
 );
 
 
-select * from CUSTOMER;
-select * from MEDICATIONSCHEDULE;
+
 

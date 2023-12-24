@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Presented by</title>
-    <link rel="stylesheet" th:href="@{../style.css}">
+    <link rel="stylesheet" th:href="@{style.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </head>
@@ -45,77 +45,91 @@
 <main>
     <section id="presentedBy">
         <h1>Presented by Team PillGate</h1>
-        <p>The pill Gate Team</p>
+            <div class="team-container">
+                <div class="teamMember">
+                    <img class="rounded-circle" src="/images/emran.jpg" alt="Emran">
+                    <h3> Emran </h3>
+                    <h4>Developer</h4>
+                    <p>Implementing database / graph analysis.</p>
+                </div>
 
-        <div class="teamMember">
-            <img src="../images/logo.png" alt="Emran">
-            <h3> Emran </h3>
-            <h4>Game Developer</h4>
-            <p>Responsible for game design and implementation.</p>
-        </div>
+                <div class="teamMember">
+                    <img class="rounded-circle" src="/images/William.jpg" alt="William">
+                    <h3>William</h3>
+                    <h4>Project Management</h4>
+                    <p>Manage Project and design and implementation</p>
+                </div>
 
-        <div class="teamMember">
-            <img src="../images/logo.png" alt="William">
-            <h3>William</h3>
-            <h4>Infrastructure Specialist</h4>
-            <p>Focuses on the technical and infrastructural aspects.</p>
-        </div>
+                <div class="teamMember">
+                    <img class="rounded-circle" src="/images/Alperen.jpg" alt="Alperen">
+                    <h3>Alperen</h3>
+                    <h4>Developer</h4>
+                    <p>Responsible for Arduino and implementation</p>
+                </div>
 
-        <div class="teamMember">
-            <img src="../images/logo.png" alt="Alperen">
-            <h3>Alperen</h3>
-            <h4>Web Developer</h4>
-            <p>Develops and maintains the project website.</p>
-        </div>
+                <div class="teamMember">
+                    <img class="rounded-circle" src="/images/Manami.jpg" alt="Manami">
+                    <h3>Manami</h3>
+                    <h4>Developer</h4>
+                    <p>Responsible for design and implementation</p>
+                </div>
 
-        <div class="teamMember">
-            <img src="../images/logo.png" alt="Manami">
-            <h3>Manami</h3>
-            <h4>Database Specialist</h4>
-            <p>Handles database management and data analysis.</p>
-        </div>
-
-        <div class="teamMember">
-            <img src="../images/logo.png" alt="Narjiss">
-            <h3>Narjiss</h3>
-            <h4>Database Specialist</h4>
-            <p>Handles database management and data analysis.</p>
-        </div>
+                <div class="teamMember">
+                    <img class="rounded-circle" src="/images/Narjiss.jpg" alt="Narjiss">
+                    <h3>Narjiss</h3>
+                    <h4>Developer</h4>
+                    <p>Responsible for design and implementation</p>
+                </div>
+            </div>
     </section>
+<br>
+<br>
+<br>
+<!--    <section>-->
+<!--        <h2>Work Products</h2>-->
+<!--        <div class="container">-->
+<!--            <div class="table" id="work_done">-->
+<!--                <div class="table-header">-->
+<!--                    <div class="header__item"><a id="name" class="filter__link" >Name</a></div>-->
+<!--                    <div class="header__item"><a id="work" class="filter__link">Work</a></div>-->
+<!--                    <div class="header__item"><a id="links" class="filter__link">GitLab Links</a></div>-->
+<!--                </div>-->
+<!--                <div class="table-row">-->
+<!--                    <div class="table-data">Emran</div>-->
+<!--                    <div class="table-data">login html form and game statistics</div>-->
+<!--                    <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>-->
+<!--                </div>-->
+<!--                <div class="table-row">-->
+<!--                    <div class="table-data">William</div>-->
+<!--                    <div class="table-data">login html form and game statistics</div>-->
+<!--                    <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>-->
+<!--                </div>-->
+<!--                <div class="table-row">-->
+<!--                    <div class="table-data">Alperen</div>-->
+<!--                    <div class="table-data">login html form and game statistics</div>-->
+<!--                    <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>-->
+<!--                </div>-->
+<!--                <div class="table-row">-->
+<!--                    <div class="table-data">Manami</div>-->
+<!--                    <div class="table-data">login html form and game statistics</div>-->
+<!--                    <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>-->
+<!--                </div>-->
+<!--                <div class="table-row">-->
+<!--                    <div class="table-data">Narjiss</div>-->
+<!--                    <div class="table-data">login html form and game statistics</div>-->
+<!--                    <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+
+
+
+
 </main>
 
-<section>
-    <h2>Work Products</h2>
-    <div class="container">
-        <div class="table" id="work_done">
-            <div class="table-header">
-                <div class="header__item"><a id="name" class="filter__link" >Name</a></div>
-                <div class="header__item"><a id="work" class="filter__link">Work</a></div>
-                <div class="header__item"><a id="links" class="filter__link">GitLab Links</a></div>
-            </div>
-            <div class="table-row">
-                <div class="table-data">Emran</div>
-                <div class="table-data">login html form and game statistics</div>
-                <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>
-            </div>
-                <div class="table-row">
-                    <div class="table-data">Emran</div>
-                    <div class="table-data">login html form and game statistics</div>
-                    <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>
-                </div>
-                <div class="table-row">
-                    <div class="table-data">Emran</div>
-                    <div class="table-data">login html form and game statistics</div>
-                    <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>
-                </div>
-                <div class="table-row">
-                    <div class="table-data">Emran</div>
-                    <div class="table-data">login html form and game statistics</div>
-                    <div class="table-data"><a href="https://gitlab.com/kdg-ti/integration-1.2/2022-2023/s2-05/S2-05/-/boards/5353083" target="_blank">GitLab Link</a></div>
-                </div>
-            </div>
-        </div>
-</section>
+
 
     <footer> PillGate &#169; 2023 All rights reserved</footer>
 </body>

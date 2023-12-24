@@ -15,29 +15,38 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * The {@code PGMedScheduleRepository} class is an implementation of the {@link MedScheduleRepository} interface
+ * The {@code JDBCMedScheduleRepository} class is an implementation of the {@link MedScheduleRepository} interface
  * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the MedicationSchedule entities.
- *
- * <p>This class is part of the PillGate application developed by Team PillGate.</p>
+ * This class is part of the PillGate application developed by Team PillGate.
  *
  * @author Team PillGate
  * @see MedScheduleRepository
  * @see MedicationSchedule
  */
+
+
 @Repository
 @Profile("postgres")
 @Primary
-public class PGMedScheduleRepository implements MedScheduleRepository {
+public class JDBCMedScheduleRepository implements MedScheduleRepository {
 
-    private static Logger logger = LoggerFactory.getLogger(PGMedScheduleRepository.class);
+    private static Logger logger = LoggerFactory.getLogger(JDBCMedScheduleRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public PGMedScheduleRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    /**
+     * Constructs a new {@code JDBCMedScheduleRepository} with the specified {@link NamedParameterJdbcTemplate}.
+     * @param jdbcTemplate The {@link NamedParameterJdbcTemplate} used to interact with the PostgreSQL database.
+     */
+    public JDBCMedScheduleRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         logger.info("Setting up the PostgreSQL med schedule repository...");
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Retrieves all Medication Schedules from the database.
+     * @return A list of MedicationSchedule entities.
+     */
     @Override
     public List<MedicationSchedule> findAllMedSchedules() {
         logger.info("Finding medication schedules...");
@@ -45,6 +54,11 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
         return jdbcTemplate.query(selectQuery, new MedScheduleRowMapper());
     }
 
+    /**
+     * Retrieves a Medication Schedule by its ID from the database.
+     * @param medSchedule_id The ID of the Medication Schedule to retrieve.
+     * @return The MedicationSchedule entity corresponding to the given ID.
+     */
     @Override
     public MedicationSchedule findMedScheduleById(int medSchedule_id) {
         logger.info("Finding medication schedules by id: {}", medSchedule_id);
@@ -56,6 +70,11 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
         return jdbcTemplate.queryForObject(selectQuery, parameters, new MedScheduleRowMapper());
     }
 
+    /**
+     * Creates a new Medication Schedule in the database.
+     * @param medSchedule The MedicationSchedule entity to be created.
+     * @return The created MedicationSchedule entity.
+     */
     @Override
     public MedicationSchedule createMedSchedule(MedicationSchedule medSchedule) {
         logger.info("Creating med schedule: {}", medSchedule);
@@ -82,6 +101,11 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
         return medSchedule;
     }
 
+    /**
+     * Updates an existing Medication Schedule in the database.
+     * @param medicationSchedule The updated MedicationSchedule entity.
+     * @return The updated MedicationSchedule entity.
+     */
     @Override
     public MedicationSchedule updateMedSchedule(MedicationSchedule medicationSchedule) {
         logger.info("Updating med schedule: {}", medicationSchedule);
@@ -106,6 +130,11 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
         }
     }
 
+    /**
+     * Deletes a Medication Schedule from the database by its ID.
+     * @param medicationSchedule_id The ID of the Medication Schedule to delete.
+     * @return The deleted MedicationSchedule entity.
+     */
     @Override
     public MedicationSchedule deleteMedSchedule(int medicationSchedule_id) {
         logger.info("Deleting medication schedule by id: {}", medicationSchedule_id);
@@ -120,8 +149,20 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
         return deletedMedSchedule;
     }
 
+
+
+    /**
+     * An inner class that implements the Spring JDBC RowMapper interface to map rows of a ResultSet to Customer objects.
+     */
     // Inner class to map rows to MedicationSchedule objects
     private static class MedScheduleRowMapper implements org.springframework.jdbc.core.RowMapper<MedicationSchedule> {
+        /**
+         * Maps a row of the result set to a MedSchedule object.
+         * @param rs     The ResultSet to map to a MedSchedule object.
+         * @param rowNum The current row number.
+         * @return A MedSchedule object mapped from the current row of the ResultSet.
+         * @throws java.sql.SQLException If a SQL exception occurs while processing the result set.
+         */
         @Override
         public MedicationSchedule mapRow(ResultSet rs, int rowNum) throws java.sql.SQLException {
             MedicationSchedule medicationSchedule = new MedicationSchedule();
@@ -139,6 +180,9 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
         }
     }
 
+    /**
+     * A class representing daily counts of pills taken.
+     */
     public class DailyCount {
         private Date day;
         private Integer count;
@@ -161,7 +205,11 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
         }
     }
 
-
+    /**
+     * Retrieves daily counts of pills taken for the specified number of days.
+     * @param nDays The number of days to retrieve counts for.
+     * @return A list of DailyCount objects representing daily pill counts.
+     */
     public List<DailyCount> getPillsTakenPerDay(int nDays) {
         String interval = nDays + " days";
         String sql = "SELECT DATE(timeTakePill) as day, SUM(nrOfPillsTaken) as count " +
@@ -182,6 +230,11 @@ public class PGMedScheduleRepository implements MedScheduleRepository {
     }
 
 
+
+    /**
+     * Retrieves a map of counts per hour and per pill name for the time of day data.
+     * @return A map containing counts per hour and per pill name.
+     */
     @Override
     public Map<Integer, Map<String, Integer>> getTimeOfDayDataWithPillName() {
         // Initialize a map to store counts per hour and per pill name
