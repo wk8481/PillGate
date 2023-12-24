@@ -52,9 +52,10 @@ public class LoginController {
 
     /**
      * Processes user login and redirects to the appropriate page.
+     *
      * @param loginDto       The data transfer object containing login credentials.
      * @param bindingResult  The result of the validation.
-     * @param model          The model to which attributes are added for rendering the view.
+     * @param model          The Spring MVC model to which attributes can be added for view rendering.
      * @param session        The HTTP session to store user-related attributes.
      * @return The logical view name for the next page based on the login result.
      */
@@ -81,7 +82,7 @@ public class LoginController {
             logger.info("Login successful. Customer {} authenticated", authenticatedCustomer);
             return "redirect:/reminder";
         } else {
-            model.addAttribute("error", "Invalid username or password");
+            model.addAttribute("warning", "Invalid email or password");
             return "login";
         }
     }

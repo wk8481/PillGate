@@ -8,10 +8,24 @@ import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 
+
+/**
+ * Configuration class for the PillGate application in a development environment.
+ * Specifies the data source properties for connecting to the H2 in-memory database.
+ *
+ * @author Team PillGate
+ * @see DataSourceBuilder
+ * @see DataSource
+ */
 @Configuration
 @Profile("dev")
 public class H2DBConfig {
 
+    /**
+     * Configures and returns the data source for the PillGate application in a development environment.
+     *
+     * @return The configured data source.
+     */
     @Bean
     public DataSource dataSource(){
         DataSource dataSource = DataSourceBuilder

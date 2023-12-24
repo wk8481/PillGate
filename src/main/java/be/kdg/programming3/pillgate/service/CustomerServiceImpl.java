@@ -20,7 +20,9 @@ import java.util.List;
  * This class provides methods to manage customer-related operations.
  *
  * @author Team PillGate
- * @see
+ * @see CustomerService
+ * @see CustomerRepository
+ * @see Customer
  */
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -29,9 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
     // Repository for customer data access.
-    CustomerRepository customerRepository;
-
-
+    private final CustomerRepository customerRepository;
 
     // Autowired HttpServletRequest for handling HTTP requests.
     @Autowired
@@ -74,9 +74,10 @@ public class CustomerServiceImpl implements CustomerService {
      * Logs in a customer using the provided login information.
      *
      * @param login The login information provided by the customer.
-     * @return The authenticated customer or {@code null} if login fails.
+     * @param model The Spring MVC model to which attributes can be added for view rendering.
+     * @return The authenticated customer if login is successful, or {@code null} if login fails.
      */
-   @Override
+    @Override
     public Customer loginCustomer(CustomerLoginDto login, Model model) {
         String email = login.getEmail();
         String password = login.getPassword();
@@ -84,26 +85,26 @@ public class CustomerServiceImpl implements CustomerService {
         Customer authenticatedCustomer = customerRepository.findCustomerByEmail(email, password);
 
         if (authenticatedCustomer != null) {
-            logger.info("Retrieved email from the database: {}", authenticatedCustomer.getEmail());
-
+            String customerEmail = authenticatedCustomer.getEmail();
             String customerPassword = authenticatedCustomer.getPassword();
-
-            if (customerPassword != null && customerPassword.equals(password)) {
+            if (customerEmail != null) {
+                logger.info("Email inputted: {}", email);
+            } if (customerPassword.equals(password)) {
                 logger.info("Password correctly inputted: {}", password);
+                HttpSession session = request.getSession(true);
+                session.setAttribute("customer", authenticatedCustomer);
+                return authenticatedCustomer;
             } else {
                 logger.info("Incorrect password inputted: {}", password);
-                // Handle incorrect password scenario, e.g., set a session attribute
                 model.addAttribute("warning", "Incorrect password");
-                return null; // Return null to indicate login failure
             }
-            HttpSession session = request.getSession(true);
-            session.setAttribute("customer", authenticatedCustomer);
-            return authenticatedCustomer;
+
+        } else {
+            logger.info("Logging failed. {} does not exist.", email);
+            // Handle the case when authenticatedCustomer is null (customer not found)
+            model.addAttribute("warning", "User not found");
         }
-        logger.info("Logging failed. {} does not exist.", email);
-        // Handle the case when authenticatedCustomer is null (customer not found)
-       model.addAttribute("warning", "User not found");
-       return null;
+        return null;
     }
 
 

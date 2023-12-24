@@ -286,10 +286,11 @@ main {
     width: 75%;
 }
 
-.warning {
+.error-line {
     color: red;
     font-size: 11px;
     text-align: center;
+    margin-top: 20px;
 }
 
 footer {

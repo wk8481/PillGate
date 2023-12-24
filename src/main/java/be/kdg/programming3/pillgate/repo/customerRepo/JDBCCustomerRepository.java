@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import be.kdg.programming3.pillgate.domain.user.Customer;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -92,9 +93,17 @@ public class JDBCCustomerRepository implements CustomerRepository {
     }
     /**
      * Retrieves a customer by their email and password.
+     *
+     * <p>Queries the database for a customer with the specified email and password.
+     * If a matching customer is found, it is returned; otherwise, null is returned.
+     * Handles the case where no result is found by catching {@link EmptyResultDataAccessException}.
+     * In such cases, returns null or handles the exception accordingly.</p>
+     *
      * @param email The email of the customer.
      * @param password The password of the customer.
-     * @return The customer with the specified email and password.
+     * @return The customer with the specified email and password, or null if not found.
+     * @throws EmptyResultDataAccessException If no result is found in the database.
+     * @see CustomerRowMapper
      */
     @Override
     public Customer findCustomerByEmail(String email, String password) {
@@ -105,7 +114,12 @@ public class JDBCCustomerRepository implements CustomerRepository {
         parameters.put("email", email);
         parameters.put("password", password);
 
-        return jdbcTemplate.queryForObject(selectQuery, parameters, new CustomerRowMapper());
+        try {
+            return jdbcTemplate.queryForObject(selectQuery, parameters, new CustomerRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            // No result found, return null or handle accordingly
+            return null;
+        }
     }
     /**
      * Retrieves a customer by their username.
