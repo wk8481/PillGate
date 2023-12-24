@@ -13,10 +13,21 @@ import org.springframework.context.annotation.Profile;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-
+/**
+ * Configuration class for the Pill2Deal application in a production environment.
+ * Specifies the data source properties for connecting to the PostgreSQL database.
+ *
+ * @author Team PillGate
+ * @see DataSourceBuilder
+ * @see DataSource
+ */
 @Configuration
 @Profile("prod")
 public class P2DConfig {
+    /**
+     * Configures and returns the data source for the  application in a production environment.
+     * @return The configured data source.
+     */
     @Bean
     public DataSource dataSource() {
         DataSource dataSource = DataSourceBuilder
@@ -25,7 +36,7 @@ public class P2DConfig {
                 .driverClassName("org.postgresql.Driver")
                 .url("jdbc:postgresql://localhost:5432/postgres")
                 .username("postgres")
-                .password("Manaljan123")
+                .password("Student_1234")
                 .build();
         return dataSource;
     }

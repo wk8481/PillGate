@@ -46,8 +46,8 @@ DROP CONSTRAINT IF EXISTS unique_customer_id;*/
 
 
 
-ALTER TABLE WeightSensor
-    ALTER COLUMN calibrationDate SET DEFAULT CURRENT_TIMESTAMP;
+-- ALTER TABLE WeightSensor
+--     ALTER COLUMN calibrationDate SET DEFAULT CURRENT_TIMESTAMP;
 
 /*ALTER TABLE WeightSensor
     DROP CONSTRAINT IF EXISTS unique_calibration_date;*/
