@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 /*INSERT INTO MedicationSchedule (customer_id, pillName, repeatIn, timeTakePill, nrOfPillsPlaced, weightOfSinglePill, nrOfPillsTaken, isStopped, message)
 VALUES
     (1, 'Ibuprofen', 8, '2023-12-20 08:00:00', 20, 0.2, 2, FALSE, 'Morning dosage'),

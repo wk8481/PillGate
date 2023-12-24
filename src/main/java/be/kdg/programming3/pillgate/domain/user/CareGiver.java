@@ -19,7 +19,7 @@ import java.util.List;
 //@Entity
 //@Table(name = "CareGiver")
 @Component
-public class CareGiver {
+public class  CareGiver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,14 +7,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-//@Entity
-//@Table(name = "WeightSensor")
+
 @Component
 public class WeightSensor {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "SENSOR_ID")
     private int sensor_ID;
 
     private LocalDateTime calibrationDate;
@@ -23,8 +19,7 @@ public class WeightSensor {
 
     private double calibrationFactor;
 
-//    @OneToOne
-//    @JoinColumn(name = "customer_id")
+
     private transient Customer customer;
 
 
@@ -136,90 +131,3 @@ public class WeightSensor {
 }
 
 
-//javadoc versions
-//
-///**
-// * The {@code WeightSensor} class represents a sensor that measures the weight of a pillbox.
-// * It is associated with a customer and has properties such as weight, calibration factor, and calibration date.
-// * The sensor has a weight capacity in grams.
-// *
-// * @author Your Name
-// * @version 1.0
-// * @since 2023-12-XX
-// */
-//@Component
-//public class WeightSensor {
-//
-//    // Fields and constructors...
-//
-//    /**
-//     * Updates the weight and calibration factor of the sensor.
-//     *
-//     * @param weight            The new weight value.
-//     * @param calibrationFactor The new calibration factor value.
-//     */
-//    public void updateValues(double weight, double calibrationFactor) {
-//        this.weight = weight;
-//        this.calibrationFactor = calibrationFactor;
-//    }
-//
-//    /**
-//     * Returns the weight measured by the sensor.
-//     *
-//     * @return The weight value.
-//     */
-//    public double getWeight() {
-//        return weight;
-//    }
-//
-//    /**
-//     * Returns the calibration factor of the sensor.
-//     *
-//     * @return The calibration factor value.
-//     */
-//    public double getCalibrationFactor() {
-//        return calibrationFactor;
-//    }
-//
-//    /**
-//     * Sets the weight measured by the sensor.
-//     *
-//     * @param weight The new weight value.
-//     */
-//    public void setWeight(double weight) {
-//        this.weight = weight;
-//    }
-//
-//    /**
-//     * Sets the calibration factor of the sensor.
-//     *
-//     * @param calibrationFactor The new calibration factor value.
-//     */
-//    public void setCalibrationFactor(double calibrationFactor) {
-//        this.calibrationFactor = calibrationFactor;
-//    }
-//
-//    // Other getter and setter methods...
-//
-//    /**
-//     * Returns a string representation of the {@code WeightSensor} object.
-//     *
-//     * @return A string containing the sensor's ID, weight capacity, calibration date, weight, and calibration factor.
-//     */
-//    @Override
-//    public String toString() {
-//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        String formattedDate = dtf.format(calibrationDate);
-//
-//        return String.format("WeightSensor{" +
-//                "sensor_ID=" + sensor_ID +
-//                ", WEIGHT_CAPACITY_GRAMS=" + WEIGHT_CAPACITY_GRAMS +
-//                ", calibrationDate=" + formattedDate +
-//                ", weight=" + weight +
-//                ", calibrationFactor=" + calibrationFactor +
-//                '}');
-//    }
-//
-//    // Other methods...
-//}
-//

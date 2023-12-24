@@ -23,7 +23,7 @@ public class P2DConfig {
                 .create()
 
                 .driverClassName("org.postgresql.Driver")
-                .url("jdbc:postgresql://localhost:5432/PillGatePG")
+                .url("jdbc:postgresql://localhost:5432/postgres")
                 .username("postgres")
                 .password("Manaljan123")
                 .build();

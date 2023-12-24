@@ -139,6 +139,14 @@ public class SerialReaderServiceImpl implements SerialReader{
     }
 
 
+    /**
+     *
+     * @param weightSensor
+     * @param nrOfPillsPlaced
+     * @return
+     * here the 0.1 value is a default value, it can't be less than 0 or not == 0, it always need to be greater
+     */
+
     public double calculateWeightOfSinglePill(WeightSensor weightSensor, int nrOfPillsPlaced) {
         double weightOfSinglePill = (weightSensor.getWeight() - BOX_WEIGHT) / nrOfPillsPlaced;
         return Math.max(weightOfSinglePill,0.1);
