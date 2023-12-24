@@ -68,7 +68,6 @@ PillGate is a Java-based project that interfaces with Arduino devices. Our MVP (
 PillGate is an innovative solution combining hardware and software to improve medication adherence. Its simple yet effective approach can make a significant impact on healthcare and individual well-being.
 
 ## License
-## License
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 
