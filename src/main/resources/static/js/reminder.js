@@ -46,6 +46,7 @@ const repeatedFunction2 = () => {
         })
         .then((data) => {
             if (data.message != null) {
+                alert("Alarm: " + data.message);
                 swal.fire({
                     title: "Alarm",
                     text: data.message,

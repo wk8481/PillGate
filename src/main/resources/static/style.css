@@ -309,4 +309,25 @@ footer {
     border-radius: 35px 35px 0 0;
 }
 
+/*for presentedBy.html*/
+.team-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.teamMember {
+    text-align: center;
+    margin: 10px;
+}
+
+.teamMember img {
+    width: 250px; /* Adjust the maximum width of the images */
+    border-radius: 40%; /* Optional: Round the corners of the images */
+    height: 250px;
+    object-fit: cover;
+}
+
 

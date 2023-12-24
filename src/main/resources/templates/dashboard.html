@@ -55,24 +55,17 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>SensorId</th>
+
             <th>Weight: </th>
-            <th>Calibration Date: </th>
+
         </tr>
         </thead>
         <tbody>
         <!-- Iterate over sensors and populate the table rows -->
         <tr th:each="sensor : ${sensors}">
-            <td th:utext="${sensor.sensor_ID}"></td>
             <td th:utext="${sensor.weight}"></td>
-            <td th:utext="${sensor.calibrationDate}"></td>
         </tr>
 
-        <tr>
-            <td th:colspan="2">Number of pills taken: <span th:utext="${nrOfPillsTaken}"></span></td>
-            <td th:colspan="2">Number of pills placed: <span th:utext="${nrOfPillsPlaced}"></span></td>
-            <td th:colspan="2">Weight of single pill: <span th:utext="${weightOfSinglePill}"></span></td>
-        </tr>
         </tbody>
     </table>
 

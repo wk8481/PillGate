@@ -2,6 +2,7 @@ package be.kdg.programming3.pillgate.service;
 
 import be.kdg.programming3.pillgate.domain.user.CareGiver;
 import be.kdg.programming3.pillgate.repo.careGiverRepo.CareGiverRepository;
+import be.kdg.programming3.pillgate.repo.sensorRepo.SensorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,25 +11,28 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Service implementation for managing CareGivers.
+ * The {@code CareGiverServiceImpl} class is an implementation of the {@link CareGiverService} interface
  * This service provides methods to retrieve and manipulate CareGiver entities.
  *
  * @author Team PillGate
+ * @see CareGiverService
+ * @see CareGiverRepository
+ * @see CareGiver
  */
 @Service
-public class CaregiverServiceImpl implements CareGiverService {
+public class CareGiverServiceImpl implements CareGiverService {
 
-    private Logger logger = LoggerFactory.getLogger(CaregiverServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(CareGiverServiceImpl.class);
 
     private CareGiverRepository careGiverRepository;
 
     /**
-     * Constructs a new instance of CaregiverServiceImpl.
+     * Constructs a new instance of CareGiverServiceImpl.
      *
      * @param careGiverRepository The repository for accessing CareGiver data.
      */
     @Autowired
-    public CaregiverServiceImpl(CareGiverRepository careGiverRepository) {
+    public CareGiverServiceImpl(CareGiverRepository careGiverRepository) {
         this.careGiverRepository = careGiverRepository;
     }
 

@@ -13,35 +13,39 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * The {@code PGCareGiverRepository} class is an implementation of the {@link CareGiverRepository} interface
+ * The {@code JDBCCareGiverRepository} class is an implementation of the {@link CareGiverRepository} interface
  * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the CareGiver entities.
  *
- * <p>This class is part of the PillGate application developed by Team PillGate.</p>
- *
- * <p><b>Author:</b> Team PillGate</p>
- *
+ * @author Team PillGate
  * @see CareGiverRepository
  * @see CareGiver
  */
 @Repository
 @Profile("postgres")
 @Primary
-public class PGCareGiverRepository implements CareGiverRepository {
+public class JDBCCareGiverRepository implements CareGiverRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(PGCareGiverRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(JDBCCareGiverRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 
     /**
-     * Constructs a new {@code PGCareGiverRepository} with the specified {@link JdbcTemplate}.
-     *
+     * Constructs a new {@code JDBCCareGiverRepository} with the specified {@link JdbcTemplate}.
      * @param jdbcTemplate The {@link JdbcTemplate} used to interact with the PostgreSQL database.
      */
     @Autowired
-    public PGCareGiverRepository(JdbcTemplate jdbcTemplate) {
+    public JDBCCareGiverRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Maps a row of the result set to a CareGiver object.
+     *
+     * @param rs     The ResultSet to map to a CareGiver object.
+     * @param rowNum The current row number.
+     * @return A CareGiver object mapped from the current row of the ResultSet.
+     * @throws java.sql.SQLException If a SQL exception occurs while processing the result set.
+     */
     private static final RowMapper<CareGiver> CAREGIVER_ROW_MAPPER = (rs, rowNum) -> {
         CareGiver careGiver = new CareGiver();
         careGiver.setCaregiver_id(rs.getInt("caregiver_id"));
@@ -52,7 +56,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Creates a new CareGiver in the PostgreSQL database.
-     *
      * @param careGiver The CareGiver entity to be created.
      * @return The created CareGiver entity.
      */
@@ -67,7 +70,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Retrieves all CareGivers from the PostgreSQL database.
-     *
      * @return A list of CareGiver entities.
      */
     @Override
@@ -78,7 +80,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Retrieves a CareGiver by its ID from the PostgreSQL database.
-     *
      * @param caregiver_id The ID of the CareGiver to be retrieved.
      * @return The CareGiver entity with the specified ID.
      */
@@ -91,7 +92,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Updates an existing CareGiver in the PostgreSQL database.
-     *
      * @param existingCareGiver The CareGiver entity to be updated.
      * @return The updated CareGiver entity.
      */
@@ -114,7 +114,6 @@ public class PGCareGiverRepository implements CareGiverRepository {
 
     /**
      * Deletes a CareGiver by its ID from the PostgreSQL database.
-     *
      * @param caregiverId The ID of the CareGiver to be deleted.
      * @return The deleted CareGiver entity.
      */

@@ -8,8 +8,6 @@ import java.util.List;
  * The {@code CustomerRepository} interface defines methods for interacting with a data store
  * to perform CRUD operations on Customer entities.
  *
- * <p>This interface is part of the PillGate application developed by Team PillGate.</p>
- *
  * @author Team PillGate
  * @see Customer
  */

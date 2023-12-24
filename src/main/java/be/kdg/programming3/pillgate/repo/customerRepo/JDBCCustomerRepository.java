@@ -14,10 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The {@code PGCustomerRepository} class is an implementation of the {@link CustomerRepository} interface
+ * The {@code JDBCCustomerRepository} class is an implementation of the {@link CustomerRepository} interface
  * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the Customer entities.
- *
- * <p>This class is part of the PillGate application developed by Team PillGate.</p>
  *
  * @author Team PillGate
  * @see CustomerRepository
@@ -26,22 +24,26 @@ import java.util.Map;
 @Repository
 @Profile("postgres")
 @Primary
-public class PGCustomerRepository implements CustomerRepository {
+public class JDBCCustomerRepository implements CustomerRepository {
 
-    private static Logger logger = LoggerFactory.getLogger(PGCustomerRepository.class);
+    private static Logger logger = LoggerFactory.getLogger(JDBCCustomerRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     /**
-     * Constructs a new {@code PGCustomerRepository} with the specified {@link NamedParameterJdbcTemplate}.
-     *
+     * Constructs a new {@code JDBCCustomerRepository} with the specified {@link NamedParameterJdbcTemplate}.
      * @param jdbcTemplate The {@link NamedParameterJdbcTemplate} used to interact with the PostgreSQL database.
      */
-    public PGCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JDBCCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         logger.info("Setting up the PostgreSQL customer repository...");
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Creates a new customer in the database.
+     * @param customer The Customer entity to be created.
+     * @return The created Customer entity.
+     */
     @Transactional
     @Override
     public Customer createCustomer(Customer customer) {
@@ -63,13 +65,21 @@ public class PGCustomerRepository implements CustomerRepository {
         return customer;
     }
 
+    /**
+     * Retrieves a list of all customers from the database.
+     * @return A list of all customers.
+     */
     @Override
     public List<Customer> findAllCustomers() {
         logger.info("Finding all customers...");
         String selectQuery = "SELECT * FROM customer";
         return jdbcTemplate.query(selectQuery, new CustomerRowMapper());
     }
-
+    /**
+     * Retrieves a customer by their ID.
+     * @param customer_id The ID of the customer.
+     * @return The customer with the specified ID.
+     */
     @Override
     public Customer findCustomerById(int customer_id) {
         logger.info("Finding customer by id {}", customer_id);
@@ -80,7 +90,12 @@ public class PGCustomerRepository implements CustomerRepository {
 
         return jdbcTemplate.queryForObject(selectQuery, parameters, new CustomerRowMapper());
     }
-
+    /**
+     * Retrieves a customer by their email and password.
+     * @param email The email of the customer.
+     * @param password The password of the customer.
+     * @return The customer with the specified email and password.
+     */
     @Override
     public Customer findCustomerByEmail(String email, String password) {
         logger.info("Finding customer by email: {}", email);
@@ -92,7 +107,11 @@ public class PGCustomerRepository implements CustomerRepository {
 
         return jdbcTemplate.queryForObject(selectQuery, parameters, new CustomerRowMapper());
     }
-
+    /**
+     * Retrieves a customer by their username.
+     * @param username The username of the customer.
+     * @return The customer with the specified username.
+     */
     @Override
     public Customer findCustomerByUsername(String username) {
         logger.info("Finding customers by username: {}", username);
@@ -103,7 +122,11 @@ public class PGCustomerRepository implements CustomerRepository {
 
         return jdbcTemplate.queryForObject(selectQuery, parameters, new CustomerRowMapper());
     }
-
+    /**
+     * Updates an existing customer in the database.
+     * @param existingCustomer The customer with updated information.
+     * @return The updated Customer entity.
+     */
     @Override
     public Customer updateCustomer(Customer existingCustomer) {
         logger.info("Updating customer: {}", existingCustomer);
@@ -128,7 +151,11 @@ public class PGCustomerRepository implements CustomerRepository {
             return null;
         }
     }
-
+    /**
+     * Deletes a customer from the database.
+     * @param customer The customer to be deleted.
+     * @return The deleted Customer entity.
+     */
     @Override
     public Customer deleteCustomer(Customer customer) {
         logger.info("Deleting customer: {}", customer);
@@ -148,8 +175,20 @@ public class PGCustomerRepository implements CustomerRepository {
         }
     }
 
-    // Inner class to map rows to Customer objects
+    /**
+     * An inner class that implements the Spring JDBC RowMapper interface to map rows of a ResultSet to Customer objects.
+     */
+
     private static class CustomerRowMapper implements org.springframework.jdbc.core.RowMapper<Customer> {
+        /**
+         * Maps a row of the result set to a Customer object.
+         *
+         * @param rs     The ResultSet to map to a Customer object.
+         * @param rowNum The current row number.
+         * @return A Customer object mapped from the current row of the ResultSet.
+         * @throws java.sql.SQLException If a SQL exception occurs while processing the result set.
+         */
+
         @Override
         public Customer mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
             return new Customer(
