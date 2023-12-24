@@ -112,7 +112,6 @@ CREATE TABLE IF NOT EXISTS MedicationSchedule (
 );
 
 
-
 -- Customer-Caregiver Table
 -- Associative table for many-to-many relationship between Customer and CareGiver
 -- DROP TABLE IF EXISTS CustomerCareGiver;

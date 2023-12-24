@@ -28,34 +28,14 @@ public class MedicationScheduleViewModel {
     /**
      * Identifier of the associated customer.
      */
-    @Positive(message = "customer_id must be a positive number")
+   // @Positive(message = "customer_id must be a positive number")
     private int customer_id;
-
-    /**
-     * Start date of the medication schedule.
-     */
-    @NotNull(message = "startDate cannot be null")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate startDate;
-
-    /**
-     * End date of the medication schedule.
-     */
-    @NotNull(message = "endDate cannot be null")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
 
     /**
      * Name of the medication.
      */
     @NotBlank(message = "pillName should not be empty")
     private String pillName;
-
-    /**
-     * Quantity of pills.
-     */
-    @Positive(message = "quantity must be a positive number")
-    private int quantity;
 
     /**
      * Time at which the pill should be taken.
@@ -127,39 +107,12 @@ public class MedicationScheduleViewModel {
     }
 
     /**
-     * Get the start date of the medication schedule.
-     *
-     * @return The start date of the medication schedule.
-     */
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    /**
-     * Get the end date of the medication schedule.
-     *
-     * @return The end date of the medication schedule.
-     */
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    /**
      * Get the name of the medication.
      *
      * @return The name of the medication.
      */
     public String getPillName() {
         return pillName;
-    }
-
-    /**
-     * Get the quantity of pills.
-     *
-     * @return The quantity of pills.
-     */
-    public int getQuantity() {
-        return quantity;
     }
 
     /**

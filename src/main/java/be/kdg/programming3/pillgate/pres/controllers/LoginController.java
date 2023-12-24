@@ -69,7 +69,7 @@ public class LoginController {
             return "login";
         }
 
-        Customer authenticatedCustomer = customerService.loginCustomer(loginDto);
+        Customer authenticatedCustomer = customerService.loginCustomer(loginDto,model);
         if (authenticatedCustomer != null) {
             session.setAttribute("customer_id", authenticatedCustomer.getCustomer_id());
             session.setAttribute("authenticatedUser", authenticatedCustomer);

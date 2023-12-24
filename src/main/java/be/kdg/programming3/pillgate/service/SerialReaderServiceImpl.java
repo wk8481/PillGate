@@ -22,7 +22,6 @@ import java.util.Objects;
 
 
 @Service
-//@Qualifier
 public class SerialReaderServiceImpl implements SerialReader{
     private BufferedReader input;
     private final SensorRepository sensorRepository;

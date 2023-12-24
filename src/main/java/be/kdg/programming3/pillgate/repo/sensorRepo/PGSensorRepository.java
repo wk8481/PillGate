@@ -1,3 +1,4 @@
+/*
 package be.kdg.programming3.pillgate.repo.sensorRepo;
 
 import be.kdg.programming3.pillgate.domain.sensor.WeightSensor;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+*/
 /**
  * The {@code PGSensorRepository} class is an implementation of the {@link SensorRepository} interface
  * that interacts with a PostgreSQL database. It provides methods to perform CRUD operations on the WeightSensor entities.
@@ -21,7 +23,8 @@ import java.util.List;
  * @author Team PillGate
  * @see SensorRepository
  * @see WeightSensor
- */
+ *//*
+
 @Profile("postgres")
 @Repository
 //@Primary
@@ -30,11 +33,13 @@ public class PGSensorRepository implements SensorRepository {
     private final JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert sensorInserter;
 
-    /**
+    */
+/**
      * Constructs a new {@code PGSensorRepository} with the specified {@link JdbcTemplate}.
      *
      * @param jdbcTemplate The {@link JdbcTemplate} used to interact with the PostgreSQL database.
-     */
+     *//*
+
     public PGSensorRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.sensorInserter = new SimpleJdbcInsert(jdbcTemplate)
@@ -43,14 +48,16 @@ public class PGSensorRepository implements SensorRepository {
         logger.info("Setting up the sensor repository...");
     }
 
-    /**
+    */
+/**
      * Maps a row in the database to a {@link WeightSensor} object.
      *
      * @param rs     The result set representing a row in the database.
      * @param rowId  The row ID.
      * @return A {@link WeightSensor} object mapped from the database row.
      * @throws SQLException If a SQL exception occurs.
-     */
+     *//*
+
     public WeightSensor mapRow(ResultSet rs, int rowId) throws SQLException {
         return new WeightSensor(
                 rs.getInt("sensor_ID"),
@@ -88,17 +95,11 @@ public class PGSensorRepository implements SensorRepository {
         logger.info("Updating weight sensor: {}", existingWSensor);
 
         String sql = "UPDATE WeightSensor SET calibrationDate = ?, weight = ? WHERE customer_id = ?";
-        String sqlinsert = "INSERT INTO WeightSensor (customer_id, calibrationDate, weight) VALUES ( ?, ?, ?)";
 
         int updatedRows = jdbcTemplate.update(sql,
                 existingWSensor.getCalibrationDate(),
                 existingWSensor.getWeight(),
                 existingWSensor.getSensor_ID());
-
-        jdbcTemplate.update(sqlinsert,
-                existingWSensor.getCustomer().getCustomer_id(),
-                existingWSensor.getCalibrationDate(),
-                existingWSensor.getWeight());
 
         if (updatedRows > 0) {
             logger.info("Weight sensor updated successfully: {}", existingWSensor);
@@ -109,3 +110,4 @@ public class PGSensorRepository implements SensorRepository {
         }
     }
 }
+*/
