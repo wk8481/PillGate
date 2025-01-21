@@ -23,7 +23,7 @@ PillGate is a Java-based project that interfaces with Arduino devices. Our MVP (
 ## Installation
 1. Clone the repository:
     ```
-    git clone https://gitlab.com/kdg-ti/integration-2.1/23-24/group-1/misplaced.git
+    git clone https://github.com/wk8481/PillGate.git
     cd existing_repo
     ```
 2. Connect your Arduino to your computer to get the COM5 serial port.
